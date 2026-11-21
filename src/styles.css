@@ -1365,3 +1365,8 @@ button:focus-visible {
     border-color: #ccc;
   }
 }
+
+/* gradient ring is only used by the neon theme */
+.ring-fg-grad {
+  display: none;
+}

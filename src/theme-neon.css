@@ -1,0 +1,431 @@
+/* =========================================================
+   Neon sunset theme — pink / orange / cyan, palms, glow.
+   Everything is scoped to html[data-theme='neon'].
+   ========================================================= */
+
+:root[data-theme='neon'] {
+  --bg: #140a26;
+  --bg-2: #1c0f33;
+  --card: rgba(30, 14, 52, 0.78);
+  --card-2: #2c1650;
+  --line: #4a2a74;
+  --text: #fff4fb;
+  --muted: #b9a3d6;
+  --pink: #ff3d9a;
+  --orange: #ff9e3d;
+  --cyan: #2de2e6;
+  --purple: #9b5de5;
+  --accent: var(--pink);
+  --accent-2: var(--orange);
+  --ok: #3ef0a8;
+  --warn: #ffb03d;
+  --danger: #ff4560;
+  --primary: var(--pink);
+  --primary-text: #fff;
+  --sunset: linear-gradient(90deg, var(--pink), var(--orange));
+  --glow-pink: 0 0 18px rgba(255, 61, 154, 0.45);
+  --glow-cyan: 0 0 18px rgba(45, 226, 230, 0.45);
+  --display: 'Anton', 'Impact', 'Arial Narrow', sans-serif;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ---------- backdrop: sunset glow + palms ---------- */
+
+[data-theme='neon'] body {
+  background:
+    radial-gradient(ellipse 90% 45% at 50% -5%, rgba(255, 120, 60, 0.38), transparent 70%),
+    radial-gradient(ellipse 70% 40% at 15% 0%, rgba(255, 61, 154, 0.32), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 90% 5%, rgba(155, 93, 229, 0.35), transparent 70%),
+    radial-gradient(ellipse 90% 28% at 50% 104%, rgba(255, 90, 120, 0.45), rgba(255, 140, 60, 0.12) 55%, transparent 75%),
+    linear-gradient(180deg, #2a0f45 0%, #140a26 45%, #0d0619 100%);
+  background-attachment: fixed;
+}
+
+[data-theme='neon'] .app::before,
+[data-theme='neon'] .app::after {
+  content: '';
+  position: fixed;
+  bottom: -10px;
+  width: min(30vw, 260px);
+  aspect-ratio: 220 / 420;
+  background: url('./assets/palm.svg') no-repeat bottom / contain;
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+  filter: drop-shadow(0 0 30px rgba(255, 61, 154, 0.25));
+}
+[data-theme='neon'] .app::before {
+  left: -40px;
+}
+[data-theme='neon'] .app::after {
+  right: -50px;
+  transform: scaleX(-1);
+  width: min(24vw, 210px);
+}
+[data-theme='neon'] .main,
+[data-theme='neon'] .topbar {
+  position: relative;
+  z-index: 1;
+}
+[data-theme='neon'] .topbar {
+  position: sticky;
+  z-index: 10;
+}
+
+/* ---------- typography ---------- */
+
+[data-theme='neon'] h2,
+[data-theme='neon'] h3,
+[data-theme='neon'] .log-card summary {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+[data-theme='neon'] h2 {
+  font-size: 1.6rem;
+  color: #ffd1e8;
+  text-shadow: 0 0 14px rgba(255, 61, 154, 0.55);
+}
+[data-theme='neon'] h3 {
+  font-size: 1.2rem;
+  color: #ffe0c2;
+  text-shadow: 0 0 10px rgba(255, 158, 61, 0.35);
+}
+
+/* ---------- header ---------- */
+
+[data-theme='neon'] .topbar {
+  background: rgba(20, 10, 38, 0.72);
+  border-bottom: 0;
+  box-shadow: 0 1px 0 rgba(255, 61, 154, 0.25);
+}
+[data-theme='neon'] .topbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--pink), var(--orange), var(--cyan), var(--purple));
+  box-shadow: 0 0 12px rgba(255, 61, 154, 0.6);
+}
+[data-theme='neon'] .brand-text {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  padding-right: 0.2em; /* italic glyphs overhang; keeps the last letter inside the gradient */
+  background: linear-gradient(90deg, #ff6fb5, #ffb46b 60%, #ffe28a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(255, 61, 154, 0.5));
+}
+[data-theme='neon'] .steps li.is-current {
+  background: var(--sunset);
+  color: #fff;
+  box-shadow: var(--glow-pink);
+}
+[data-theme='neon'] .segmented {
+  border-color: var(--line);
+  background: rgba(0, 0, 0, 0.25);
+}
+[data-theme='neon'] .segmented button.is-active {
+  background: var(--sunset);
+  color: #fff;
+  box-shadow: var(--glow-pink);
+}
+
+/* ---------- cards ---------- */
+
+[data-theme='neon'] .card {
+  background: var(--card);
+  border: 1px solid rgba(255, 61, 154, 0.22);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- buttons ---------- */
+
+[data-theme='neon'] .btn {
+  border-radius: 10px;
+  border-color: var(--line);
+  background: rgba(44, 22, 80, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+[data-theme='neon'] .btn:hover:not(:disabled) {
+  background: #3a1d66;
+  border-color: var(--pink);
+}
+[data-theme='neon'] .btn-primary {
+  background: var(--sunset);
+  border: 0;
+  color: #fff;
+  box-shadow: var(--glow-pink);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+[data-theme='neon'] .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(90deg, #ff5aab, #ffae55);
+  box-shadow: 0 0 26px rgba(255, 61, 154, 0.7);
+}
+[data-theme='neon'] .btn-accent {
+  background: transparent;
+  border: 1.5px solid var(--cyan);
+  color: var(--cyan);
+  box-shadow: var(--glow-cyan), inset 0 0 10px rgba(45, 226, 230, 0.15);
+}
+[data-theme='neon'] .btn-accent:hover:not(:disabled) {
+  background: rgba(45, 226, 230, 0.12);
+}
+[data-theme='neon'] .btn-ghost {
+  background: transparent;
+}
+[data-theme='neon'] .btn-lg {
+  font-size: 1rem;
+}
+[data-theme='neon'] .btn-danger {
+  color: var(--danger);
+  border-color: var(--danger);
+  background: transparent;
+}
+
+[data-theme='neon'] .chip {
+  background: rgba(28, 15, 51, 0.9);
+  border-color: var(--line);
+}
+[data-theme='neon'] .chip:hover:not(:disabled) {
+  border-color: var(--pink);
+}
+[data-theme='neon'] .chip.is-selected {
+  box-shadow: 0 0 12px color-mix(in srgb, var(--role, var(--pink)) 70%, transparent);
+}
+
+[data-theme='neon'] input:not([type='checkbox']),
+[data-theme='neon'] select {
+  background: rgba(13, 6, 25, 0.75);
+  border-color: var(--line);
+}
+[data-theme='neon'] input:focus-visible,
+[data-theme='neon'] select:focus-visible,
+[data-theme='neon'] button:focus-visible {
+  outline-color: var(--cyan);
+}
+
+[data-theme='neon'] .seat {
+  background: rgba(255, 61, 154, 0.14);
+  color: #ffb3d6;
+}
+
+/* ---------- phase panels ---------- */
+
+[data-theme='neon'] .phase-night .game-panel > .card {
+  background: linear-gradient(165deg, rgba(25, 30, 90, 0.92), rgba(30, 14, 52, 0.85) 65%);
+  border-color: rgba(45, 226, 230, 0.35);
+  box-shadow: 0 0 40px rgba(45, 226, 230, 0.12);
+}
+[data-theme='neon'] .phase-day .game-panel > .card {
+  background: linear-gradient(165deg, rgba(120, 40, 60, 0.9), rgba(70, 20, 70, 0.85) 45%, rgba(30, 14, 52, 0.85));
+  border-color: rgba(255, 158, 61, 0.4);
+  box-shadow: 0 0 40px rgba(255, 120, 60, 0.15);
+}
+[data-theme='neon'] .phase-voting .game-panel > .card {
+  background: linear-gradient(165deg, rgba(110, 15, 70, 0.92), rgba(30, 14, 52, 0.85) 65%);
+  border-color: rgba(255, 61, 154, 0.45);
+  box-shadow: 0 0 40px rgba(255, 61, 154, 0.18);
+}
+[data-theme='neon'] .phase-icon {
+  filter: drop-shadow(0 0 10px rgba(255, 158, 61, 0.7));
+}
+
+/* ---------- player tiles ---------- */
+
+[data-theme='neon'] .tile {
+  background: rgba(28, 15, 51, 0.85);
+  border-color: rgba(255, 255, 255, 0.06);
+}
+[data-theme='neon'] .tile.is-active {
+  box-shadow: 0 0 0 2px var(--cyan), 0 0 26px rgba(45, 226, 230, 0.55);
+}
+[data-theme='neon'] .speaking-dot {
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+}
+[data-theme='neon'] .role-badge {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.7rem;
+}
+
+/* ---------- timer ---------- */
+
+[data-theme='neon'] .timer-panel {
+  --ring: #fff;
+  background: rgba(10, 4, 22, 0.55);
+  border-color: rgba(255, 61, 154, 0.3);
+}
+[data-theme='neon'] .timer-panel:not(.is-warn):not(.is-danger):not(.is-over) .ring-fg-grad {
+  display: inline;
+}
+[data-theme='neon'] .timer-panel:not(.is-warn):not(.is-danger):not(.is-over) .ring-fg:not(.ring-fg-grad) {
+  display: none;
+}
+[data-theme='neon'] .ring-fg {
+  filter: drop-shadow(0 0 6px rgba(255, 61, 154, 0.8));
+}
+[data-theme='neon'] .ring-bg {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+[data-theme='neon'] .timer-time {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-size: clamp(3rem, 13vw, 4.6rem);
+  color: #fff;
+  text-shadow: 0 0 12px rgba(255, 61, 154, 0.9), 0 0 32px rgba(255, 158, 61, 0.5);
+}
+[data-theme='neon'] .is-warn .timer-time {
+  color: #ffe2b8;
+  text-shadow: 0 0 14px var(--warn), 0 0 30px var(--warn);
+}
+[data-theme='neon'] .is-danger .timer-time,
+[data-theme='neon'] .is-over .timer-time {
+  color: #ffd0d6;
+  text-shadow: 0 0 14px var(--danger), 0 0 34px var(--danger);
+}
+[data-theme='neon'] .timer-up {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 10px var(--danger);
+}
+[data-theme='neon'] .timer-speaker {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---------- misc ---------- */
+
+[data-theme='neon'] .banner {
+  background: linear-gradient(90deg, rgba(255, 61, 154, 0.25), rgba(255, 158, 61, 0.25));
+  border-color: var(--orange);
+  box-shadow: 0 0 24px rgba(255, 158, 61, 0.3);
+}
+[data-theme='neon'] .nominee-pill {
+  background: rgba(255, 61, 154, 0.18);
+  border-color: rgba(255, 61, 154, 0.55);
+  box-shadow: 0 0 10px rgba(255, 61, 154, 0.3);
+}
+[data-theme='neon'] .featured-line {
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 0%, rgba(255, 120, 60, 0.35), transparent 70%),
+    radial-gradient(ellipse 60% 60% at 50% 100%, rgba(155, 93, 229, 0.3), transparent 70%),
+    var(--card);
+}
+[data-theme='neon'] .line.is-big p {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-shadow: 0 0 18px rgba(255, 61, 154, 0.55);
+}
+[data-theme='neon'] .featured-cat {
+  color: var(--cyan);
+  text-shadow: 0 0 8px rgba(45, 226, 230, 0.6);
+}
+[data-theme='neon'] .line-list li {
+  background: rgba(13, 6, 25, 0.6);
+  border-left-color: var(--pink);
+}
+[data-theme='neon'] .end-title {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 8vw, 3.8rem);
+  font-style: italic;
+  padding: 0 0.2em;
+  background: linear-gradient(90deg, #ff6fb5, #ffb46b 60%, #ffe28a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 14px rgba(255, 61, 154, 0.6));
+}
+[data-theme='neon'] .reveal-cover {
+  background: radial-gradient(circle at 50% 30%, rgba(255, 61, 154, 0.25), var(--bg-2) 70%);
+}
+[data-theme='neon'] .reveal-name,
+[data-theme='neon'] .reveal-role-name {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+[data-theme='neon'] .modal {
+  background: #1c0f33;
+  border-color: rgba(255, 61, 154, 0.35);
+  box-shadow: 0 0 50px rgba(255, 61, 154, 0.25);
+}
+[data-theme='neon'] .footer-bar {
+  background: linear-gradient(to top, rgba(13, 6, 25, 0.95) 60%, transparent);
+}
+[data-theme='neon'] .progress > div {
+  background: linear-gradient(90deg, var(--pink), var(--orange));
+  box-shadow: var(--glow-pink);
+}
+[data-theme='neon'] .total.is-ok {
+  color: var(--ok);
+}
+[data-theme='neon'] .check input {
+  accent-color: var(--pink);
+}
+[data-theme='neon'] .theme-toggle {
+  border-color: var(--line);
+}
+
+@media (max-width: 520px) {
+  [data-theme='neon'] .app::before,
+  [data-theme='neon'] .app::after {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='neon'] * {
+    animation: none !important;
+  }
+}
+
+@media print {
+  :root[data-theme='neon'] {
+    --card: #fff;
+    --bg-2: #fff;
+    --text: #000;
+    --muted: #444;
+    --line: #ccc;
+  }
+  [data-theme='neon'] body {
+    background: #fff;
+    color: #000;
+  }
+  [data-theme='neon'] .card {
+    box-shadow: none;
+    backdrop-filter: none;
+    border-color: #ccc;
+  }
+  [data-theme='neon'] .app::before,
+  [data-theme='neon'] .app::after {
+    display: none;
+  }
+  [data-theme='neon'] h2,
+  [data-theme='neon'] h3 {
+    color: #000;
+    text-shadow: none;
+  }
+}

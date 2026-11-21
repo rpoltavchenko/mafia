@@ -3,6 +3,8 @@ export const en = {
   'app.resetConfirm': 'Reset everything and start over?',
   'app.reset': 'Reset',
 
+  'theme.neon': 'Neon theme',
+  'theme.classic': 'Classic theme',
   'nav.game': 'Game',
   'nav.rules': 'Rules',
   'nav.host': 'Host lines',

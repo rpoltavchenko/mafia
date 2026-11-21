@@ -5,6 +5,8 @@ export const uk: Dict = {
   'app.resetConfirm': 'Скинути все й почати заново?',
   'app.reset': 'Скинути',
 
+  'theme.neon': 'Неонова тема',
+  'theme.classic': 'Класична тема',
   'nav.game': 'Гра',
   'nav.rules': 'Правила',
   'nav.host': 'Фрази',

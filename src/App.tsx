@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import LangToggle from './components/LangToggle';
+import ThemeToggle from './components/ThemeToggle';
 import { useGame } from './game/GameContext';
 import type { Phase } from './game/types';
 import { useI18n } from './i18n/I18nContext';
@@ -45,7 +46,7 @@ export default function App() {
       <header className="topbar">
         <div className="brand">
           <span className="brand-icon" aria-hidden>🎩</span>
-          <span>{t('app.title')}</span>
+          <span className="brand-text">{t('app.title')}</span>
         </div>
         <nav className="views segmented" aria-label="sections">
           {VIEWS.map((v) => (
@@ -63,6 +64,7 @@ export default function App() {
           ))}
         </ol>
         <div className="topbar-actions">
+          <ThemeToggle />
           <LangToggle />
           {state.phase !== 'setup' && (
             <button className="btn btn-ghost btn-sm" onClick={reset}>
