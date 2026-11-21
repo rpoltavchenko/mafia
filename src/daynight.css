@@ -218,7 +218,7 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 479px) {
   .moon {
     width: 60px;
     height: 60px;

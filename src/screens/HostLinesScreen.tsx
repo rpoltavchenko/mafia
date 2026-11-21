@@ -4,57 +4,67 @@ import { useI18n } from '../i18n/I18nContext';
 
 export default function HostLinesScreen() {
   const { t, tk } = useI18n();
-  const [filter, setFilter] = useState<LineCategory | 'all'>('all');
-  const cats = filter === 'all' ? CATEGORY_ORDER : [filter];
-  const [featured, setFeatured] = useState(() => randomLine(CATEGORY_ORDER));
+  const [cat, setCat] = useState<LineCategory>('nightFalls');
+  const [featured, setFeatured] = useState(() => randomLine(['nightFalls']));
 
-  const pick = () => setFeatured((prev) => randomLine(cats, prev.line));
-  const choose = (c: LineCategory | 'all') => {
-    setFilter(c);
-    setFeatured(randomLine(c === 'all' ? CATEGORY_ORDER : [c]));
+  const choose = (c: LineCategory) => {
+    setCat(c);
+    setFeatured(randomLine([c]));
+  };
+  const randomHere = () => setFeatured((prev) => randomLine([cat], prev.line));
+  const randomAny = () => {
+    const pick = randomLine(CATEGORY_ORDER, featured.line);
+    setCat(pick.category);
+    setFeatured(pick);
   };
 
   return (
     <div className="screen host-lines">
-      <section className="card">
-        <h2>🎤 {t('host.title')}</h2>
-        <p className="muted">{t('host.hint')}</p>
-        <div className="chips">
-          <button className={`chip ${filter === 'all' ? 'is-selected' : ''}`} onClick={() => choose('all')}>
-            {t('host.all')}
-          </button>
+      <section className="card host-head">
+        <div>
+          <h2>🎤 {t('host.title')}</h2>
+          <p className="muted">{t('host.hint')}</p>
+        </div>
+        <div className="chips" role="tablist">
           {CATEGORY_ORDER.map((c) => (
-            <button key={c} className={`chip ${filter === c ? 'is-selected' : ''}`} onClick={() => choose(c)}>
+            <button key={c} role="tab" aria-selected={cat === c} className={`chip ${cat === c ? 'is-selected' : ''}`} onClick={() => choose(c)}>
               {CATEGORY_ICON[c]} {tk(`host.cat.${c}`)}
             </button>
           ))}
         </div>
       </section>
 
-      <section className="card featured-line">
-        <span className="featured-cat">
-          {CATEGORY_ICON[featured.category]} {tk(`host.cat.${featured.category}`)}
-        </span>
-        <LineText line={featured.line} big />
-        <button className="btn btn-primary btn-lg" onClick={pick}>
-          🎲 {t('host.random')}
-        </button>
-      </section>
+      <div className="host-grid">
+        <section className="card featured-line">
+          <span className="featured-cat">
+            {CATEGORY_ICON[featured.category]} {tk(`host.cat.${featured.category}`)}
+          </span>
+          <LineText line={featured.line} big />
+          <div className="row wrap featured-actions">
+            <button className="btn btn-primary btn-lg" onClick={randomHere}>
+              🎲 {t('host.random')}
+            </button>
+            <button className="btn" onClick={randomAny}>
+              🔀 {t('host.any')}
+            </button>
+          </div>
+        </section>
 
-      {cats.map((c) => (
-        <section key={c} className="card">
+        <section className="card host-list">
           <h3>
-            {CATEGORY_ICON[c]} {tk(`host.cat.${c}`)}
+            {CATEGORY_ICON[cat]} {tk(`host.cat.${cat}`)} <span className="muted small">· {HOST_LINES[cat].length}</span>
           </h3>
           <ul className="line-list">
-            {HOST_LINES[c].map((line, i) => (
+            {HOST_LINES[cat].map((line, i) => (
               <li key={i}>
-                <LineText line={line} />
+                <button className={`line-pick ${featured.line === line ? 'is-current' : ''}`} onClick={() => setFeatured({ line, category: cat })}>
+                  <LineText line={line} />
+                </button>
               </li>
             ))}
           </ul>
         </section>
-      ))}
+      </div>
     </div>
   );
 }

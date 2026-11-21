@@ -45,6 +45,7 @@ export const uk: Dict = {
   'host.hint': 'Читайте вголос, щоб створити атмосферу й тримати стіл у напрузі.',
   'host.random': 'Випадкова фраза',
   'host.another': 'Інша',
+  'host.any': 'Будь-яка категорія',
   'host.all': 'Усі',
   'host.suggest': 'Скажіть',
   'host.cat.nightFalls': 'Настає ніч',
@@ -141,6 +142,8 @@ export const uk: Dict = {
   'game.winnerBanner': 'Зараз перемагає: {team}.',
   'game.endGame': 'Завершити гру',
   'game.endNoWinner': 'Завершити (без переможця)',
+  'game.next': 'Наступний',
+  'game.out': 'Вибув',
   'game.speaking': 'Говорить',
 
   'night.title': 'Ніч {round}',

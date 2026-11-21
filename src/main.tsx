@@ -7,6 +7,7 @@ import './tokens.css';
 import './styles.css';
 import './theme-neon.css';
 import './daynight.css';
+import './layout.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

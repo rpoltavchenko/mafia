@@ -109,7 +109,7 @@ export default function App() {
         {view === 'rules' && <RulesScreen />}
         {view === 'host' && <HostLinesScreen />}
         {/* Kept mounted while other tabs are open so running timers aren't lost */}
-        <div hidden={view !== 'game'}>
+        <div className="view-game" hidden={view !== 'game'}>
         {state.phase === 'setup' && <SetupScreen />}
         {state.phase === 'assign' && <AssignScreen />}
         {state.phase === 'reveal' && <RevealScreen />}

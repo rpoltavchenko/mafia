@@ -1,0 +1,416 @@
+/* =========================================================
+   Layout & responsive behaviour — loaded last.
+
+   Breakpoints (use only these):
+     phone    < 768px    (max-width: 767px), tight phones (max-width: 479px)
+     tablet   ≥ 768px    (min-width: 768px)
+     desktop  ≥ 1024px   (min-width: 1024px)
+   "Fit" mode: game screens fill the window on tablets/desktops that are at
+   least 560px tall; columns scroll on their own only if content can't fit.
+   ========================================================= */
+
+:root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --gap: var(--space-4); /* between cards and columns */
+  --pad-card: var(--space-4); /* inside cards */
+  --gutter: var(--space-4); /* page side padding */
+}
+@media (max-width: 767px), (max-height: 820px) {
+  /* phones and short windows: tighter spacing everywhere, same proportions */
+  :root {
+    --gap: var(--space-3);
+    --pad-card: var(--space-3);
+  }
+}
+
+/* ---------- shared spacing ---------- */
+
+.main {
+  padding: var(--gap) var(--gutter);
+}
+.screen {
+  gap: var(--gap);
+  padding-bottom: 0; /* the sticky footer bar already takes its own space */
+}
+.footer-bar {
+  padding: var(--space-2) 0;
+}
+.setup-stack .muted.small {
+  font-size: 0.8rem;
+  margin: 0.2rem 0 0.4rem;
+}
+@media (min-width: 1024px) {
+  .end-roles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem var(--gap);
+  }
+}
+.card {
+  padding: var(--pad-card);
+}
+.game-layout,
+.game-side {
+  gap: var(--gap);
+}
+.panel-footer {
+  margin-top: var(--space-3);
+}
+.card > h3:first-child,
+.card > h2:first-child {
+  margin-bottom: var(--space-2);
+}
+.card > p.muted {
+  margin: 0 0 var(--space-2);
+  font-size: 0.92rem;
+}
+
+/* compact, consistent chips */
+.chip {
+  padding: 0.22rem 0.65rem 0.22rem 0.3rem;
+  font-size: 0.88rem;
+}
+.chips {
+  gap: 0.35rem;
+}
+
+/* ---------- game header ---------- */
+
+.game-header {
+  gap: var(--space-2) var(--space-3);
+}
+.game-title {
+  gap: var(--space-2);
+}
+.phase-icon {
+  font-size: 1.7rem;
+}
+
+/* ---------- timer: stacked when narrow, side by side when wide ---------- */
+
+.timer-panel {
+  container-type: inline-size;
+  margin-top: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+.timer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-2);
+}
+.timer-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.timer-side {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.timer-ring-wrap {
+  container-type: inline-size;
+  width: clamp(140px, 26vh, 240px);
+  margin: 0 auto;
+}
+/* text scales with the ring, whatever its size */
+.timer-ring-wrap .timer-time {
+  font-size: 25cqi;
+}
+.timer-ring-wrap .timer-speaker {
+  font-size: max(0.85rem, 7cqi);
+}
+.queue {
+  margin-top: 0;
+}
+.keys-hint {
+  margin: 0;
+}
+
+@container (min-width: 300px) {
+  .timer-body {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .timer-ring-wrap {
+    flex: none;
+    margin: 0;
+    width: min(42cqi, clamp(140px, 26vh, 240px));
+  }
+  .timer-side {
+    flex: 1;
+    min-width: 0;
+  }
+  .timer-controls {
+    justify-content: flex-start;
+  }
+  .timer-main {
+    flex: 1 1 100%;
+    order: -1; /* Start/Pause on its own row first, the small buttons below */
+  }
+  .keys-hint {
+    text-align: left;
+  }
+}
+
+/* ---------- night steps & nominations: denser ---------- */
+
+.night-steps,
+.intro-steps {
+  margin: var(--space-2) 0;
+  gap: var(--space-2);
+}
+.night-step {
+  padding: var(--space-2) var(--space-3);
+}
+.night-step-head {
+  margin-bottom: var(--space-2);
+}
+.nominate-box {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+}
+.news {
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+}
+.nominee-summary {
+  margin-top: var(--space-3);
+}
+
+/* ---------- player tiles ---------- */
+
+.tiles {
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+}
+
+/* ---------- tablet & desktop: two-column game ---------- */
+
+@media (min-width: 768px) {
+  .game-layout {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}
+
+/* ---------- fit mode: the game screen fills the window ---------- */
+
+@media (min-width: 768px) and (min-height: 560px) {
+  :root:is([data-phase='night'], [data-phase='day'], [data-phase='voting']) .app {
+    height: 100dvh;
+    min-height: 0;
+  }
+  :root:is([data-phase='night'], [data-phase='day'], [data-phase='voting']) .main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  :root:is([data-phase='night'], [data-phase='day'], [data-phase='voting']) .view-game {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .screen.game {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: 0;
+  }
+  .game-layout {
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .game-panel,
+  .game-side {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .game-side {
+    position: static;
+  }
+  .game-side .log-card {
+    flex: 1 0 auto;
+  }
+  .log {
+    max-height: none;
+  }
+}
+
+/* ---------- setup: 1 → 2 → 3 columns ---------- */
+
+.setup {
+  grid-template-columns: 1fr;
+  gap: var(--gap);
+}
+.setup-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.name-list {
+  gap: 0.3rem;
+}
+.name-list input {
+  padding: 0.4rem 0.6rem;
+}
+.role-list li {
+  padding: 0.35rem 0.5rem;
+}
+@media (min-width: 768px) {
+  .setup {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .setup-stack {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+@media (min-width: 1024px) {
+  .setup {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .setup-stack {
+    grid-column: auto;
+    display: flex;
+  }
+}
+
+/* ---------- assign: two columns on desktop ---------- */
+
+@media (min-width: 1024px) {
+  .assign-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) var(--gap);
+  }
+}
+
+/* ---------- rules: two columns on desktop ---------- */
+
+@media (min-width: 1024px) {
+  .rules {
+    max-width: 1100px;
+  }
+  .rules-body {
+    display: block;
+    columns: 2;
+    column-gap: 2.5rem;
+  }
+  .rules-block {
+    margin-bottom: 1.6rem;
+  }
+}
+
+/* ---------- host lines ---------- */
+
+.host-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.host-head h2,
+.host-head p {
+  margin: 0;
+}
+.host-grid {
+  display: grid;
+  gap: var(--gap);
+  align-items: start;
+}
+.featured-line {
+  padding: var(--space-5) var(--pad-card);
+}
+.featured-actions {
+  justify-content: center;
+}
+.line-list li {
+  padding: 0;
+  background: none;
+  border-left: 0;
+}
+.line-pick {
+  width: 100%;
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+  text-align: left;
+  cursor: pointer;
+}
+.line-pick:hover {
+  border-left-color: var(--accent);
+}
+.line-pick.is-current {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-inset));
+}
+@media (min-width: 1024px) {
+  .host-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .featured-line {
+    position: sticky;
+    top: calc(3.5rem + var(--gap));
+  }
+}
+
+/* shortcut hint only where there's room for it */
+@media (max-height: 880px) {
+  .keys-hint {
+    display: none;
+  }
+}
+
+/* setup: role descriptions stay on one line */
+.role-info small {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.end-hero {
+  padding: var(--space-5) var(--pad-card);
+}
+
+/* ---------- phone ---------- */
+
+@media (max-width: 767px) {
+  .timer-ring-wrap {
+    width: min(176px, 47vw);
+  }
+  .timer-panel {
+    padding: var(--space-3);
+  }
+  .game-header {
+    flex-wrap: nowrap;
+  }
+  .game-header .btn {
+    padding: 0.35rem 0.55rem;
+  }
+  .game-header .btn-label {
+    display: none; /* icon-only on phones; full label stays in aria-label/title */
+  }
+  /* instructions the host already knows */
+  .game-panel .card > p.muted {
+    display: none;
+  }
+  /* tiles straight after the main panel */
+  .game-side .tiles {
+    order: -1;
+  }
+}

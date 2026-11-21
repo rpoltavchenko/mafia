@@ -73,13 +73,14 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
 
   return (
     <div className={`timer-panel ${level} status-${timer.status}`}>
-      <div className="row between">
+      <div className="timer-head">
         <h3>{title}</h3>
         <span className="muted">
           {index + 1} / {queue.length}
         </span>
       </div>
 
+      <div className="timer-body">
       <TimerRing
         remainingMs={timer.remainingMs}
         totalMs={timer.totalMs}
@@ -91,6 +92,7 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
         footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
       />
 
+      <div className="timer-side">
       <div className="timer-controls">
         <button className="btn" onClick={prev} disabled={index === 0} aria-label="previous">
           {t('timer.prev')}
@@ -108,20 +110,22 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
           {t('timer.next')}
         </button>
       </div>
-
-      {renderSpeakerExtras?.(current)}
-
       {upNext.length > 0 && (
         <div className="queue">
           <span className="muted">{t('timer.upNext')}:</span>
-          {upNext.map((p) => (
+          {upNext.slice(0, 4).map((p) => (
             <button key={p.id} className="chip" onClick={() => onIndexChange(queue.indexOf(p))}>
               {p.name}
             </button>
           ))}
+          {upNext.length > 4 && <span className="muted">+{upNext.length - 4}</span>}
         </div>
       )}
       <p className="muted small keys-hint">{t('timer.keys')}</p>
+      </div>
+      </div>
+
+      {renderSpeakerExtras?.(current)}
     </div>
   );
 }

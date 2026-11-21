@@ -19,6 +19,15 @@ export default function GameScreen() {
   const setActiveId = useCallback((id: string | null) => setActiveIdState(id), []);
 
   const alive = state.players.filter((p) => p.alive).length;
+
+  // Who is speaking and who is next (next is known for day speeches)
+  const speakingId = state.phase !== 'night' ? activeId : null;
+  const nextId = (() => {
+    if (state.phase !== 'day' || !state.speech.discussionDone || !speakingId) return null;
+    const queue = state.speech.queue.filter((id) => state.players.find((p) => p.id === id)?.alive);
+    const i = queue.indexOf(speakingId);
+    return i >= 0 ? queue[i + 1] ?? null : null;
+  })();
   const pendingWinner = checkWinner(state.players, state.roles);
   const phaseIcon = state.phase === 'night' ? '🌙' : state.phase === 'day' ? '☀️' : '🗳️';
 
@@ -37,12 +46,25 @@ export default function GameScreen() {
             </span>
           </div>
         </div>
-        <div className="row wrap">
-          <button className="btn btn-sm" onClick={() => setHideRoles((h) => !h)} aria-pressed={hideRoles}>
-            {hideRoles ? `👁 ${t('game.showRoles')}` : `🙈 ${t('game.hideRoles')}`}
+        <div className="row game-actions">
+          <button
+            className="btn btn-sm"
+            onClick={() => setHideRoles((h) => !h)}
+            aria-pressed={hideRoles}
+            aria-label={hideRoles ? t('game.showRoles') : t('game.hideRoles')}
+            title={hideRoles ? t('game.showRoles') : t('game.hideRoles')}
+          >
+            <span aria-hidden>{hideRoles ? '👁' : '🙈'}</span>
+            <span className="btn-label">{hideRoles ? t('game.showRoles') : t('game.hideRoles')}</span>
           </button>
-          <button className="btn btn-sm btn-ghost" onClick={() => dispatch({ type: 'END_GAME', winner: null })}>
-            {t('game.endNoWinner')}
+          <button
+            className="btn btn-sm btn-ghost"
+            onClick={() => dispatch({ type: 'END_GAME', winner: null })}
+            aria-label={t('game.endNoWinner')}
+            title={t('game.endNoWinner')}
+          >
+            <span aria-hidden>🏁</span>
+            <span className="btn-label">{t('game.endNoWinner')}</span>
           </button>
         </div>
       </div>
@@ -65,7 +87,7 @@ export default function GameScreen() {
 
         <aside className="game-side">
           <HostLineCard />
-          <div className="tiles">
+          <div className={`tiles ${speakingId ? 'has-speaker' : ''}`}>
             {state.players.map((p, i) => (
               <PlayerTile
                 key={p.id}
@@ -73,7 +95,7 @@ export default function GameScreen() {
                 seat={i + 1}
                 role={p.roleId ? roleById.get(p.roleId) : undefined}
                 hideRoles={hideRoles}
-                active={state.phase !== 'night' && activeId === p.id}
+                status={p.id === speakingId ? 'speaking' : p.id === nextId ? 'next' : null}
                 onKill={() => dispatch({ type: 'KILL_PLAYER', id: p.id })}
                 onRevive={() => dispatch({ type: 'REVIVE_PLAYER', id: p.id })}
                 onFoul={(delta) => dispatch({ type: 'FOUL', id: p.id, delta })}

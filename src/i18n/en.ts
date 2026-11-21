@@ -43,6 +43,7 @@ export const en = {
   'host.hint': 'Read these aloud to set the mood and keep the table on edge.',
   'host.random': 'Random line',
   'host.another': 'Another',
+  'host.any': 'Any category',
   'host.all': 'All',
   'host.suggest': 'Say this',
   'host.cat.nightFalls': 'Night falls',
@@ -139,6 +140,8 @@ export const en = {
   'game.winnerBanner': '{team} would win now.',
   'game.endGame': 'End game',
   'game.endNoWinner': 'End game (no winner)',
+  'game.next': 'Next',
+  'game.out': 'Out',
   'game.speaking': 'Speaking',
 
   'night.title': 'Night {round}',

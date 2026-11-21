@@ -29,13 +29,17 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel, lab
 
   return (
     <div className={`timer-panel ${timerLevel(timer.status, timer.remainingMs)} status-${timer.status}`}>
-      <h3>{title}</h3>
+      <div className="timer-head">
+        <h3>{title}</h3>
+      </div>
+      <div className="timer-body">
       <TimerRing
         remainingMs={timer.remainingMs}
         totalMs={timer.totalMs}
         label={label ?? <>💬 {t('day.everyone')}</>}
         footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
       />
+      <div className="timer-side">
       <div className="timer-controls">
         <button className="btn btn-primary btn-lg timer-main" onClick={toggle}>
           {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
@@ -51,6 +55,8 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel, lab
         </button>
       </div>
       <p className="muted small keys-hint">{t('timer.keys')}</p>
+      </div>
+      </div>
     </div>
   );
 }

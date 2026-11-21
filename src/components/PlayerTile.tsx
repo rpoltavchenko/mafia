@@ -3,34 +3,57 @@ import type { Player, RoleDef } from '../game/types';
 import { useI18n } from '../i18n/I18nContext';
 import RoleBadge from './RoleBadge';
 
+export type TileStatus = 'speaking' | 'next' | null;
+
 interface Props {
   player: Player;
   seat: number;
   role: RoleDef | undefined;
   hideRoles: boolean;
-  active?: boolean;
+  status?: TileStatus;
   onKill: () => void;
   onRevive: () => void;
   onFoul: (delta: 1 | -1) => void;
 }
 
-export default function PlayerTile({ player, seat, role, hideRoles, active, onKill, onRevive, onFoul }: Props) {
+export default function PlayerTile({ player, seat, role, hideRoles, status = null, onKill, onRevive, onFoul }: Props) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
-  const cls = ['tile', !player.alive && 'is-dead', active && 'is-active', role && !hideRoles && `team-${role.team}`].filter(Boolean).join(' ');
+  const cls = ['tile', !player.alive && 'is-dead', status === 'speaking' && 'is-speaking', status === 'next' && 'is-next']
+    .filter(Boolean)
+    .join(' ');
+
+  const label = !player.alive ? t('game.out') : status === 'speaking' ? t('game.speaking') : status === 'next' ? t('game.next') : null;
 
   return (
     <div className={cls} style={role && !hideRoles ? ({ '--role': role.color } as React.CSSProperties) : undefined}>
-      <button className="tile-main" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
-        <span className="seat">{seat}</span>
-        <span className="tile-name">{player.name}</span>
-        <RoleBadge role={role} hidden={hideRoles} />
-        {player.fouls > 0 && (
-          <span className={`fouls ${player.fouls >= 3 ? 'is-warn' : ''}`} title={t('game.fouls', { n: player.fouls })}>
-            {'●'.repeat(Math.min(player.fouls, 4))}
+      <button
+        className="tile-main"
+        onClick={() => setOpen((o) => !o)}
+        aria-expanded={open}
+        aria-current={status === 'speaking' ? 'true' : undefined}
+        aria-label={`${seat}. ${player.name}${label ? ` — ${label}` : ''}`}
+      >
+        <span className="tile-seat" aria-hidden>
+          {seat}
+        </span>
+        <span className="tile-body">
+          <span className="tile-name">{player.name}</span>
+          <span className="tile-meta">
+            {label && (
+              <span className="tile-status">
+                {status === 'speaking' && player.alive && <span aria-hidden>🎤 </span>}
+                {label}
+              </span>
+            )}
+            <RoleBadge role={role} hidden={hideRoles} />
+            {player.fouls > 0 && (
+              <span className={`fouls ${player.fouls >= 3 ? 'is-warn' : ''}`} title={t('game.fouls', { n: player.fouls })}>
+                {'●'.repeat(Math.min(player.fouls, 4))}
+              </span>
+            )}
           </span>
-        )}
-        {active && <span className="speaking-dot" aria-label={t('game.speaking')} />}
+        </span>
       </button>
       {open && (
         <div className="tile-actions">

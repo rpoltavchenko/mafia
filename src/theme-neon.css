@@ -151,13 +151,19 @@
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 70%, transparent));
 }
 [data-theme='neon'] .tile {
-  border-color: color-mix(in srgb, var(--c-white) 6%, transparent);
+  border-color: color-mix(in srgb, var(--c-white) 8%, transparent);
 }
-[data-theme='neon'] .tile.is-active {
-  box-shadow: 0 0 0 2px var(--highlight), 0 0 26px color-mix(in srgb, var(--highlight) 55%, transparent);
+[data-theme='neon'] .tile.is-speaking {
+  border-color: var(--highlight);
+  box-shadow: 0 0 0 1px var(--highlight), 0 0 22px color-mix(in srgb, var(--highlight) 45%, transparent);
 }
-[data-theme='neon'] .speaking-dot {
-  box-shadow: 0 0 8px var(--highlight);
+[data-theme='neon'] .tile.is-next {
+  border-color: color-mix(in srgb, var(--highlight) 55%, transparent);
+}
+[data-theme='neon'] .tile-seat {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.3rem;
 }
 
 /* ---------- timer ---------- */
@@ -276,7 +282,7 @@
   color: var(--c-orange-300);
 }
 
-@media (max-width: 520px) {
+@media (max-width: 479px) {
   [data-theme='neon'] .app::before,
   [data-theme='neon'] .app::after {
     opacity: 0.3;

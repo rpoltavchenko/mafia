@@ -118,6 +118,7 @@
   --on-accent: var(--c-white);
   --highlight: var(--c-gold-500); /* current speaker, focus, secondary emphasis */
   --focus-ring: var(--highlight);
+  --on-highlight: #0b0b14; /* text on a filled highlight (speaker's seat number) */
   --glow: none;
   --glow-strong: none;
 

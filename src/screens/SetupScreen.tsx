@@ -107,6 +107,7 @@ export default function SetupScreen() {
         </p>
       </section>
 
+      <div className="setup-stack">
       <section className="card">
         <h2>{t('setup.introTitle')}</h2>
         <label className="check">
@@ -149,6 +150,8 @@ export default function SetupScreen() {
           {t('setup.vibrate')}
         </label>
       </section>
+
+      </div>
 
       <div className="footer-bar">
         <button className="btn btn-primary btn-lg" disabled={!ok} onClick={() => dispatch({ type: 'GO_ASSIGN' })}>
