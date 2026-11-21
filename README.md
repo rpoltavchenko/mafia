@@ -31,3 +31,18 @@ Tap any player tile to add/remove fouls or remove/revive a player. "Hide roles" 
 **Timer keys**: Space = start/pause, N or → = next speaker, ← = previous. The timer turns orange at 10 s, red at 5 s, and beeps/vibrates at 0.
 
 The game is saved in the browser, so refreshing the page doesn't lose it.
+
+## Colours
+
+All colours live in [`src/tokens.css`](src/tokens.css), in three layers:
+
+1. **Primitives** (`--c-pink-500`, `--c-navy-900`, …): the raw palette. Components never use these directly.
+2. **Semantic tokens**: what components use. `--surface-page/1/2/3/inset/well`, `--border`, `--text`, `--text-muted`, `--accent`, `--accent-fill`, `--on-accent`, `--highlight`, `--success/--warning/--danger`, `--team-*`, `--role-*`.
+3. **Themes and phases**: `html[data-theme="neon"]` and `html[data-phase="night|day|voting"]` override semantic tokens only.
+
+Rules:
+- No hex/rgb colours in component CSS or TSX. Use a semantic token, or `color-mix()` from one for tints.
+- Text on a filled accent uses `--on-accent`.
+- Built-in role colours are tokens (`var(--role-sheriff)`), so each theme can tune them.
+
+After changing colours, run [`scripts/check-contrast.js`](scripts/check-contrast.js) in the browser console. It checks every theme × phase against WCAG AA (4.5:1 text, 3:1 UI).

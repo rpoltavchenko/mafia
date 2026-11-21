@@ -1,6 +1,8 @@
 /* =========================================================
-   Day / night look during the game.
+   Day / night sky and the phase transition card.
    html[data-phase] is 'night' | 'day' | 'voting' | 'none'.
+   Palette changes per phase live in tokens.css; this file only
+   draws the sky (illustration colours come from the primitives).
    ========================================================= */
 
 .sky {
@@ -21,23 +23,34 @@
   opacity: 1;
 }
 
+/* keep content above the sky */
+.topbar,
+.main {
+  position: relative;
+  z-index: 1;
+}
+.topbar {
+  position: sticky;
+  z-index: 10;
+}
+
 /* ----- night: deep navy, stars, moon ----- */
 
 .sky-night {
   background:
-    radial-gradient(ellipse 70% 40% at 50% 110%, rgba(40, 70, 160, 0.35), transparent 70%),
-    linear-gradient(180deg, #03040f 0%, #081131 55%, #0c1a45 100%);
+    radial-gradient(ellipse 70% 40% at 50% 110%, color-mix(in srgb, var(--c-blue-500) 30%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--c-navy-950) 0%, var(--c-navy-900) 55%, var(--c-navy-850) 100%);
 }
 .stars {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(1.5px 1.5px at 20px 30px, #fff, transparent),
-    radial-gradient(1px 1px at 90px 120px, #cfe3ff, transparent),
-    radial-gradient(1.5px 1.5px at 160px 60px, #fff, transparent),
-    radial-gradient(1px 1px at 230px 170px, #fff, transparent),
-    radial-gradient(1px 1px at 300px 40px, #bcd6ff, transparent),
-    radial-gradient(1.5px 1.5px at 370px 140px, #fff, transparent);
+    radial-gradient(1.5px 1.5px at 20px 30px, var(--c-white), transparent),
+    radial-gradient(1px 1px at 90px 120px, var(--c-navy-100), transparent),
+    radial-gradient(1.5px 1.5px at 160px 60px, var(--c-white), transparent),
+    radial-gradient(1px 1px at 230px 170px, var(--c-white), transparent),
+    radial-gradient(1px 1px at 300px 40px, var(--c-navy-100), transparent),
+    radial-gradient(1.5px 1.5px at 370px 140px, var(--c-white), transparent);
   background-size: 400px 220px;
   opacity: 0.75;
   animation: twinkle 5s ease-in-out infinite alternate;
@@ -55,8 +68,9 @@
   width: 76px;
   height: 76px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #ffffff, #dfe8ff 45%, #a9bce8 75%);
-  box-shadow: 0 0 40px 10px rgba(180, 205, 255, 0.35), 0 0 120px 40px rgba(120, 160, 255, 0.15);
+  background: radial-gradient(circle at 35% 35%, var(--c-white), var(--c-navy-100) 45%, var(--c-navy-400) 75%);
+  box-shadow: 0 0 40px 10px color-mix(in srgb, var(--c-navy-100) 35%, transparent),
+    0 0 120px 40px color-mix(in srgb, var(--c-blue-300) 15%, transparent);
 }
 .moon::after {
   /* crescent shadow */
@@ -64,7 +78,7 @@
   position: absolute;
   inset: -4px -18px 0 18px;
   border-radius: 50%;
-  background: #081131;
+  background: var(--c-navy-900);
   opacity: 0.85;
 }
 @keyframes twinkle {
@@ -80,8 +94,8 @@
 
 .sky-day {
   background:
-    radial-gradient(ellipse 60% 45% at 82% 8%, rgba(255, 236, 160, 0.55), transparent 65%),
-    linear-gradient(180deg, #ffb35c 0%, #ff8a5b 30%, #e2568a 62%, #6a2a85 100%);
+    radial-gradient(ellipse 60% 45% at 82% 8%, color-mix(in srgb, var(--c-gold-300) 55%, transparent), transparent 65%),
+    linear-gradient(180deg, var(--c-orange-300) 0%, #ff8a5b 30%, #e2568a 62%, #6a2a85 100%);
 }
 .sun {
   position: absolute;
@@ -90,113 +104,41 @@
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background: radial-gradient(circle, #fffbe0 0%, #ffe48a 45%, #ffb347 100%);
-  box-shadow: 0 0 60px 25px rgba(255, 210, 110, 0.6), 0 0 160px 70px rgba(255, 170, 80, 0.35);
+  background: radial-gradient(circle, #fffbe0 0%, var(--c-gold-300) 45%, var(--c-orange-500) 100%);
+  box-shadow: 0 0 60px 25px color-mix(in srgb, var(--c-gold-300) 60%, transparent),
+    0 0 160px 70px color-mix(in srgb, var(--c-orange-500) 35%, transparent);
 }
 
 /* ----- voting: dusk, blood-red ----- */
 
 .sky-voting {
   background:
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255, 60, 90, 0.45), transparent 70%),
-    linear-gradient(180deg, #5a0d2a 0%, #3a0a2e 50%, #1a0820 100%);
+    radial-gradient(ellipse 80% 40% at 50% 0%, color-mix(in srgb, var(--c-crimson-500) 45%, transparent), transparent 70%),
+    linear-gradient(180deg, #5a0d2a 0%, #3a0a2e 50%, var(--c-wine-900) 100%);
 }
 
-/* keep content above the sky */
-.topbar,
-.main {
-  position: relative;
-  z-index: 1;
-}
-.topbar {
-  position: sticky;
-  z-index: 10;
-}
-
-/* ----- palette shifts (neon) ----- */
-
-:root[data-theme='neon'][data-phase='night'] {
-  --accent: var(--cyan);
-  --accent-2: #8fa8ff;
-  --sunset: linear-gradient(90deg, #6a5cff, #2de2e6);
-  --glow-pink: 0 0 18px rgba(45, 226, 230, 0.5);
-  --card: rgba(8, 14, 40, 0.82);
-  --line: #24346e;
-  --muted: #9fb0d8;
-}
-[data-theme='neon'][data-phase='night'] h2 {
-  color: #d6e6ff;
-  text-shadow: 0 0 14px rgba(120, 170, 255, 0.6);
-}
-[data-theme='neon'][data-phase='night'] h3 {
-  color: #c8f6ff;
-  text-shadow: 0 0 10px rgba(45, 226, 230, 0.45);
-}
-[data-theme='neon'][data-phase='night'] .card {
-  border-color: rgba(45, 226, 230, 0.22);
-}
-[data-theme='neon'][data-phase='night'] .topbar::after {
-  background: linear-gradient(90deg, #6a5cff, var(--cyan), #6a5cff);
-  box-shadow: 0 0 12px rgba(45, 226, 230, 0.6);
-}
-[data-theme='neon'][data-phase='night'] .app::before,
-[data-theme='neon'][data-phase='night'] .app::after {
-  filter: drop-shadow(0 0 24px rgba(80, 130, 255, 0.25));
-}
-
-:root[data-theme='neon'][data-phase='day'] {
-  --accent: var(--orange);
-  --card: rgba(58, 18, 52, 0.8);
-  --line: #8a3a6a;
-}
-[data-theme='neon'][data-phase='day'] h2 {
-  color: #fff3d6;
-  text-shadow: 0 0 14px rgba(255, 170, 60, 0.7);
-}
-[data-theme='neon'][data-phase='day'] .card {
-  border-color: rgba(255, 200, 120, 0.35);
-}
-[data-theme='neon'][data-phase='day'] .topbar {
-  background: rgba(70, 20, 50, 0.6);
-}
-[data-theme='neon'][data-phase='day'] .topbar::after {
-  background: linear-gradient(90deg, #ffe08a, var(--orange), var(--pink));
-}
-
-:root[data-theme='neon'][data-phase='voting'] {
-  --accent: #ff4d6d;
-  --card: rgba(40, 8, 30, 0.84);
-  --line: #6e1d44;
-}
-[data-theme='neon'][data-phase='voting'] .topbar::after {
-  background: linear-gradient(90deg, #ff2e5f, var(--pink), #ff2e5f);
-}
-
-/* ----- palette shifts (classic) ----- */
-
+/* classic theme: same sky, toned down */
 :root[data-theme='classic'] .sky-layer {
   filter: saturate(0.55) brightness(0.65);
 }
 :root[data-theme='classic'] .sky-day {
   filter: saturate(0.5) brightness(0.45);
 }
-:root[data-theme='classic'][data-phase='night'] {
-  --card: rgba(16, 22, 44, 0.9);
-  --line: #27345a;
-  --accent-2: #7aa7ff;
+
+/* The page header sits directly on the sky: keep it readable on the bright day sky */
+:root[data-theme='neon'][data-phase='day'] .game-header h2 {
+  color: var(--c-ember-900);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--c-ember-100) 80%, transparent);
 }
-:root[data-theme='classic'][data-phase='day'] {
-  --card: rgba(40, 30, 22, 0.88);
-  --line: #5c4630;
-}
-:root[data-theme='classic'][data-phase='voting'] {
-  --card: rgba(40, 18, 24, 0.9);
-  --line: #5c2a33;
+:root[data-theme='neon'][data-phase='day'] .game-header .muted {
+  color: var(--c-ember-850);
+  font-weight: 600;
 }
 
 /* ----- phase transition curtain ----- */
 
 .curtain {
+  --curtain-text: var(--c-white);
   position: fixed;
   inset: 0;
   z-index: 60;
@@ -207,13 +149,14 @@
   animation: curtain 1.9s ease forwards;
 }
 .curtain-night {
-  background: radial-gradient(circle at 50% 40%, rgba(20, 35, 90, 0.95), rgba(2, 3, 12, 0.98));
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--c-navy-850) 95%, transparent), var(--c-navy-950));
 }
 .curtain-day {
-  background: radial-gradient(circle at 50% 40%, rgba(255, 210, 120, 0.95), rgba(226, 86, 138, 0.97));
+  --curtain-text: var(--c-ember-900);
+  background: radial-gradient(circle at 50% 40%, var(--c-gold-300), #e2568a);
 }
 .curtain-voting {
-  background: radial-gradient(circle at 50% 40%, rgba(150, 20, 60, 0.95), rgba(30, 5, 20, 0.98));
+  background: radial-gradient(circle at 50% 40%, #96143c, var(--c-wine-900));
 }
 .curtain-inner {
   display: flex;
@@ -221,11 +164,12 @@
   align-items: center;
   gap: 0.4rem;
   text-align: center;
+  color: var(--curtain-text);
   animation: curtain-text 1.9s ease forwards;
 }
 .curtain-icon {
   font-size: 4.5rem;
-  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+  filter: drop-shadow(0 0 30px color-mix(in srgb, var(--c-white) 50%, transparent));
 }
 .curtain-title {
   font-family: var(--display, var(--font));
@@ -234,22 +178,16 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   line-height: 1;
-  color: #fff;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.45);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--c-white) 45%, transparent);
 }
 :root[data-theme='classic'] .curtain-title {
   font-weight: 800;
-}
-.curtain-day .curtain-title,
-.curtain-day .curtain-sub {
-  color: #3a0d2e;
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
 }
 .curtain-sub {
   font-size: 1.2rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
+  opacity: 0.85;
 }
 @keyframes curtain {
   0% {
@@ -304,14 +242,4 @@
   .curtain-inner {
     animation-duration: 0.01s;
   }
-}
-
-/* Page header sits directly on the sky: keep it readable on the bright day sky */
-[data-phase='day'] .game-header h2 {
-  color: #3a0d2e;
-  text-shadow: 0 0 14px rgba(255, 240, 210, 0.8);
-}
-[data-phase='day'] .game-header .muted {
-  color: #5a1d40;
-  font-weight: 600;
 }

@@ -62,7 +62,7 @@ function RevealCard({ player, onDone, onCancel }: { player: Player; onDone: () =
           <span className="reveal-tap">👆 {t('reveal.tapToSee')}</span>
         </button>
       ) : (
-        <div className="reveal-role" style={{ '--role': role?.color ?? '#666' } as React.CSSProperties}>
+        <div className="reveal-role" style={{ '--role': role?.color ?? 'var(--text-muted)' } as React.CSSProperties}>
           <span className="muted">{t('reveal.youAre')}</span>
           <strong className="reveal-role-name">{roleName(role)}</strong>
           {role && (

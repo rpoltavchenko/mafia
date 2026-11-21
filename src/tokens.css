@@ -1,0 +1,313 @@
+/* =========================================================
+   Colour tokens — the single source of truth for colour.
+
+   1. Primitives  (--c-*)  raw palette, never used by components
+   2. Semantic tokens       what components use (surface, text, accent…)
+   3. Themes & phases       override semantic tokens only
+
+   Rules of thumb
+   - Components never use hex/rgb values; only semantic tokens.
+   - Text on a filled accent uses --on-accent (checked for ≥ 4.5:1).
+   - Tints are made with color-mix() from a token, not new hex values.
+   ========================================================= */
+
+/* ---------- 1. primitives ---------- */
+:root {
+  --c-white: #ffffff;
+  --c-black: #000000;
+
+  /* slate — classic neutrals */
+  --c-slate-950: #0f1115;
+  --c-slate-900: #161a21;
+  --c-slate-850: #1b2029;
+  --c-slate-800: #232a35;
+  --c-slate-750: #2c3443;
+  --c-slate-700: #2d3542;
+  --c-slate-600: #3d4757;
+  --c-slate-400: #95a0b2;
+  --c-slate-100: #e8ebf0;
+
+  /* plum — neon neutrals */
+  --c-plum-950: #0d0619;
+  --c-plum-900: #140a26;
+  --c-plum-850: #1c0f33;
+  --c-plum-800: #22113e;
+  --c-plum-750: #2c1650;
+  --c-plum-700: #3a1d66;
+  --c-plum-600: #4a2a74;
+  --c-plum-400: #bba6d8;
+  --c-plum-300: #d2c2ea;
+  --c-plum-100: #fff4fb;
+
+  /* navy — night */
+  --c-navy-950: #03040f;
+  --c-navy-900: #081131;
+  --c-navy-850: #0c1a45;
+  --c-navy-800: #111f50;
+  --c-navy-700: #24346e;
+  --c-navy-400: #a3b4dc;
+  --c-navy-100: #d6e6ff;
+
+  /* ember — day */
+  --c-ember-900: #2a0d22;
+  --c-ember-850: #3a1230;
+  --c-ember-700: #8a3a6a;
+  --c-ember-400: #e8b9cf;
+  --c-ember-100: #fff3d6;
+
+  /* wine — voting */
+  --c-wine-900: #1e0616;
+  --c-wine-850: #2c0a22;
+  --c-wine-700: #6e1d44;
+
+  /* hues */
+  --c-pink-300: #ff8cc6;
+  --c-pink-500: #ff3d9a;
+  --c-orange-300: #ffc07a;
+  --c-orange-500: #ff9e3d;
+  --c-gold-300: #ffe28a;
+  --c-gold-500: #f0b429;
+  --c-cyan-300: #9af5f7;
+  --c-cyan-500: #2de2e6;
+  --c-indigo-500: #6a5cff;
+  --c-violet-300: #cfa6ff;
+  --c-violet-500: #a46cf0;
+  --c-red-300: #ff9496;
+  --c-red-500: #e5484d;
+  --c-red-600: #c53b3b;
+  --c-crimson-500: #ff4d6d;
+  --c-green-300: #8fdcaa;
+  --c-green-500: #4f9d69;
+  --c-mint-500: #3ef0a8;
+  --c-amber-500: #f0a020;
+  --c-blue-300: #8ac4ff;
+  --c-blue-500: #3c8ddb;
+}
+
+/* ---------- 2. semantic tokens: classic theme (default) ---------- */
+:root {
+  color-scheme: dark;
+
+  /* surfaces, back to front */
+  --surface-page: var(--c-slate-950);
+  --surface-page-image: none;
+  --surface-1: var(--c-slate-850); /* cards */
+  --surface-2: var(--c-slate-800); /* buttons, raised controls */
+  --surface-3: var(--c-slate-750); /* hover */
+  --surface-inset: var(--c-slate-900); /* inputs, wells inside cards */
+  --surface-well: color-mix(in srgb, var(--c-black) 22%, transparent); /* rows inside a card */
+  --surface-overlay: color-mix(in srgb, var(--c-black) 70%, transparent);
+  --surface-header: color-mix(in srgb, var(--surface-page) 88%, transparent);
+
+  /* borders */
+  --border: var(--c-slate-700);
+  --border-strong: var(--c-slate-600);
+  --border-accent: color-mix(in srgb, var(--accent) 40%, var(--border));
+
+  /* text */
+  --text: var(--c-slate-100);
+  --text-muted: var(--c-slate-400);
+  --text-heading: var(--text);
+  --text-subheading: var(--text);
+
+  /* interaction */
+  --accent: var(--c-red-500); /* brand / selection colour */
+  --accent-strong: var(--c-red-600); /* filled accent behind white text */
+  --accent-fill: var(--accent-strong); /* background of accent buttons (may be a gradient) */
+  --accent-fill-hover: var(--c-red-500);
+  --on-accent: var(--c-white);
+  --highlight: var(--c-gold-500); /* current speaker, focus, secondary emphasis */
+  --focus-ring: var(--highlight);
+  --glow: none;
+  --glow-strong: none;
+
+  /* primary button: light-on-dark in classic */
+  --btn-primary-bg: var(--c-slate-100);
+  --btn-primary-bg-hover: var(--c-white);
+  --btn-primary-text: var(--c-slate-950);
+  /* secondary call to action ("Next") */
+  --btn-cta-bg: var(--accent-fill);
+  --btn-cta-bg-hover: var(--accent-fill-hover);
+  --btn-cta-text: var(--on-accent);
+  --btn-cta-border: transparent;
+
+  /* status */
+  --success: var(--c-green-500);
+  --success-text: var(--c-green-300);
+  --warning: var(--c-amber-500);
+  --danger: var(--c-red-500);
+  --danger-text: var(--c-red-300);
+
+  /* teams */
+  --team-town: var(--c-green-300);
+  --team-mafia: var(--c-red-300);
+  --team-neutral: var(--c-violet-300);
+
+  /* roles (data colours; built-in roles reference these) */
+  --role-civilian: #4fae72;
+  --role-mafia: #e5484d;
+  --role-don: #e8703a;
+  --role-sheriff: #e0a526;
+  --role-doctor: #3c8ddb;
+  --role-maniac: #a46cf0;
+  --role-lover: #e86aa6;
+  --role-custom-1: #16a085;
+  --role-custom-2: #e07020;
+  --role-custom-3: #8a969a;
+  --role-custom-4: #d0453a;
+  --role-custom-5: #3a90cc;
+  --role-custom-6: #9b55c0;
+  --role-custom-7: #35b56a;
+
+  /* timer ring (solid in classic, gradient stops used by neon) */
+  --timer-ring: var(--text);
+  --timer-grad-1: var(--c-pink-500);
+  --timer-grad-2: var(--c-orange-500);
+  --timer-grad-3: var(--c-cyan-500);
+
+  /* phase tint for the main game panel */
+  --phase-tint: var(--surface-1);
+  --phase-border: var(--border);
+
+  /* shadows */
+  --shadow: 0 8px 30px color-mix(in srgb, var(--c-black) 35%, transparent);
+}
+
+/* ---------- 3a. neon theme ---------- */
+:root[data-theme='neon'] {
+  --surface-page: var(--c-plum-900);
+  --surface-page-image:
+    radial-gradient(ellipse 90% 45% at 50% -5%, color-mix(in srgb, var(--c-orange-500) 38%, transparent), transparent 70%),
+    radial-gradient(ellipse 70% 40% at 15% 0%, color-mix(in srgb, var(--c-pink-500) 32%, transparent), transparent 70%),
+    radial-gradient(ellipse 60% 35% at 90% 5%, color-mix(in srgb, var(--c-violet-500) 35%, transparent), transparent 70%),
+    radial-gradient(ellipse 90% 28% at 50% 104%, color-mix(in srgb, var(--c-pink-500) 40%, transparent), transparent 75%),
+    linear-gradient(180deg, #2a0f45 0%, var(--c-plum-900) 45%, var(--c-plum-950) 100%);
+  --surface-1: color-mix(in srgb, var(--c-plum-850) 88%, transparent);
+  --surface-2: var(--c-plum-750);
+  --surface-3: var(--c-plum-700);
+  --surface-inset: color-mix(in srgb, var(--c-plum-950) 80%, transparent);
+  --surface-header: color-mix(in srgb, var(--c-plum-900) 75%, transparent);
+
+  --border: var(--c-plum-600);
+  --border-strong: var(--c-plum-400);
+
+  --text: var(--c-plum-100);
+  --text-muted: var(--c-plum-400);
+  --text-heading: #ffd6ea;
+  --text-subheading: #ffe3c7;
+
+  --accent: var(--c-pink-500);
+  --accent-strong: var(--c-pink-500);
+  --accent-fill: linear-gradient(90deg, var(--c-pink-500), var(--c-orange-500));
+  --accent-fill-hover: linear-gradient(90deg, var(--c-pink-300), var(--c-orange-300));
+  --on-accent: #24081b; /* dark text: ≥ 5:1 on both ends of the gradient */
+  --highlight: var(--c-cyan-500);
+  --focus-ring: var(--c-cyan-500);
+  --glow: 0 0 18px color-mix(in srgb, var(--accent) 45%, transparent);
+  --glow-strong: 0 0 26px color-mix(in srgb, var(--accent) 70%, transparent);
+
+  --btn-primary-bg: var(--accent-fill);
+  --btn-primary-bg-hover: var(--accent-fill-hover);
+  --btn-primary-text: var(--on-accent);
+  --btn-cta-bg: transparent;
+  --btn-cta-bg-hover: color-mix(in srgb, var(--highlight) 14%, transparent);
+  --btn-cta-text: var(--highlight);
+  --btn-cta-border: var(--highlight);
+
+  --success: var(--c-mint-500);
+  --success-text: var(--c-mint-500);
+  --warning: #ffb03d;
+  --danger: #ff4560;
+  --danger-text: #ff9aa6;
+
+  --team-town: #7ee8a6;
+  --team-mafia: #ff8a9a;
+  --team-neutral: var(--c-violet-300);
+
+  --role-civilian: #4cd68a;
+  --role-mafia: #ff5a6e;
+  --role-don: #ff8a4c;
+  --role-sheriff: #ffc94d;
+  --role-doctor: #4db8ff;
+  --role-maniac: #b57bff;
+  --role-lover: #ff7ac6;
+
+  --timer-ring: var(--c-white);
+  --phase-tint: var(--surface-1);
+  --phase-border: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* ---------- 3b. game phases (both themes) ----------
+   html[data-phase] is set while the Game tab shows night / day / voting. */
+
+:root[data-phase='night'] {
+  --surface-1: color-mix(in srgb, var(--c-navy-900) 92%, transparent);
+  --surface-2: var(--c-navy-800);
+  --surface-3: var(--c-navy-700);
+  --border: var(--c-navy-700);
+  --text-muted: var(--c-navy-400);
+  --highlight: #8fa8ff;
+  --phase-tint: color-mix(in srgb, var(--c-navy-850) 92%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-blue-500) 35%, transparent);
+}
+:root[data-phase='day'] {
+  --surface-1: color-mix(in srgb, #2a2018 95%, transparent);
+  --surface-2: #3a2c20;
+  --surface-3: #4a3828;
+  --border: #5c4630;
+  --phase-tint: color-mix(in srgb, #3a2c18 92%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-gold-500) 35%, transparent);
+}
+:root[data-phase='voting'] {
+  --surface-1: color-mix(in srgb, #2a1418 92%, transparent);
+  --border: #5c2a33;
+  --phase-tint: color-mix(in srgb, #3a161e 92%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-red-500) 40%, transparent);
+}
+
+/* neon × phase */
+:root[data-theme='neon'][data-phase='night'] {
+  --surface-1: color-mix(in srgb, var(--c-navy-900) 85%, transparent);
+  --surface-2: var(--c-navy-800);
+  --surface-3: var(--c-navy-700);
+  --border: var(--c-navy-700);
+  --text-muted: var(--c-navy-400);
+  --text-heading: var(--c-navy-100);
+  --text-subheading: var(--c-cyan-300);
+  --accent: var(--c-cyan-500);
+  --accent-strong: var(--c-cyan-500);
+  --accent-fill: linear-gradient(90deg, var(--c-cyan-300), var(--c-cyan-500));
+  --accent-fill-hover: linear-gradient(90deg, var(--c-white), var(--c-cyan-300));
+  --on-accent: #04122a;
+  --highlight: #8fa8ff;
+  --timer-grad-1: var(--c-indigo-500);
+  --timer-grad-2: var(--c-cyan-500);
+  --timer-grad-3: var(--c-cyan-300);
+  --focus-ring: var(--c-cyan-300);
+  --phase-tint: color-mix(in srgb, var(--c-navy-850) 90%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-cyan-500) 35%, transparent);
+}
+:root[data-theme='neon'][data-phase='day'] {
+  --surface-1: color-mix(in srgb, var(--c-ember-850) 92%, transparent);
+  --surface-2: #4a1a3e;
+  --surface-3: #5c2450;
+  --border: var(--c-ember-700);
+  --text-muted: var(--c-ember-400);
+  --text-heading: var(--c-ember-100);
+  --accent: var(--c-orange-500);
+  --timer-grad-1: var(--c-gold-300);
+  --timer-grad-2: var(--c-orange-500);
+  --timer-grad-3: var(--c-pink-500);
+  --phase-tint: color-mix(in srgb, #5a1e3c 88%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-orange-300) 45%, transparent);
+}
+:root[data-theme='neon'][data-phase='voting'] {
+  --surface-1: color-mix(in srgb, var(--c-wine-850) 88%, transparent);
+  --border: var(--c-wine-700);
+  --accent: var(--c-crimson-500);
+  --timer-grad-1: var(--c-crimson-500);
+  --timer-grad-2: var(--c-pink-500);
+  --timer-grad-3: var(--c-orange-300);
+  --phase-tint: color-mix(in srgb, #4a0d30 90%, transparent);
+  --phase-border: color-mix(in srgb, var(--c-crimson-500) 45%, transparent);
+}

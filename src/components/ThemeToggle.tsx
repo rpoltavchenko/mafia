@@ -10,7 +10,9 @@ export default function ThemeToggle() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'neon' ? '#140a26' : '#0f1115');
+    // Browser UI colour follows the page surface token
+    const surface = getComputedStyle(document.documentElement).getPropertyValue('--surface-page').trim();
+    if (surface) document.querySelector('meta[name="theme-color"]')?.setAttribute('content', surface);
     try {
       localStorage.setItem(KEY, theme);
     } catch {

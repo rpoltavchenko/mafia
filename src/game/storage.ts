@@ -1,4 +1,5 @@
 import { DEFAULT_SETTINGS } from './reducer';
+import { BUILTIN_ROLES } from './roles';
 import type { GameState } from './types';
 
 const KEY = 'mafia-game-v1';
@@ -13,6 +14,11 @@ export function loadGame(): GameState | null {
     return {
       ...parsed,
       settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
+      // Built-in roles always take their colour from the current theme tokens
+      roles: parsed.roles.map((r) => {
+        const builtin = BUILTIN_ROLES.find((b) => b.id === r.id);
+        return builtin && !r.custom ? { ...r, color: builtin.color } : r;
+      }),
       speech: { ...parsed.speech, discussionDone: parsed.speech?.discussionDone ?? true },
       vote: { ...parsed.vote, nominatedBy: parsed.vote?.nominatedBy ?? {} },
     };

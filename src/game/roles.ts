@@ -1,13 +1,14 @@
 import type { RoleDef } from './types';
 
+/** Role colours are CSS tokens so each theme can tune them (see tokens.css). */
 export const BUILTIN_ROLES: RoleDef[] = [
-  { id: 'civilian', team: 'town', nightAction: 'none', color: '#4f9d69' },
-  { id: 'mafia', team: 'mafia', nightAction: 'kill', color: '#d64545' },
-  { id: 'don', team: 'mafia', nightAction: 'donCheck', color: '#8f1d1d' },
-  { id: 'sheriff', team: 'town', nightAction: 'check', color: '#e0a526' },
-  { id: 'doctor', team: 'town', nightAction: 'heal', color: '#3c8ddb' },
-  { id: 'maniac', team: 'neutral', nightAction: 'kill', color: '#9b59b6' },
-  { id: 'lover', team: 'town', nightAction: 'none', color: '#e86aa6' },
+  { id: 'civilian', team: 'town', nightAction: 'none', color: 'var(--role-civilian)' },
+  { id: 'mafia', team: 'mafia', nightAction: 'kill', color: 'var(--role-mafia)' },
+  { id: 'don', team: 'mafia', nightAction: 'donCheck', color: 'var(--role-don)' },
+  { id: 'sheriff', team: 'town', nightAction: 'check', color: 'var(--role-sheriff)' },
+  { id: 'doctor', team: 'town', nightAction: 'heal', color: 'var(--role-doctor)' },
+  { id: 'maniac', team: 'neutral', nightAction: 'kill', color: 'var(--role-maniac)' },
+  { id: 'lover', team: 'town', nightAction: 'none', color: 'var(--role-lover)' },
 ];
 
 /** Order in which roles wake up at night. Custom roles go after these. */
@@ -29,4 +30,5 @@ export function suggestRoleCounts(n: number): Record<string, number> {
   return counts;
 }
 
-export const CUSTOM_COLORS = ['#16a085', '#d35400', '#7f8c8d', '#c0392b', '#2980b9', '#8e44ad', '#27ae60'];
+/** Custom roles cycle through these theme-aware colours (see tokens.css). */
+export const CUSTOM_COLORS = Array.from({ length: 7 }, (_, i) => `var(--role-custom-${i + 1})`);

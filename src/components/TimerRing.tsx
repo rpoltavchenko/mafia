@@ -30,9 +30,9 @@ export default function TimerRing({ remainingMs, totalMs, label, footer }: Props
       <svg className="timer-ring" viewBox="0 0 200 200" aria-hidden>
         <defs>
           <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ff3d9a" />
-            <stop offset="55%" stopColor="#ff9e3d" />
-            <stop offset="100%" stopColor="#2de2e6" />
+            <stop offset="0%" style={{ stopColor: 'var(--timer-grad-1)' }} />
+            <stop offset="55%" style={{ stopColor: 'var(--timer-grad-2)' }} />
+            <stop offset="100%" style={{ stopColor: 'var(--timer-grad-3)' }} />
           </linearGradient>
         </defs>
         <circle className="ring-bg" cx="100" cy="100" r={R} />
