@@ -1,3 +1,5 @@
+import PlayerLabel from '../components/PlayerLabel';
+import { playerText } from '../game/players';
 import { useState } from 'react';
 import PlayerTimer from '../components/PlayerTimer';
 import Stepper from '../components/Stepper';
@@ -12,7 +14,6 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
   const { vote } = state;
   const [timerIndex, setTimerIndex] = useState(0);
   const byId = (id: string) => state.players.find((p) => p.id === id);
-  const seatOf = (p: Player) => state.players.indexOf(p) + 1;
   const alive = state.players.filter((p) => p.alive);
   const nominees = vote.nominees.map(byId).filter((p): p is Player => !!p);
   const counted = effectiveVotes(state);
@@ -34,19 +35,19 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
       {vote.stage === 'nominate' && (
         <>
           <p className="muted">{t('vote.nominate')}</p>
-          <div className="chips">
+          <div className="player-grid">
             {alive.map((p) => {
               const on = vote.nominees.includes(p.id);
               return (
-                <button key={p.id} className={`chip ${on ? 'is-selected' : ''}`} onClick={() => dispatch({ type: 'TOGGLE_NOMINEE', id: p.id })} aria-pressed={on}>
-                  <span className="seat">{seatOf(p)}</span> {p.name}
+                <button key={p.id} className={`chip chip-player ${on ? 'is-selected' : ''}`} onClick={() => dispatch({ type: 'TOGGLE_NOMINEE', id: p.id })} aria-pressed={on}>
+                  <PlayerLabel id={p.id} />
                 </button>
               );
             })}
           </div>
           {nominees.length > 0 && (
             <p>
-              {t('vote.nominees')}: <strong>{nominees.map((p) => p.name).join(', ')}</strong>
+              {t('vote.nominees')}: <strong>{nominees.map((p) => playerText(state.players, p.id)).join(', ')}</strong>
             </p>
           )}
           <div className="panel-footer">
@@ -70,8 +71,9 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
               const value = vote.votes[p.id] ?? 0;
               return (
                 <li key={p.id} className={isLast ? 'is-last' : ''}>
-                  <span className="seat">{seatOf(p)}</span>
-                  <span className="vote-name">{p.name}</span>
+                  <span className="vote-name">
+                    <PlayerLabel id={p.id} size="lg" />
+                  </span>
                   {isLast ? (
                     <span className="vote-auto">
                       <small className="muted">{t('vote.remaining')}</small>
@@ -83,7 +85,7 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
                       value={value}
                       max={value + Math.max(0, alive.length - given)}
                       onChange={(v) => dispatch({ type: 'SET_VOTES', id: p.id, votes: v })}
-                      label={p.name}
+                      label={playerText(state.players, p.id)}
                     />
                   )}
                 </li>
@@ -124,7 +126,7 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
         <>
           <p className="tag is-warn">{t('vote.tie')}</p>
           <p>
-            <strong>{nominees.map((p) => p.name).join(', ')}</strong>
+            <strong>{nominees.map((p) => playerText(state.players, p.id)).join(', ')}</strong>
           </p>
           <div className="panel-footer">
             <button className="btn" onClick={() => dispatch({ type: 'NO_ELIMINATION' })}>

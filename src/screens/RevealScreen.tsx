@@ -1,3 +1,5 @@
+import PlayerLabel from '../components/PlayerLabel';
+import { playerText } from '../game/players';
 import { useState } from 'react';
 import Modal from '../components/Modal';
 import { useGame } from '../game/GameContext';
@@ -21,10 +23,9 @@ export default function RevealScreen() {
         </div>
         <p>{t('reveal.progress', { seen, total: state.players.length })}</p>
         <div className="reveal-grid">
-          {state.players.map((p, i) => (
+          {state.players.map((p) => (
             <button key={p.id} className={`reveal-btn ${p.seen ? 'is-seen' : ''}`} onClick={() => setCurrent(p)}>
-              <span className="seat">{i + 1}</span>
-              <span>{p.name}</span>
+              <PlayerLabel id={p.id} size="lg" />
               {p.seen && <small>✓ {t('reveal.seen')}</small>}
             </button>
           ))}
@@ -58,7 +59,9 @@ function RevealCard({ player, onDone, onCancel }: { player: Player; onDone: () =
       {!shown ? (
         <button className="reveal-cover" onClick={() => setShown(true)}>
           <span className="muted">{t('reveal.handTo')}</span>
-          <strong className="reveal-name">{player.name}</strong>
+          <strong className="reveal-name">
+            <PlayerLabel id={player.id} size="lg" />
+          </strong>
           <span className="reveal-tap">👆 {t('reveal.tapToSee')}</span>
         </button>
       ) : (
@@ -73,7 +76,7 @@ function RevealCard({ player, onDone, onCancel }: { player: Player; onDone: () =
           {mates.length > 0 && (
             <div className="mates">
               <span className="muted">{t('reveal.teamMates')}:</span>{' '}
-              {mates.map((m) => `${m.name} (${roleName(roleById.get(m.roleId!))})`).join(', ')}
+              {mates.map((m) => `${playerText(state.players, m.id)} (${roleName(roleById.get(m.roleId!))})`).join(', ')}
             </div>
           )}
           <button className="btn btn-primary btn-lg" onClick={onDone}>

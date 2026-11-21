@@ -1,3 +1,4 @@
+import PlayerLabel from '../components/PlayerLabel';
 import LogView from '../components/LogView';
 import RoleBadge from '../components/RoleBadge';
 import { useGame } from '../game/GameContext';
@@ -18,10 +19,11 @@ export default function EndScreen() {
         <section className="card">
           <h3>{t('end.roles')}</h3>
           <ul className="end-roles">
-            {state.players.map((p, i) => (
+            {state.players.map((p) => (
               <li key={p.id} className={p.alive ? '' : 'is-dead'}>
-                <span className="seat">{i + 1}</span>
-                <span className="end-name">{p.name}</span>
+                <span className="end-name">
+                  <PlayerLabel id={p.id} />
+                </span>
                 <RoleBadge role={p.roleId ? roleById.get(p.roleId) : undefined} />
               </li>
             ))}

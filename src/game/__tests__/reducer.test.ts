@@ -236,3 +236,20 @@ describe('introduction round (Round 0)', () => {
     expect(s.speech.queue[0]).toBe(s.players[1].id);
   });
 });
+
+describe('player labels in the log', () => {
+  it('always lead with the seat number', () => {
+    let s = gameWith([p('m', 'mafia'), p('a', 'civilian'), p('b', 'civilian'), p('c', 'civilian')]);
+    s = { ...s, players: s.players.map((x, i) => (i === 1 ? { ...x, name: 'Anna' } : { ...x, name: `#${i + 1}` })) };
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'mafia', targetId: 'a' });
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'mafia', targetId: 'a' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.log.find((l) => l.key === 'log.killed')?.params?.name).toBe('#2 Anna');
+    s = reducer({ ...s, phase: 'day' }, { type: 'GO_VOTING' });
+    s = reducer(s, { type: 'TOGGLE_NOMINEE', id: 'c' });
+    s = reducer(s, { type: 'START_VOTE' });
+    s = reducer(s, { type: 'RESOLVE_VOTE' });
+    // default names are not repeated next to the number
+    expect(s.log.find((l) => l.key === 'log.votedOut')?.params?.name).toBe('#4');
+  });
+});

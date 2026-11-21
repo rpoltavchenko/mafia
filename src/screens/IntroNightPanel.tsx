@@ -1,3 +1,4 @@
+import { playerText } from '../game/players';
 import { useMemo, useState } from 'react';
 import DiscussionTimer from '../components/DiscussionTimer';
 import { useGame } from '../game/GameContext';
@@ -15,7 +16,7 @@ export default function IntroNightPanel({ hideRoles }: { hideRoles: boolean }) {
 
   // The Don meets together with the Mafia team, so drop the Don's separate step
   const steps = useMemo(() => nightSteps(state.players, state.roles).filter((s) => s.action !== 'donCheck'), [state.players, state.roles]);
-  const nameOf = (id: string) => state.players.find((p) => p.id === id)?.name ?? '?';
+  const nameOf = (id: string) => playerText(state.players, id);
   const labelOf = (i: number) => (steps[i].id === 'mafia' ? t('night.mafiaActors') : roleName(roleById.get(steps[i].roleId)));
   const secondsOf = (i: number) => (steps[i].id === 'mafia' ? state.settings.introMafiaSeconds : state.settings.introRoleSeconds);
   const step = steps[current];

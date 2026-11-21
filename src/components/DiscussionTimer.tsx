@@ -44,6 +44,7 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel, lab
         <button className="btn btn-primary btn-lg timer-main" onClick={toggle}>
           {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
         </button>
+        <div className="timer-secondary">
         <button className="btn" onClick={() => timer.addTime(10)}>
           {t('timer.add')}
         </button>
@@ -53,6 +54,7 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel, lab
         <button className="btn btn-accent" onClick={onDone}>
           {doneLabel}
         </button>
+        </div>
       </div>
       <p className="muted small keys-hint">{t('timer.keys')}</p>
       </div>

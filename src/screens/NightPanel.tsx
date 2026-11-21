@@ -1,3 +1,5 @@
+import { playerText } from '../game/players';
+import PlayerLabel from '../components/PlayerLabel';
 import { useGame } from '../game/GameContext';
 import { checkResult, nightSteps } from '../game/night';
 import { useI18n } from '../i18n/I18nContext';
@@ -7,7 +9,7 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
   const { t, tk, roleName } = useI18n();
   const steps = nightSteps(state.players, state.roles);
   const alive = state.players.filter((p) => p.alive);
-  const nameOf = (id: string) => state.players.find((p) => p.id === id)?.name ?? '?';
+  const nameOf = (id: string) => playerText(state.players, id);
 
   return (
     <div className="card night-panel">
@@ -41,15 +43,15 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
                   </span>
                 )}
               </div>
-              <div className="chips">
+              <div className="player-grid">
                 {alive.map((p) => (
                   <button
                     key={p.id}
-                    className={`chip ${target === p.id ? 'is-selected' : ''}`}
+                    className={`chip chip-player ${target === p.id ? 'is-selected' : ''}`}
                     onClick={() => dispatch({ type: 'NIGHT_TARGET', stepId: step.id, targetId: target === p.id ? null : p.id })}
                     aria-pressed={target === p.id}
                   >
-                    <span className="seat">{state.players.indexOf(p) + 1}</span> {p.name}
+                    <PlayerLabel id={p.id} />
                   </button>
                 ))}
               </div>

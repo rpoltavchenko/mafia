@@ -1,4 +1,5 @@
 import { assignRoles } from './assign';
+import { playerText } from './players';
 import { resolveNight } from './night';
 import { BUILTIN_ROLES, CUSTOM_COLORS, suggestRoleCounts } from './roles';
 import type { GameState, LogEntry, NightAction, Player, Settings, Team, VoteState } from './types';
@@ -114,8 +115,9 @@ export function rolesTotal(counts: Record<string, number>): number {
   return Object.values(counts).reduce((a, b) => a + b, 0);
 }
 
+/** Players are always referred to number first in the log: "#5 Anna". */
 function nameOf(state: GameState, id: string): string {
-  return state.players.find((p) => p.id === id)?.name ?? '?';
+  return playerText(state.players, id);
 }
 
 function addLog(state: GameState, entry: Omit<LogEntry, 'round'>): LogEntry[] {

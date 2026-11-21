@@ -1,3 +1,4 @@
+import { displayName } from '../game/players';
 import { useState } from 'react';
 import type { Player, RoleDef } from '../game/types';
 import { useI18n } from '../i18n/I18nContext';
@@ -32,20 +33,20 @@ export default function PlayerTile({ player, seat, role, hideRoles, status = nul
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-current={status === 'speaking' ? 'true' : undefined}
-        aria-label={`${seat}. ${player.name}${label ? ` — ${label}` : ''}`}
+        aria-label={`#${seat} ${displayName(player, seat)}${label ? ` — ${label}` : ''}`}
       >
         <span className="tile-seat" aria-hidden>
           {seat}
         </span>
         <span className="tile-body">
-          <span className="tile-name">{player.name}</span>
+          {displayName(player, seat) && <span className="tile-name">{displayName(player, seat)}</span>}
+          {label && (
+            <span className="tile-status">
+              {status === 'speaking' && player.alive && <span aria-hidden>🎤 </span>}
+              {label}
+            </span>
+          )}
           <span className="tile-meta">
-            {label && (
-              <span className="tile-status">
-                {status === 'speaking' && player.alive && <span aria-hidden>🎤 </span>}
-                {label}
-              </span>
-            )}
             <RoleBadge role={role} hidden={hideRoles} />
             {player.fouls > 0 && (
               <span className={`fouls ${player.fouls >= 3 ? 'is-warn' : ''}`} title={t('game.fouls', { n: player.fouls })}>

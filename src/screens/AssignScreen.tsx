@@ -1,3 +1,5 @@
+import PlayerLabel from '../components/PlayerLabel';
+import { playerText } from '../game/players';
 import RoleBadge from '../components/RoleBadge';
 import { useGame } from '../game/GameContext';
 import { useI18n } from '../i18n/I18nContext';
@@ -26,17 +28,18 @@ export default function AssignScreen() {
         <p className="muted">{t('assign.hint')}</p>
         {diffs.length > 0 && <p className="warn">⚠️ {t('assign.countWarning', { details: diffs.join(', ') })}</p>}
         <ul className="assign-list">
-          {state.players.map((p, i) => {
+          {state.players.map((p) => {
             const role = p.roleId ? roleById.get(p.roleId) : undefined;
             return (
               <li key={p.id} style={role ? ({ '--role': role.color } as React.CSSProperties) : undefined}>
-                <span className="seat">{i + 1}</span>
-                <span className="assign-name">{p.name}</span>
+                <span className="assign-name">
+                  <PlayerLabel id={p.id} />
+                </span>
                 <RoleBadge role={role} />
                 <select
                   value={p.roleId ?? ''}
                   onChange={(e) => dispatch({ type: 'SET_PLAYER_ROLE', id: p.id, roleId: e.target.value || null })}
-                  aria-label={`${p.name}`}
+                  aria-label={playerText(state.players, p.id)}
                 >
                   <option value="">{t('assign.noRole')}</option>
                   {state.roles.map((r) => (

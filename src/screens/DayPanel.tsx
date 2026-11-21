@@ -1,3 +1,5 @@
+import { playerText, seatOf } from '../game/players';
+import PlayerLabel from '../components/PlayerLabel';
 import DiscussionTimer from '../components/DiscussionTimer';
 import PlayerTimer from '../components/PlayerTimer';
 import { useGame } from '../game/GameContext';
@@ -9,7 +11,6 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
   const { t } = useI18n();
   const { vote } = state;
   const byId = (id: string) => state.players.find((p) => p.id === id);
-  const seatOf = (p: Player) => state.players.indexOf(p) + 1;
   const alive = state.players.filter((p) => p.alive);
   const queue = state.speech.queue.map(byId).filter((p): p is Player => !!p && p.alive);
   const dayZero = state.round === 0; // introduction day: speeches only, no voting
@@ -20,9 +21,9 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
     return (
       <div className="nominate-box">
         <p className="nominate-title">
-          🗳️ {t('day.nominates', { name: speaker.name })}
+          🗳️ {t('day.nominates', { name: playerText(state.players, speaker.id) })}
         </p>
-        <div className="chips">
+        <div className="player-grid">
           {alive
             .filter((p) => p.id !== speaker.id)
             .map((p) => {
@@ -30,13 +31,13 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
               return (
                 <button
                   key={p.id}
-                  className={`chip ${mine === p.id ? 'is-selected' : ''}`}
+                  className={`chip chip-player ${mine === p.id ? 'is-selected' : ''}`}
                   disabled={takenByOther}
                   title={takenByOther ? t('day.alreadyNominated') : undefined}
                   onClick={() => dispatch({ type: 'NOMINATE', by: speaker.id, target: mine === p.id ? null : p.id })}
                   aria-pressed={mine === p.id}
                 >
-                  <span className="seat">{seatOf(p)}</span> {p.name}
+                  <PlayerLabel id={p.id} />
                 </button>
               );
             })}
@@ -84,21 +85,22 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
 
       {!dayZero && (
       <div className="nominee-summary">
-        <strong>{t('vote.nominees')}:</strong>{' '}
+        <strong>{t('vote.nominees')}:</strong>
+        <div className="nominee-pills">
         {vote.nominees.length === 0 ? (
           <span className="muted">{t('day.noNominees')}</span>
         ) : (
           vote.nominees.map((id, i) => {
-            const p = byId(id);
-            const by = byId(vote.nominatedBy[id]);
+            const by = vote.nominatedBy[id];
             return (
-              <span key={id} className="nominee-pill">
-                {i + 1}. {p?.name}
-                {by && <small className="muted"> ← {by.name}</small>}
+              <span key={id} className="nominee-pill" title={`${i + 1}`}>
+                <PlayerLabel id={id} />
+                {by && <small className="muted">← #{seatOf(state.players, by)}</small>}
               </span>
             );
           })
         )}
+        </div>
       </div>
       )}
 

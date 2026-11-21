@@ -12,14 +12,14 @@ export default function PhaseCurtain() {
   const { state } = useGame();
   const { tk } = useI18n();
   const key = `${state.phase}-${state.round}`;
-  const first = useRef(true);
+  const prevKey = useRef<string | null>(null);
   const [shown, setShown] = useState<string | null>(null);
 
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
+    // Only on a real phase change — not on page load (and not on React's dev double-run)
+    const prev = prevKey.current;
+    prevKey.current = key;
+    if (prev === null || prev === key) return;
     if (state.phase !== 'night' && state.phase !== 'day' && state.phase !== 'voting') return;
     setShown(key);
     const id = window.setTimeout(() => setShown(null), 1900);

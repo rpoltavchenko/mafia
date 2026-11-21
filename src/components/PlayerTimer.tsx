@@ -1,3 +1,4 @@
+import PlayerLabel from './PlayerLabel';
 import { useEffect, useRef, type ReactNode } from 'react';
 import TimerRing, { timerLevel } from './TimerRing';
 import { useTimerKeys } from '../hooks/useSpaceToggle';
@@ -68,7 +69,6 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
   }
 
   const level = timerLevel(timer.status, timer.remainingMs);
-  const seat = state.players.findIndex((p) => p.id === current.id) + 1;
   const upNext = queue.slice(index + 1);
 
   return (
@@ -86,7 +86,7 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
         totalMs={timer.totalMs}
         label={
           <>
-            <span className="seat">{seat}</span> {current.name}
+            <PlayerLabel id={current.id} size="lg" />
           </>
         }
         footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
@@ -94,11 +94,12 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
 
       <div className="timer-side">
       <div className="timer-controls">
-        <button className="btn" onClick={prev} disabled={index === 0} aria-label="previous">
-          {t('timer.prev')}
-        </button>
         <button className="btn btn-primary btn-lg timer-main" onClick={toggle}>
           {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
+        </button>
+        <div className="timer-secondary">
+        <button className="btn" onClick={prev} disabled={index === 0} aria-label="previous">
+          {t('timer.prev')}
         </button>
         <button className="btn" onClick={() => timer.addTime(10)}>
           {t('timer.add')}
@@ -109,16 +110,17 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
         <button className="btn btn-accent" onClick={next}>
           {t('timer.next')}
         </button>
+        </div>
       </div>
       {upNext.length > 0 && (
         <div className="queue">
           <span className="muted">{t('timer.upNext')}:</span>
-          {upNext.slice(0, 4).map((p) => (
-            <button key={p.id} className="chip" onClick={() => onIndexChange(queue.indexOf(p))}>
-              {p.name}
+          {upNext.slice(0, 3).map((p) => (
+            <button key={p.id} className="chip chip-player" onClick={() => onIndexChange(queue.indexOf(p))}>
+              <PlayerLabel id={p.id} />
             </button>
           ))}
-          {upNext.length > 4 && <span className="muted">+{upNext.length - 4}</span>}
+          {upNext.length > 3 && <span className="queue-more muted">+{upNext.length - 3}</span>}
         </div>
       )}
       <p className="muted small keys-hint">{t('timer.keys')}</p>
