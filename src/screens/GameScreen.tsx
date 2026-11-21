@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import HostLineCard from '../components/HostLineCard';
 import LogView from '../components/LogView';
 import PlayerTile from '../components/PlayerTile';
 import { useGame } from '../game/GameContext';
@@ -60,6 +61,7 @@ export default function GameScreen() {
         </div>
 
         <aside className="game-side">
+          <HostLineCard />
           <div className="tiles">
             {state.players.map((p, i) => (
               <PlayerTile

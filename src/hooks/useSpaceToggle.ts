@@ -14,6 +14,8 @@ export function useTimerKeys(handlers: Handlers) {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+      // Timers keep running in the background while the Rules / Host lines tabs are open
+      if (document.body.dataset.view && document.body.dataset.view !== 'game') return;
       if (e.code === 'Space') {
         e.preventDefault();
         ref.current.toggle();

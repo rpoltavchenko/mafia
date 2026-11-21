@@ -1216,3 +1216,152 @@ button:focus-visible {
   font-size: 1.4rem;
   font-variant-numeric: tabular-nums;
 }
+
+/* ---------- section tabs ---------- */
+
+.views button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.85rem;
+}
+@media (min-width: 861px) {
+  /* keep the header layout stable when the steps are hidden on other tabs */
+  .topbar .steps[hidden] {
+    display: flex;
+    visibility: hidden;
+  }
+}
+
+/* ---------- rules ---------- */
+
+.rules-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.rules-head p {
+  margin: 0;
+}
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+.rules-section ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.rules-section li::marker {
+  color: var(--accent);
+}
+
+/* ---------- host lines ---------- */
+
+.featured-line {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 2rem 1.2rem;
+  background: radial-gradient(circle at 50% 0%, #3a1c22, var(--card) 70%);
+}
+.featured-cat {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+.line {
+  margin: 0;
+}
+.line p {
+  margin: 0;
+}
+.line cite {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-style: normal;
+}
+.line.is-big p {
+  font-size: clamp(1.3rem, 4vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 36ch;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.line-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.line-list li {
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  border-left: 3px solid var(--accent);
+}
+.host-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border-color: color-mix(in srgb, var(--accent-2) 35%, var(--line));
+}
+.host-card .line p {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+}
+
+@media (max-width: 520px) {
+  .view-label {
+    display: none;
+  }
+  .views button {
+    padding: 0.3rem 0.6rem;
+    font-size: 1rem;
+  }
+  .brand > span:last-child {
+    display: none;
+  }
+}
+
+/* ---------- print (rules) ---------- */
+
+@media print {
+  :root {
+    --bg: #fff;
+    --card: #fff;
+    --text: #000;
+    --muted: #444;
+    --line: #ccc;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+  .topbar,
+  .no-print,
+  .footer-bar {
+    display: none !important;
+  }
+  .card {
+    break-inside: avoid;
+    border-color: #ccc;
+  }
+}
