@@ -7,6 +7,12 @@ export const uk: Dict = {
 
   'theme.neon': 'Неонова тема',
   'theme.classic': 'Класична тема',
+  'curtain.night': 'Ніч {round}',
+  'curtain.nightSub': 'Місто засинає',
+  'curtain.day': 'День {round}',
+  'curtain.daySub': 'Місто прокидається',
+  'curtain.voting': 'Голосування',
+  'curtain.votingSub': 'Місто вирішує',
   'nav.game': 'Гра',
   'nav.rules': 'Правила',
   'nav.host': 'Фрази',

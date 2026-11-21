@@ -30,12 +30,33 @@ export default function App() {
   const { state, dispatch } = useGame();
   const { t, tk } = useI18n();
   const current = stepIndex(state.phase);
-  const [view, setView] = useState<View>('game');
+  // #rules / #host in the URL opens that tab directly (handy for sharing a link)
+  const [view, setView] = useState<View>(() => {
+    const h = window.location.hash.slice(1);
+    return h === 'rules' || h === 'host' ? h : 'game';
+  });
+
+  useEffect(() => {
+    const onHash = () => {
+      const h = window.location.hash.slice(1);
+      setView(h === 'rules' || h === 'host' ? h : 'game');
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
 
   useEffect(() => {
     document.body.dataset.view = view;
     window.scrollTo(0, 0);
+    history.replaceState(null, '', view === 'game' ? window.location.pathname : `#${view}`);
   }, [view]);
+
+  // Day / night look during the game (drives the sky and colour palette)
+  const inGame = state.phase === 'night' || state.phase === 'day' || state.phase === 'voting';
+  const skyPhase = view === 'game' && inGame ? state.phase : 'none';
+  useEffect(() => {
+    document.documentElement.dataset.phase = skyPhase;
+  }, [skyPhase]);
 
   const reset = () => {
     if (window.confirm(t('app.resetConfirm'))) dispatch({ type: 'RESET' });
@@ -43,6 +64,17 @@ export default function App() {
 
   return (
     <div className="app">
+      <div className="sky" aria-hidden>
+        <div className="sky-layer sky-night">
+          <div className="stars" />
+          <div className="stars stars-2" />
+          <div className="moon" />
+        </div>
+        <div className="sky-layer sky-day">
+          <div className="sun" />
+        </div>
+        <div className="sky-layer sky-voting" />
+      </div>
       <header className="topbar">
         <div className="brand">
           <span className="brand-icon" aria-hidden>🎩</span>

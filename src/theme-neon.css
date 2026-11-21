@@ -51,7 +51,7 @@
   background: url('./assets/palm.svg') no-repeat bottom / contain;
   opacity: 0.85;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1; /* above the day/night sky, below the content */
   filter: drop-shadow(0 0 30px rgba(255, 61, 154, 0.25));
 }
 [data-theme='neon'] .app::before {
@@ -61,15 +61,6 @@
   right: -50px;
   transform: scaleX(-1);
   width: min(24vw, 210px);
-}
-[data-theme='neon'] .main,
-[data-theme='neon'] .topbar {
-  position: relative;
-  z-index: 1;
-}
-[data-theme='neon'] .topbar {
-  position: sticky;
-  z-index: 10;
 }
 
 /* ---------- typography ---------- */
@@ -428,4 +419,42 @@
     color: #000;
     text-shadow: none;
   }
+}
+
+/* ---------- rules sheet: readability first ---------- */
+
+[data-theme='neon'] .rules-doc {
+  background: rgba(18, 9, 34, 0.94);
+  border-color: rgba(255, 61, 154, 0.3);
+}
+[data-theme='neon'] .rules-title {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  text-shadow: 0 0 16px rgba(255, 61, 154, 0.5);
+}
+[data-theme='neon'] .rules-h {
+  font-size: 1.3rem;
+  color: #fff;
+  text-shadow: none;
+  border-bottom-color: rgba(255, 61, 154, 0.4);
+}
+[data-theme='neon'] .rules-num {
+  background: var(--sunset);
+}
+[data-theme='neon'] .rules-glance > div {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 158, 61, 0.3);
+}
+[data-theme='neon'] .rules-glance dd {
+  color: #ffd9b0;
+}
+[data-theme='neon'] .rules-doc strong {
+  color: #fff;
+}
+[data-theme='neon'] .rules-roles p,
+[data-theme='neon'] .rules-subtitle {
+  color: #cdbbe6;
 }

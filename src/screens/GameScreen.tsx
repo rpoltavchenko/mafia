@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import HostLineCard from '../components/HostLineCard';
+import PhaseCurtain from '../components/PhaseCurtain';
 import LogView from '../components/LogView';
 import PlayerTile from '../components/PlayerTile';
 import { useGame } from '../game/GameContext';
@@ -22,6 +23,7 @@ export default function GameScreen() {
 
   return (
     <div className={`screen game phase-${state.phase}`}>
+      <PhaseCurtain />
       <div className="game-header">
         <div className="game-title">
           <span className="phase-icon" aria-hidden>

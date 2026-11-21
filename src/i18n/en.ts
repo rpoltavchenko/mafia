@@ -5,6 +5,12 @@ export const en = {
 
   'theme.neon': 'Neon theme',
   'theme.classic': 'Classic theme',
+  'curtain.night': 'Night {round}',
+  'curtain.nightSub': 'The city falls asleep',
+  'curtain.day': 'Day {round}',
+  'curtain.daySub': 'The city wakes up',
+  'curtain.voting': 'Voting',
+  'curtain.votingSub': 'The city decides',
   'nav.game': 'Game',
   'nav.rules': 'Rules',
   'nav.host': 'Host lines',

@@ -1237,31 +1237,176 @@ button:focus-visible {
 
 /* ---------- rules ---------- */
 
-.rules-head {
+.rules {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.rules-actions {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.8rem;
   flex-wrap: wrap;
 }
-.rules-head p {
+.rules-actions p {
   margin: 0;
+  flex: 1 1 260px;
 }
-.rules-grid {
+.rules-doc {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.1rem, 4vw, 2.2rem);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+.rules-header {
+  margin-bottom: 1.2rem;
+}
+.rules-title {
+  margin: 0 0 0.3rem;
+  font-size: clamp(1.6rem, 6vw, 2.3rem);
+  line-height: 1.15;
+}
+.rules-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+.rules-glance {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1rem;
-  align-items: start;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
 }
-.rules-section ul {
-  margin: 0;
-  padding-left: 1.2rem;
+.rules-glance > div {
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+}
+.rules-glance dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  line-height: 1.2;
+}
+.rules-glance dd {
+  margin: 0.15rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.rules-body {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 1.6rem;
 }
-.rules-section li::marker {
+.rules-block {
+  break-inside: avoid;
+}
+.rules-h {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 2px solid var(--line);
+  font-size: 1.2rem;
+}
+.rules-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 800;
+  font-family: var(--font);
+  flex-shrink: 0;
+  text-shadow: none;
+}
+.rules-list {
+  margin: 0;
+  padding-left: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.rules-list li::marker {
   color: var(--accent);
+}
+.rules-doc strong {
+  font-weight: 700;
+  color: var(--text);
+}
+.rules-roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.rules-roles li {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+}
+.rules-role-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-top: 0.4rem;
+  border-radius: 50%;
+  background: var(--role);
+  flex-shrink: 0;
+}
+.rules-role-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.rules-role-count {
+  font-weight: 700;
+  color: var(--muted);
+}
+.rules-team {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.rules-team-mafia {
+  color: #ff7b7b;
+}
+.rules-team-town {
+  color: #7bd99a;
+}
+.rules-team-neutral {
+  color: #c79bff;
+}
+.rules-roles p {
+  margin: 0.1rem 0 0;
+  color: var(--muted);
+}
+
+@media (max-width: 640px) {
+  .rules-glance {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .rules-doc {
+    font-size: 1rem;
+  }
 }
 
 /* ---------- host lines ---------- */
@@ -1369,4 +1514,154 @@ button:focus-visible {
 /* gradient ring is only used by the neon theme */
 .ring-fg-grad {
   display: none;
+}
+
+/* ---------- printed rules sheet (both themes) ---------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 13mm 14mm;
+  }
+  :root,
+  :root[data-theme] {
+    color-scheme: light; /* otherwise the page margins print dark */
+  }
+  html,
+  body,
+  .app,
+  .main {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .sky,
+  .app::before,
+  .app::after {
+    display: none !important;
+  }
+  .main {
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  .screen {
+    padding: 0 !important;
+  }
+  .rules {
+    max-width: none;
+  }
+  .rules-doc {
+    background: #fff !important;
+    color: #000 !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    padding: 0 !important;
+    font: 10.5pt/1.45 'Inter', Arial, Helvetica, sans-serif !important;
+  }
+  .rules-header {
+    margin-bottom: 4mm;
+    padding-bottom: 3mm;
+    border-bottom: 2.5pt solid #000;
+  }
+  .rules-title {
+    font: 800 21pt/1.1 'Inter', Arial, Helvetica, sans-serif !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  .rules-subtitle {
+    color: #333 !important;
+    font-size: 10.5pt !important;
+  }
+  .rules-glance {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 0 !important;
+    margin-bottom: 5mm !important;
+    border: 1pt solid #000;
+  }
+  .rules-glance > div {
+    background: #fff !important;
+    border: 0 !important;
+    border-right: 1pt solid #000 !important;
+    border-radius: 0 !important;
+    padding: 2mm 1mm !important;
+  }
+  .rules-glance > div:last-child {
+    border-right: 0 !important;
+  }
+  .rules-glance dt {
+    color: #333 !important;
+    font-size: 7pt !important;
+  }
+  .rules-glance dd {
+    color: #000 !important;
+    font-size: 13pt !important;
+  }
+  .rules-body {
+    display: block !important;
+    columns: 2;
+    column-gap: 8mm;
+  }
+  .rules-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 5mm;
+  }
+  .rules-h {
+    font: 800 11.5pt/1.2 'Inter', Arial, Helvetica, sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.04em !important;
+    color: #000 !important;
+    text-shadow: none !important;
+    border-bottom: 1.2pt solid #000 !important;
+    padding-bottom: 1.2mm !important;
+    margin-bottom: 2mm !important;
+  }
+  .rules-num {
+    width: 5.5mm !important;
+    height: 5.5mm !important;
+    font-size: 8.5pt !important;
+    background: #000 !important;
+    color: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rules-list {
+    gap: 1.2mm !important;
+    padding-left: 4.5mm !important;
+  }
+  .rules-list li::marker {
+    color: #000 !important;
+  }
+  .rules-doc strong {
+    color: #000 !important;
+  }
+  .rules-roles {
+    gap: 2mm !important;
+  }
+  .rules-roles p {
+    color: #222 !important;
+  }
+  .rules-role-dot {
+    margin-top: 1.4mm !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .rules-team {
+    color: #000 !important;
+    font-size: 6.5pt !important;
+  }
+}
+
+@media (max-width: 440px) {
+  .topbar {
+    gap: 0.5rem;
+  }
+  .brand {
+    display: none; /* the Game tab already shows the hat */
+  }
+  .topbar-actions {
+    gap: 0.35rem;
+  }
 }
