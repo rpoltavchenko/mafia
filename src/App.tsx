@@ -91,7 +91,7 @@ export default function App() {
         <ol className="steps" aria-label="progress" hidden={view !== 'game'}>
           {STEPS.map((s, i) => (
             <li key={s} className={i === current ? 'is-current' : i < current ? 'is-done' : ''}>
-              {s === 'night' ? t('game.round', { round: state.round || 1 }) : tk(`phase.${s}`)}
+              {s === 'night' ? t('game.round', { round: inGame || state.phase === 'ended' ? state.round : state.settings.introRound ? 0 : 1 }) : tk(`phase.${s}`)}
             </li>
           ))}
         </ol>

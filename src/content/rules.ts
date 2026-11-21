@@ -52,12 +52,14 @@ const TEXT = {
     goalManiac: 'The **Maniac** plays alone and wins if only they and one other player are left.',
     roles: 'Roles ({n} players)',
     night: 'Night',
+    nightZero: '**Night 0 (introduction):** each active role wakes up once to meet the host — the Mafia team together. No kills or checks.',
     night1: 'Everyone **closes their eyes** and stays silent.',
     night2: 'The host wakes roles one at a time: **{order}**.',
     night3: 'Open your eyes **only when your role is called**, and act silently with gestures.',
     night4: 'In the morning the host announces who was killed.',
     nightDoctor: 'A player **saved by the Doctor** survives the night.',
     day: 'Day',
+    dayZero: '**Day 0** is for getting to know each other: discussion and speeches, but **no voting**. Night 1 follows.',
     day1: 'The day starts with an **open discussion ({sec} s)** — anyone can talk.',
     day2: 'Then every alive player gets a **{sec} s speech**, in seat order. The first speaker moves one seat each day.',
     day3: 'At the end of your speech you may **nominate one player** for the vote. A player who is already nominated cannot be nominated again.',
@@ -90,12 +92,14 @@ const TEXT = {
     goalManiac: '**Маніяк** грає сам за себе й перемагає, якщо в грі залишаються лише він та ще один гравець.',
     roles: 'Ролі ({n} гравців)',
     night: 'Ніч',
+    nightZero: '**Ніч 0 (знайомство):** кожна активна роль прокидається один раз, щоб познайомитися з ведучим, — мафія разом. Без убивств і перевірок.',
     night1: 'Усі **заплющують очі** й мовчать.',
     night2: 'Ведучий будить ролі по черзі: **{order}**.',
     night3: 'Розплющуйте очі **лише тоді, коли назвали вашу роль**, і дійте мовчки, жестами.',
     night4: 'Вранці ведучий оголошує, кого вбили.',
     nightDoctor: 'Гравець, якого **врятував лікар**, переживає ніч.',
     day: 'День',
+    dayZero: '**День 0** — для знайомства: обговорення та промови, але **без голосування**. Далі — перша ніч.',
     day1: 'День починається з **вільного обговорення ({sec} с)** — говорити може кожен.',
     day2: 'Потім кожен живий гравець має **промову {sec} с**, по черзі за місцями. Щодня перший промовець зсувається на одне місце.',
     day3: 'Наприкінці своєї промови можна **виставити одного гравця** на голосування. Того, кого вже виставили, вдруге виставити не можна.',
@@ -192,7 +196,8 @@ export function buildRules(
     });
   for (const r of actors) order.push(roleName(r));
 
-  const night = [T.night1, fill(T.night2, { order: order.join(' → ') }), T.night3, T.night4];
+  const intro = state.settings.introRound;
+  const night = [...(intro ? [T.nightZero] : []), T.night1, fill(T.night2, { order: order.join(' → ') }), T.night3, T.night4];
   if (inPlay.some((r) => r.nightAction === 'heal')) night.push(T.nightDoctor);
 
   return {
@@ -211,7 +216,11 @@ export function buildRules(
     sections: [
       { icon: '🎯', title: T.goal, items: goal },
       { icon: '🌙', title: T.night, items: night },
-      { icon: '☀️', title: T.day, items: [fill(T.day1, { sec: s.discussionSeconds }), fill(T.day2, { sec: s.speechSeconds }), T.day3] },
+      {
+        icon: '☀️',
+        title: T.day,
+        items: [...(intro ? [T.dayZero] : []), fill(T.day1, { sec: s.discussionSeconds }), fill(T.day2, { sec: s.speechSeconds }), T.day3],
+      },
       {
         icon: '🗳️',
         title: T.voting,

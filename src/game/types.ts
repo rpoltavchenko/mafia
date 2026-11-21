@@ -40,6 +40,10 @@ export interface LogEntry {
 }
 
 export interface Settings {
+  /** Round 0: an introduction night (roles meet the host) and a day without voting */
+  introRound: boolean;
+  introMafiaSeconds: number;
+  introRoleSeconds: number;
   discussionSeconds: number;
   speechSeconds: number;
   defenseSeconds: number;

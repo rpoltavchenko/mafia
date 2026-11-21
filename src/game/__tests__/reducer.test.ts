@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { nightSteps } from '../night';
-import { effectiveVotes, initialState, reducer, rolesTotal, speakingOrder } from '../reducer';
+import { effectiveVotes, initialState, isIntroRound, reducer, rolesTotal, speakingOrder } from '../reducer';
 import type { GameState } from '../types';
 import { gameWith, p } from './helpers';
 
@@ -94,10 +94,10 @@ describe('day and voting', () => {
     return reducer(s, { type: 'START_VOTE' });
   };
 
-  it('rotates the first speaker each round', () => {
-    expect(speakingOrder(players, 1)[0]).toBe('m1');
-    expect(speakingOrder(players, 2)[0]).toBe('m2');
-    expect(speakingOrder(players, 11)[0]).toBe('m1');
+  it('moves the first speaker one seat each day', () => {
+    expect(speakingOrder(players, 0)[0]).toBe('m1');
+    expect(speakingOrder(players, 1)[0]).toBe('m2');
+    expect(speakingOrder(players, 10)[0]).toBe('m1');
   });
 
   it('starts each day with an open discussion', () => {
@@ -180,5 +180,59 @@ describe('new game', () => {
     expect(s.players.map((x) => x.name)).toEqual(names);
     expect(s.players.every((x) => x.alive && x.roleId)).toBe(true);
     expect(s.log).toEqual([]);
+  });
+});
+
+describe('introduction round (Round 0)', () => {
+  const start = (intro: boolean) => {
+    let s = initialState(8);
+    s = reducer(s, { type: 'SET_SETTINGS', settings: { introRound: intro } });
+    s = reducer(s, { type: 'GO_ASSIGN' });
+    return reducer(s, { type: 'START_GAME' });
+  };
+
+  it('starts at Night 0 when the setting is on', () => {
+    const s = start(true);
+    expect(s.phase).toBe('night');
+    expect(s.round).toBe(0);
+    expect(isIntroRound(s)).toBe(true);
+  });
+
+  it('starts at Night 1 when the setting is off', () => {
+    const s = start(false);
+    expect(s.round).toBe(1);
+    expect(isIntroRound(s)).toBe(false);
+  });
+
+  it('Night 0 kills nobody and leads to Day 0 with speeches', () => {
+    let s = start(true);
+    const victim = s.players[0].id;
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'mafia', targetId: victim }); // ignored on Night 0
+    s = reducer(s, { type: 'END_INTRO_NIGHT' });
+    expect(s.phase).toBe('day');
+    expect(s.round).toBe(0);
+    expect(s.players.every((p) => p.alive)).toBe(true);
+    expect(s.speech.queue).toHaveLength(8);
+    expect(s.speech.queue[0]).toBe(s.players[0].id);
+    expect(s.log.map((l) => l.key)).toEqual(['log.introNight']);
+  });
+
+  it('RESOLVE_NIGHT on Night 0 behaves like the introduction', () => {
+    let s = start(true);
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'mafia', targetId: s.players[0].id });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.phase).toBe('day');
+    expect(s.players.every((p) => p.alive)).toBe(true);
+  });
+
+  it('Day 0 has no voting and goes on to Night 1, then Day 1 starts one seat later', () => {
+    let s = reducer(start(true), { type: 'END_INTRO_NIGHT' });
+    expect(reducer(s, { type: 'GO_VOTING' }).phase).toBe('day');
+    s = reducer(s, { type: 'FINISH_VOTING' });
+    expect(s.phase).toBe('night');
+    expect(s.round).toBe(1);
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.phase).toBe('day');
+    expect(s.speech.queue[0]).toBe(s.players[1].id);
   });
 });

@@ -108,6 +108,29 @@ export default function SetupScreen() {
       </section>
 
       <section className="card">
+        <h2>{t('setup.introTitle')}</h2>
+        <label className="check">
+          <input
+            type="checkbox"
+            checked={state.settings.introRound}
+            onChange={(e) => dispatch({ type: 'SET_SETTINGS', settings: { introRound: e.target.checked } })}
+          />
+          {t('setup.introRound')}
+        </label>
+        <p className="muted small">{t('setup.introHint')}</p>
+        {state.settings.introRound && (
+          <div className="timer-settings">
+            {(['introMafiaSeconds', 'introRoleSeconds'] as const).map((k) => (
+              <label key={k}>
+                <span>{t(k === 'introMafiaSeconds' ? 'setup.introMafia' : 'setup.introRole')}</span>
+                <input type="number" min={5} max={600} step={5} value={state.settings[k]} onChange={(e) => setTimer(k, e.target.value)} />
+              </label>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="card">
         <h2>{t('setup.timers')}</h2>
         <div className="timer-settings">
           {(['discussionSeconds', 'speechSeconds', 'defenseSeconds', 'lastWordSeconds'] as const).map((k) => (

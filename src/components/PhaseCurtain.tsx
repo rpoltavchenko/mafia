@@ -36,7 +36,9 @@ export default function PhaseCurtain() {
           {ICONS[phase]}
         </span>
         <strong className="curtain-title">{tk(`curtain.${phase}`, { round: state.round })}</strong>
-        <span className="curtain-sub">{tk(`curtain.${phase}Sub`)}</span>
+        <span className="curtain-sub">
+          {tk(state.round === 0 && phase === 'night' ? 'curtain.introSub' : state.round === 0 && phase === 'day' ? 'curtain.dayZeroSub' : `curtain.${phase}Sub`)}
+        </span>
       </div>
     </div>
   );

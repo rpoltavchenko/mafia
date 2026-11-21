@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { useGame } from '../game/GameContext';
 import { useBeep } from '../hooks/useBeep';
 import { useTimerKeys } from '../hooks/useSpaceToggle';
@@ -5,8 +6,17 @@ import { useTimer } from '../hooks/useTimer';
 import { useI18n } from '../i18n/I18nContext';
 import TimerRing, { timerLevel } from './TimerRing';
 
-/** A single countdown with no speaker – used for the open discussion at the start of the day. */
-export default function DiscussionTimer({ title, seconds, onDone, doneLabel }: { title: string; seconds: number; onDone: () => void; doneLabel: string }) {
+interface Props {
+  title: string;
+  seconds: number;
+  onDone: () => void;
+  doneLabel: string;
+  /** Text inside the ring; defaults to "Everyone" */
+  label?: ReactNode;
+}
+
+/** A single countdown with no individual speaker – open discussion, Night 0 wake-ups. */
+export default function DiscussionTimer({ title, seconds, onDone, doneLabel, label }: Props) {
   const { t } = useI18n();
   const { state } = useGame();
   const beep = useBeep(state.settings.sound, state.settings.vibrate);
@@ -23,7 +33,7 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel }: {
       <TimerRing
         remainingMs={timer.remainingMs}
         totalMs={timer.totalMs}
-        label={<>💬 {t('day.everyone')}</>}
+        label={label ?? <>💬 {t('day.everyone')}</>}
         footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
       />
       <div className="timer-controls">

@@ -7,6 +7,7 @@ import { useGame } from '../game/GameContext';
 import { checkWinner } from '../game/winCheck';
 import { useI18n } from '../i18n/I18nContext';
 import DayPanel from './DayPanel';
+import IntroNightPanel from './IntroNightPanel';
 import NightPanel from './NightPanel';
 import VotingPanel from './VotingPanel';
 
@@ -57,7 +58,7 @@ export default function GameScreen() {
 
       <div className="game-layout">
         <div className="game-panel">
-          {state.phase === 'night' && <NightPanel hideRoles={hideRoles} />}
+          {state.phase === 'night' && (state.round === 0 ? <IntroNightPanel hideRoles={hideRoles} /> : <NightPanel hideRoles={hideRoles} />)}
           {state.phase === 'day' && <DayPanel onActiveChange={setActiveId} />}
           {state.phase === 'voting' && <VotingPanel onActiveChange={setActiveId} />}
         </div>

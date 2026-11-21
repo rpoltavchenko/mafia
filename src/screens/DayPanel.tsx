@@ -12,6 +12,7 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
   const seatOf = (p: Player) => state.players.indexOf(p) + 1;
   const alive = state.players.filter((p) => p.alive);
   const queue = state.speech.queue.map(byId).filter((p): p is Player => !!p && p.alive);
+  const dayZero = state.round === 0; // introduction day: speeches only, no voting
   const nightNews = state.log.filter((l) => l.round === state.round && l.phase === 'night' && (l.key === 'log.killed' || l.key === 'log.quietNight'));
 
   const nominationsFor = (speaker: Player) => {
@@ -67,7 +68,7 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
         </>
       ) : (
         <>
-          <p className="muted">{t('day.hint')}</p>
+          <p className="muted">{dayZero ? t('day.zeroHint') : t('day.hint')}</p>
           <PlayerTimer
             title={t('setup.speech')}
             queue={queue}
@@ -75,12 +76,13 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
             onIndexChange={(index) => dispatch({ type: 'SPEECH_SET_INDEX', index })}
             seconds={state.settings.speechSeconds}
             onActiveChange={onActiveChange}
-            renderSpeakerExtras={nominationsFor}
+            renderSpeakerExtras={dayZero ? undefined : nominationsFor}
             done={<p className="done-msg">✅ {t('day.allSpoke')}</p>}
           />
         </>
       )}
 
+      {!dayZero && (
       <div className="nominee-summary">
         <strong>{t('vote.nominees')}:</strong>{' '}
         {vote.nominees.length === 0 ? (
@@ -98,11 +100,18 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
           })
         )}
       </div>
+      )}
 
       <div className="panel-footer">
-        <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'GO_VOTING' })}>
-          🗳️ {t('day.toVoting')}
-        </button>
+        {dayZero ? (
+          <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'FINISH_VOTING' })}>
+            🌙 {t('day.toNight1')}
+          </button>
+        ) : (
+          <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'GO_VOTING' })}>
+            🗳️ {t('day.toVoting')}
+          </button>
+        )}
       </div>
     </div>
   );

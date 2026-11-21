@@ -47,7 +47,7 @@ h3 {
   font-size: 0.8rem;
 }
 .warn {
-  color: var(--warn);
+  color: var(--warning);
 }
 
 /* ---------- layout ---------- */
@@ -402,8 +402,8 @@ button:focus-visible {
   margin: 0 0 0.6rem;
 }
 .tag.is-warn {
-  background: color-mix(in srgb, var(--warn) 20%, transparent);
-  color: var(--warn);
+  background: color-mix(in srgb, var(--warning) 20%, transparent);
+  color: var(--warning);
 }
 
 .role-badge {
@@ -536,7 +536,7 @@ button:focus-visible {
   color: var(--success);
 }
 .total.is-bad {
-  color: var(--warn);
+  color: var(--warning);
 }
 
 .timer-settings {
@@ -943,8 +943,8 @@ button:focus-visible {
   margin: 0;
 }
 .timer-panel.is-warn {
-  --ring: var(--warn);
-  border-color: var(--warn);
+  --ring: var(--warning);
+  border-color: var(--warning);
 }
 .timer-panel.is-danger {
   --ring: var(--danger);
@@ -1660,4 +1660,46 @@ button:focus-visible {
   .topbar-actions {
     gap: 0.35rem;
   }
+}
+
+/* ---------- Night 0 introduction ---------- */
+
+.intro-steps {
+  list-style: none;
+  margin: 0.8rem 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.intro-step-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  border-left: 3px solid var(--role, var(--border));
+  background: var(--surface-well);
+  text-align: left;
+  cursor: pointer;
+}
+.intro-step-name {
+  font-weight: 700;
+}
+.intro-step-time {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.intro-step.is-current .intro-step-btn {
+  border-color: var(--role, var(--accent));
+  background: color-mix(in srgb, var(--role, var(--accent)) 14%, var(--surface-inset));
+}
+.intro-step.is-done .intro-step-btn {
+  opacity: 0.6;
+}
+.intro-instruction {
+  margin: 0.4rem 0 0;
+  font-weight: 600;
 }

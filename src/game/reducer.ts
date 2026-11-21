@@ -18,6 +18,9 @@ const emptyVote = (): VoteState => ({ stage: 'nominate', nominees: [], nominated
 const emptySpeech = () => ({ queue: [] as string[], index: 0, discussionDone: false });
 
 export const DEFAULT_SETTINGS: Settings = {
+  introRound: true,
+  introMafiaSeconds: 30,
+  introRoleSeconds: 10,
   discussionSeconds: 60,
   speechSeconds: 60,
   defenseSeconds: 30,
@@ -63,6 +66,7 @@ export type Action =
   | { type: 'START_GAME' }
   | { type: 'NIGHT_TARGET'; stepId: string; targetId: string | null }
   | { type: 'RESOLVE_NIGHT' }
+  | { type: 'END_INTRO_NIGHT' }
   | { type: 'END_DISCUSSION' }
   | { type: 'SPEECH_SET_INDEX'; index: number }
   | { type: 'NOMINATE'; by: string; target: string | null }
@@ -118,12 +122,25 @@ function addLog(state: GameState, entry: Omit<LogEntry, 'round'>): LogEntry[] {
   return [...state.log, { round: state.round, ...entry }];
 }
 
-/** Alive players in seat order, starting from a seat that rotates each round. */
-export function speakingOrder(players: Player[], round: number): string[] {
+/** Round 0 is the introduction round: Night 0 (roles meet the host) and Day 0 without voting. */
+export function isIntroRound(state: GameState): boolean {
+  return state.round === 0;
+}
+
+/**
+ * Alive players in seat order, starting from a seat that moves one place each day.
+ * `dayIndex` counts days from 0 (the first day of the game, whichever round it is).
+ */
+export function speakingOrder(players: Player[], dayIndex: number): string[] {
   const alive = players.filter((p) => p.alive);
   if (alive.length === 0) return [];
-  const offset = (Math.max(1, round) - 1) % alive.length;
+  const offset = Math.max(0, dayIndex) % alive.length;
   return [...alive.slice(offset), ...alive.slice(0, offset)].map((p) => p.id);
+}
+
+/** Days played so far: 0 for the first day of the game. */
+function dayIndex(state: GameState): number {
+  return state.settings.introRound ? state.round : state.round - 1;
 }
 
 function goNight(state: GameState, round: number): GameState {
@@ -238,12 +255,25 @@ export function reducer(state: GameState, action: Action): GameState {
         log: [],
         winner: null,
       };
-      return goNight({ ...fresh, round: 1 }, 1);
+      const firstRound = state.settings.introRound ? 0 : 1;
+      return goNight({ ...fresh, round: firstRound }, firstRound);
+    }
+
+    case 'END_INTRO_NIGHT': {
+      if (!isIntroRound(state) || state.phase !== 'night') return state;
+      return {
+        ...state,
+        phase: 'day',
+        log: addLog(state, { phase: 'night', key: 'log.introNight' }),
+        speech: { queue: speakingOrder(state.players, 0), index: 0, discussionDone: false },
+        vote: emptyVote(),
+      };
     }
 
     case 'NIGHT_TARGET':
       return { ...state, night: { targets: { ...state.night.targets, [action.stepId]: action.targetId } } };
     case 'RESOLVE_NIGHT': {
+      if (isIntroRound(state)) return reducer(state, { type: 'END_INTRO_NIGHT' }); // Night 0: nobody acts
       const outcome = resolveNight(state.players, state.roles, state.night.targets);
       const players = state.players.map((p) => (outcome.deaths.includes(p.id) ? { ...p, alive: false } : p));
       let log = state.log;
@@ -261,7 +291,7 @@ export function reducer(state: GameState, action: Action): GameState {
         players,
         log,
         phase: 'day',
-        speech: { queue: speakingOrder(players, state.round), index: 0, discussionDone: false },
+        speech: { queue: speakingOrder(players, dayIndex(state)), index: 0, discussionDone: false },
         vote: emptyVote(),
       };
       return withWinCheck(next);
@@ -288,6 +318,7 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, speech: { ...state.speech, index: Math.max(0, Math.min(action.index, state.speech.queue.length)) } };
 
     case 'GO_VOTING': {
+      if (isIntroRound(state)) return state; // Day 0 has no voting
       // Keep nominations made during the day (only alive players can be on the ballot)
       const alive = new Set(state.players.filter((p) => p.alive).map((p) => p.id));
       const nominees = state.vote.nominees.filter((id) => alive.has(id));
