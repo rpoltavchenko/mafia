@@ -317,3 +317,33 @@ describe('night target rules', () => {
     expect(s.lastHeals).toEqual({});
   });
 });
+
+describe('check history', () => {
+  const players = [p('m1', 'mafia'), p('don', 'don'), p('sh', 'sheriff'), p('doc', 'doctor'), p('c1', 'civilian'), p('c2', 'civilian'), p('c3', 'civilian')];
+
+  it('keeps every Sheriff and Don check across nights', () => {
+    let s = gameWith(players);
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'sheriff', targetId: 'm1' });
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'don', targetId: 'c1' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    s = reducer({ ...s, phase: 'day' }, { type: 'FINISH_VOTING' });
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'sheriff', targetId: 'c2' });
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'don', targetId: 'sh' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.checks).toEqual([
+      { round: 1, roleId: 'don', targetId: 'c1', positive: false },
+      { round: 1, roleId: 'sheriff', targetId: 'm1', positive: true },
+      { round: 2, roleId: 'don', targetId: 'sh', positive: true },
+      { round: 2, roleId: 'sheriff', targetId: 'c2', positive: false },
+    ]);
+  });
+
+  it('is cleared when a new game starts', () => {
+    let s = gameWith(players);
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'sheriff', targetId: 'm1' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.checks).toHaveLength(1);
+    expect(reducer(s, { type: 'START_GAME' }).checks).toEqual([]);
+    expect(reducer(s, { type: 'NEW_GAME_SAME_PLAYERS' }).checks).toEqual([]);
+  });
+});

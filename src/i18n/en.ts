@@ -157,6 +157,11 @@ export const en = {
   'night.blockSelf': 'Can’t choose themselves',
   'night.blockHealedLastNight': 'Healed last night — can’t be healed twice in a row',
   'night.healNote': '{name} was healed last night and can’t be healed again tonight.',
+  'check.title': '{role} checked on night {round}: {result}',
+  'check.isMafia': 'Mafia',
+  'check.notMafia': 'not Mafia',
+  'check.isSheriff': 'Sheriff',
+  'check.notSheriff': 'not the Sheriff',
   'night.resolve': 'Morning →',
   'night.mafiaActors': 'Mafia team',
 

@@ -76,6 +76,16 @@ export interface VoteState {
   eliminated: string[];
 }
 
+/** One night check (Sheriff, Don or a custom checking role). */
+export interface CheckRecord {
+  round: number;
+  /** role id of the checker (e.g. 'sheriff', 'don') */
+  roleId: string;
+  targetId: string;
+  /** Sheriff: target is Mafia. Don: target is the Sheriff. */
+  positive: boolean;
+}
+
 export type Winner = 'mafia' | 'town' | 'neutral';
 
 export interface GameState {
@@ -89,6 +99,8 @@ export interface GameState {
   night: NightState;
   /** Last night's heal target per heal step (e.g. the Doctor), to stop healing the same player twice in a row */
   lastHeals: Record<string, string | null>;
+  /** Every check made this game, in order */
+  checks: CheckRecord[];
   speech: SpeechState;
   vote: VoteState;
   log: LogEntry[];

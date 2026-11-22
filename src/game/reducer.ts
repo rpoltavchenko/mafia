@@ -41,6 +41,7 @@ export function initialState(playerCount = 10): GameState {
     settings: { ...DEFAULT_SETTINGS },
     night: { targets: {} },
     lastHeals: {},
+    checks: [],
     speech: emptySpeech(),
     vote: emptyVote(),
     log: [],
@@ -258,6 +259,7 @@ export function reducer(state: GameState, action: Action): GameState {
         log: [],
         winner: null,
         lastHeals: {},
+        checks: [],
       };
       const firstRound = state.settings.introRound ? 0 : 1;
       return goNight({ ...fresh, round: firstRound }, firstRound);
@@ -306,6 +308,7 @@ export function reducer(state: GameState, action: Action): GameState {
         players,
         log,
         lastHeals,
+        checks: [...state.checks, ...outcome.checks.map((c) => ({ round: state.round, roleId: c.stepId, targetId: c.targetId, positive: c.positive }))],
         phase: 'day',
         speech: { queue: speakingOrder(players, dayIndex(state)), index: 0, discussionDone: false },
         vote: emptyVote(),
@@ -415,6 +418,7 @@ export function reducer(state: GameState, action: Action): GameState {
         winner: null,
         night: { targets: {} },
         lastHeals: {},
+        checks: [],
         speech: emptySpeech(),
         vote: emptyVote(),
       };

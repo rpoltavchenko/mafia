@@ -1,3 +1,4 @@
+import CheckMarks from '../components/CheckMarks';
 import { playerText } from '../game/players';
 import PlayerLabel from '../components/PlayerLabel';
 import { useGame } from '../game/GameContext';
@@ -56,6 +57,7 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
                       title={block ? t(block) : undefined}
                     >
                       <PlayerLabel id={p.id} />
+                      {!hideRoles && (step.action === 'check' || step.action === 'donCheck') && <CheckMarks playerId={p.id} roleId={step.roleId} />}
                     </button>
                   );
                 })}

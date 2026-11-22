@@ -1211,3 +1211,73 @@ select {
   font-size: 0.82rem;
   color: var(--text-muted);
 }
+
+/* ---------- night check markers (Sheriff 🔎, Don 🕶) ---------- */
+
+.check-marks {
+  display: inline-grid;
+  grid-auto-flow: column;
+  gap: 0.2rem;
+  align-items: center;
+}
+.check-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  line-height: 1;
+  border: 1.5px solid currentColor;
+}
+/* Sheriff: red = Mafia, green = not Mafia */
+.check-mark.is-sheriff.is-yes {
+  color: var(--danger);
+  background: color-mix(in srgb, var(--danger) 28%, var(--surface-inset));
+}
+.check-mark.is-sheriff.is-no {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 22%, var(--surface-inset));
+}
+/* Don: highlighted = found the Sheriff, muted = not the Sheriff */
+.check-mark.is-don.is-yes {
+  color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 30%, var(--surface-inset));
+}
+.check-mark.is-don.is-no {
+  color: var(--text-muted);
+  background: var(--surface-inset);
+}
+/* in a night target cell: number | name | marker */
+.chip-player:has(.check-marks) {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem;
+}
+/* the whole tile gets a thin outline in the result colour (speaking highlight still wins) */
+.tile:has(.check-mark.is-sheriff.is-yes):not(.is-speaking) {
+  border-color: color-mix(in srgb, var(--danger) 70%, var(--border));
+}
+.tile:has(.check-mark.is-sheriff.is-no):not(.is-speaking):not(:has(.check-mark.is-yes)) {
+  border-color: color-mix(in srgb, var(--success) 60%, var(--border));
+}
+.tile:has(.check-mark.is-don.is-yes):not(.is-speaking):not(:has(.check-mark.is-sheriff.is-yes)) {
+  border-color: color-mix(in srgb, var(--warning) 70%, var(--border));
+}
+/* narrow phones: the marker becomes a corner badge so the seat number keeps the whole cell */
+@media (max-width: 479px) {
+  .player-grid .chip-player:has(.check-marks) {
+    grid-template-columns: auto;
+    position: relative;
+    overflow: visible;
+  }
+  .player-grid .chip-player .check-marks {
+    position: absolute;
+    top: -0.3rem; /* overhangs into the grid gap only, never onto a neighbour */
+    right: -0.3rem;
+  }
+  .player-grid .check-mark {
+    width: 1.1rem;
+    height: 1.1rem;
+    font-size: 0.6rem;
+  }
+}

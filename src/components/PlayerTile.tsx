@@ -1,3 +1,4 @@
+import CheckMarks from './CheckMarks';
 import Stepper from './Stepper';
 import { displayName } from '../game/players';
 import { useState } from 'react';
@@ -49,6 +50,7 @@ export default function PlayerTile({ player, seat, role, hideRoles, status = nul
           )}
           <span className="tile-meta">
             <RoleBadge role={role} hidden={hideRoles} />
+            {!hideRoles && <CheckMarks playerId={player.id} />}
             {player.fouls > 0 && (
               <span className={`fouls ${player.fouls >= 3 ? 'is-warn' : ''}`} title={t('game.fouls', { n: player.fouls })}>
                 {'●'.repeat(Math.min(player.fouls, 4))}

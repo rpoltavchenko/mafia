@@ -22,6 +22,7 @@ export function loadGame(): GameState | null {
       speech: { ...parsed.speech, discussionDone: parsed.speech?.discussionDone ?? true },
       vote: { ...parsed.vote, nominatedBy: parsed.vote?.nominatedBy ?? {} },
       lastHeals: parsed.lastHeals ?? {},
+      checks: parsed.checks ?? [],
     };
   } catch {
     return null;

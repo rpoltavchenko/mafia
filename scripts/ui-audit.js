@@ -118,6 +118,10 @@ window.__auditRun = async function (opts) {
         if (!t.textContent.trim()) continue;
         const pcs = win.getComputedStyle(t.parentElement);
         if (pcs.display === 'none' || pcs.visibility === 'hidden' || t.parentElement.closest('[hidden]')) continue;
+        // deliberately positioned overlays inside the element (e.g. corner badges) are by design
+        let overlay = false;
+        for (let a = t.parentElement; a && a !== el; a = a.parentElement) if (win.getComputedStyle(a).position === 'absolute') overlay = true;
+        if (overlay) continue;
         const range = d.createRange();
         range.selectNodeContents(t);
         for (const tr of range.getClientRects()) {
