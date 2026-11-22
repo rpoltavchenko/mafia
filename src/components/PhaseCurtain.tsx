@@ -9,7 +9,7 @@ const ICONS = { night: '🌙', day: '☀️', voting: '🗳️' } as const;
  * changes. Not shown on page load, only on a real phase change. Tap to dismiss.
  */
 export default function PhaseCurtain() {
-  const { state } = useGame();
+  const { state, restored } = useGame();
   const { tk } = useI18n();
   const key = `${state.phase}-${state.round}`;
   const prevKey = useRef<string | null>(null);
@@ -19,7 +19,8 @@ export default function PhaseCurtain() {
     // Only on a real phase change — not on page load (and not on React's dev double-run)
     const prev = prevKey.current;
     prevKey.current = key;
-    if (prev === null || prev === key) return;
+    // Not when an undo takes the game back to an earlier phase
+    if (prev === null || prev === key || restored) return;
     if (state.phase !== 'night' && state.phase !== 'day' && state.phase !== 'voting') return;
     setShown(key);
     const id = window.setTimeout(() => setShown(null), 1900);

@@ -28,6 +28,8 @@ npm run build   # production build in dist/
 
 Tap any player tile to add/remove fouls or remove/revive a player. "Hide roles" hides all roles and the log when players can see the screen.
 
+**Undo** (↩️ in the game header, or Ctrl/⌘+Z) takes back the last game action: a night choice, Morning, a nomination, votes, a removal, a foul, ending the game, and so on. Hover it to see what it will undo. You can undo up to 30 steps, one at a time, and they survive a page refresh. Setup, role assignment and reveal aren't recorded. Starting a new game or resetting clears the undo steps.
+
 **Timer keys**: Space = start/pause, N or → = next speaker, ← = previous. The timer turns orange at 10 s, red at 5 s, and beeps/vibrates at 0.
 
 The game is saved in the browser, so refreshing the page doesn't lose it.

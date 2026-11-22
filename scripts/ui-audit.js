@@ -11,10 +11,12 @@
  * It loads the app in hidden frames with a worst-case game: 20 players, long
  * names (Latin and Cyrillic), a custom role with a long name, fouls, eliminated
  * players, and every player tile menu opened. Text deliberately cut with "…"
- * is not reported. Your saved game, language and theme are restored afterwards.
+ * is not reported. Every scenario has an undo step, so Undo buttons show. Your saved
+ * game, undo steps, language and theme are restored afterwards.
  */
 window.__auditRun = async function (opts) {
   const KEY = 'mafia-game-v1';
+  const UNDO_KEY = 'mafia-undo-v1';
   const BACKUP = 'mafia-audit-backup';
   // If a previous run was interrupted (e.g. the page reloaded), put the real game back first
   const pending = sessionStorage.getItem(BACKUP);
@@ -23,8 +25,9 @@ window.__auditRun = async function (opts) {
     b.game ? localStorage.setItem(KEY, b.game) : localStorage.removeItem(KEY);
     b.lang ? localStorage.setItem('mafia-lang', b.lang) : localStorage.removeItem('mafia-lang');
     b.theme ? localStorage.setItem('mafia-theme', b.theme) : localStorage.removeItem('mafia-theme');
+    b.undo ? localStorage.setItem(UNDO_KEY, b.undo) : localStorage.removeItem(UNDO_KEY);
   }
-  const saved = { game: localStorage.getItem(KEY), lang: localStorage.getItem('mafia-lang'), theme: localStorage.getItem('mafia-theme') };
+  const saved = { game: localStorage.getItem(KEY), lang: localStorage.getItem('mafia-lang'), theme: localStorage.getItem('mafia-theme'), undo: localStorage.getItem(UNDO_KEY) };
   sessionStorage.setItem(BACKUP, JSON.stringify(saved));
   const base = JSON.parse(saved.game || 'null');
   if (!base) {
@@ -75,6 +78,9 @@ window.__auditRun = async function (opts) {
   const audit = async (c) => {
     const [state, hash] = scenarios[c.name];
     localStorage.setItem(KEY, JSON.stringify(state));
+    // One undo step (same signature as src/game/storage.ts) so the Undo button is enabled
+    const sig = JSON.stringify([state.phase, state.round, state.log.length, state.players.map((p) => [p.id, p.alive])]);
+    localStorage.setItem(UNDO_KEY, JSON.stringify({ for: sig, past: [{ state, action: { type: 'KILL_PLAYER', id: 'q0' } }] }));
     localStorage.setItem('mafia-lang', c.lang);
     localStorage.setItem('mafia-theme', c.theme);
     const f = document.createElement('iframe');
@@ -154,6 +160,7 @@ window.__auditRun = async function (opts) {
     saved.game ? localStorage.setItem(KEY, saved.game) : localStorage.removeItem(KEY);
     saved.lang ? localStorage.setItem('mafia-lang', saved.lang) : localStorage.removeItem('mafia-lang');
     saved.theme ? localStorage.setItem('mafia-theme', saved.theme) : localStorage.removeItem('mafia-theme');
+    saved.undo ? localStorage.setItem(UNDO_KEY, saved.undo) : localStorage.removeItem(UNDO_KEY);
     window.__audit.done = true;
   }
   return window.__audit.issues;

@@ -3,6 +3,7 @@ import HostLineCard from '../components/HostLineCard';
 import PhaseCurtain from '../components/PhaseCurtain';
 import LogView from '../components/LogView';
 import PlayerTile from '../components/PlayerTile';
+import UndoButton from '../components/UndoButton';
 import { useGame } from '../game/GameContext';
 import { checkWinner } from '../game/winCheck';
 import { useI18n } from '../i18n/I18nContext';
@@ -47,6 +48,7 @@ export default function GameScreen() {
           </div>
         </div>
         <div className="row game-actions">
+          <UndoButton small />
           <button
             className="btn btn-sm"
             onClick={() => setHideRoles((h) => !h)}

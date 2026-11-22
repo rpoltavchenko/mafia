@@ -1,11 +1,12 @@
 import PlayerLabel from '../components/PlayerLabel';
 import LogView from '../components/LogView';
 import RoleBadge from '../components/RoleBadge';
+import UndoButton from '../components/UndoButton';
 import { useGame } from '../game/GameContext';
 import { useI18n } from '../i18n/I18nContext';
 
 export default function EndScreen() {
-  const { state, dispatch, roleById } = useGame();
+  const { state, dispatch, roleById, lastAction } = useGame();
   const { t } = useI18n();
   const title = t(state.winner ? (`end.winner.${state.winner}` as const) : 'end.winner.none');
 
@@ -35,9 +36,13 @@ export default function EndScreen() {
         </section>
       </div>
       <div className="footer-bar">
-        <button className="btn btn-ghost" onClick={() => dispatch({ type: 'RESET' })}>
-          {t('end.reset')}
-        </button>
+        <div className="row">
+          {/* e.g. the game ended automatically after a player was removed by mistake */}
+          {lastAction && <UndoButton />}
+          <button className="btn btn-ghost" onClick={() => dispatch({ type: 'RESET' })}>
+            {t('end.reset')}
+          </button>
+        </div>
         <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'NEW_GAME_SAME_PLAYERS' })}>
           🔁 {t('end.again')}
         </button>
