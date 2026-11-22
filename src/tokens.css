@@ -312,3 +312,125 @@
   --phase-tint: color-mix(in srgb, #4a0d30 90%, transparent);
   --phase-border: color-mix(in srgb, var(--c-crimson-500) 45%, transparent);
 }
+
+/* ---------- 3c. sunset theme: pastel, airy, flat ----------
+   Light by default; night turns into a dusky lilac with light text. */
+:root[data-theme='sunset'] {
+  color-scheme: light;
+  --surface-page: #fbefe6;
+  --surface-page-image: linear-gradient(180deg, #ffd9c2 0%, #f9c9cb 38%, #e2cbe9 72%, #cddcef 100%);
+  --surface-1: color-mix(in srgb, #fffaf6 94%, transparent);
+  --surface-2: #f6e6dc;
+  --surface-3: #efd7ca;
+  --surface-inset: #fbf1ea;
+  --surface-well: color-mix(in srgb, #7a4b5f 6%, transparent);
+  --surface-overlay: color-mix(in srgb, #2a1b2e 45%, transparent);
+  --surface-header: color-mix(in srgb, #fffaf6 82%, transparent);
+  --border: #e6d0c5;
+  --border-strong: #c9a99b;
+  --text: #2b1d2c;
+  --text-muted: #6a5363;
+  --text-heading: #2b1d2c;
+  --text-subheading: #4a3446;
+  --accent: #c2405d;
+  --accent-strong: #c2405d;
+  --accent-fill: #c2405d;
+  --accent-fill-hover: #ab3350;
+  --on-accent: #ffffff;
+  --highlight: #23707b;
+  --focus-ring: #23707b;
+  --on-highlight: #ffffff;
+  --glow: none;
+  --glow-strong: none;
+  --btn-primary-bg: var(--accent-fill);
+  --btn-primary-bg-hover: var(--accent-fill-hover);
+  --btn-primary-text: #ffffff;
+  --btn-cta-bg: transparent;
+  --btn-cta-bg-hover: color-mix(in srgb, #23707b 10%, transparent);
+  --btn-cta-text: #1d5f68;
+  --btn-cta-border: #23707b;
+  --success: #2e8b57;
+  --success-text: #1d6b41;
+  --warning: #a86200;
+  --danger: #c2334d;
+  --danger-text: #9e2139;
+  --team-town: #1d6b41;
+  --team-mafia: #a8253f;
+  --team-neutral: #6e3fa6;
+  --role-civilian: #2e9a63;
+  --role-mafia: #d23f5a;
+  --role-don: #d9682a;
+  --role-sheriff: #b88700;
+  --role-doctor: #2f7fc4;
+  --role-maniac: #8a55c8;
+  --role-lover: #d0559a;
+  --timer-ring: #c2405d;
+  --timer-grad-1: #e8717f;
+  --timer-grad-2: #f0a07c;
+  --timer-grad-3: #4fa9b5;
+  --phase-tint: var(--surface-1);
+  --phase-border: var(--border);
+  --shadow: none;
+}
+:root[data-theme='sunset'][data-phase='day'] {
+  --surface-1: color-mix(in srgb, #fffaf6 94%, transparent);
+  --surface-2: #f8e3d4;
+  --surface-3: #f1d3bf;
+  --border: #ecd0bd;
+  --text-muted: #6a5363;
+  --phase-tint: color-mix(in srgb, #ffdcc4 90%, transparent);
+  --phase-border: #ecc3a6;
+}
+:root[data-theme='sunset'][data-phase='voting'] {
+  --surface-1: color-mix(in srgb, #fff7f8 94%, transparent);
+  --surface-2: #f8e0e4;
+  --surface-3: #f1cdd4;
+  --border: #ecc9cf;
+  --text-muted: #6a5363;
+  --accent: #b8304e;
+  --phase-tint: color-mix(in srgb, #f9d3da 90%, transparent);
+  --phase-border: #e6aab6;
+}
+:root[data-theme='sunset'][data-phase='night'] {
+  color-scheme: dark;
+  --surface-1: color-mix(in srgb, #241a3a 92%, transparent);
+  --surface-2: #30254b;
+  --surface-3: #3c2f5c;
+  --surface-inset: #1c1530;
+  --surface-well: color-mix(in srgb, #000 22%, transparent);
+  --border: #4a3b6b;
+  --border-strong: #6c5a90;
+  --text: #f6eef6;
+  --text-muted: #c4b4d3;
+  --text-heading: #f6eef6;
+  --text-subheading: #e9dcf2;
+  --accent: #f08aa0;
+  --accent-strong: #f08aa0;
+  --accent-fill: #f08aa0;
+  --accent-fill-hover: #f6a5b6;
+  --on-accent: #2b1020;
+  --btn-primary-bg: var(--accent-fill);
+  --btn-primary-bg-hover: var(--accent-fill-hover);
+  --btn-primary-text: #2b1020;
+  --highlight: #7fd1dc;
+  --focus-ring: #7fd1dc;
+  --on-highlight: #10202a;
+  --btn-cta-text: #7fd1dc;
+  --btn-cta-border: #7fd1dc;
+  --btn-cta-bg-hover: color-mix(in srgb, #7fd1dc 12%, transparent);
+  --success-text: #8fdcaa;
+  --danger-text: #ff9eae;
+  --team-town: #8fdcaa;
+  --team-mafia: #ff9eae;
+  --team-neutral: #cfa6ff;
+  --role-civilian: #5fc98d;
+  --role-mafia: #ff6f86;
+  --role-don: #ff9a5c;
+  --role-sheriff: #f2c14e;
+  --role-doctor: #6ab8f0;
+  --role-maniac: #b98af0;
+  --role-lover: #f08cc4;
+  --timer-ring: #f6eef6;
+  --phase-tint: color-mix(in srgb, #2a2050 92%, transparent);
+  --phase-border: #5a4a85;
+}

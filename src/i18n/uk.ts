@@ -6,6 +6,7 @@ export const uk: Dict = {
   'app.reset': 'Скинути',
 
   'theme.neon': 'Неонова тема',
+  'theme.sunset': 'Тема «Захід сонця»',
   'theme.classic': 'Класична тема',
   'curtain.night': 'Ніч {round}',
   'curtain.nightSub': 'Місто засинає',

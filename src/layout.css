@@ -1674,3 +1674,48 @@ h3 {
     justify-self: end;
   }
 }
+
+/* =========================================================
+   Sunset theme — flat, pastel details (colours live in tokens.css)
+   ========================================================= */
+
+/* light surfaces: dark text on a light tint (night keeps the default dark-surface badge) */
+:root[data-theme='sunset']:not([data-phase='night']) .role-badge {
+  background: color-mix(in srgb, var(--role) 14%, #ffffff);
+  color: color-mix(in srgb, var(--role) 72%, #000000);
+  border-color: color-mix(in srgb, var(--role) 45%, transparent);
+}
+:root[data-theme='sunset']:not([data-phase='night']) .check-mark.is-don.is-no {
+  color: var(--text-muted);
+}
+/* flat: no shadows or blur, thin outlines */
+[data-theme='sunset'] .card,
+[data-theme='sunset'] .tile,
+[data-theme='sunset'] .modal {
+  box-shadow: none;
+}
+[data-theme='sunset'] .topbar {
+  border-bottom: 1px solid var(--border);
+}
+/* headlines: clean and heavy, no glow */
+[data-theme='sunset'] h2,
+[data-theme='sunset'] .rules-title,
+[data-theme='sunset'] .end-title {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-shadow: none;
+}
+[data-theme='sunset'] .brand-text {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+/* the sky: soft pastel versions of day and voting; night stays dusky */
+:root[data-theme='sunset'] .sky-day {
+  filter: saturate(0.55) brightness(1.18);
+}
+:root[data-theme='sunset'] .sky-voting {
+  filter: saturate(0.6) brightness(1.9) hue-rotate(-8deg);
+}
+:root[data-theme='sunset'] .sky-night {
+  filter: saturate(0.8) hue-rotate(18deg);
+}

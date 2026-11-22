@@ -49,12 +49,13 @@
   const backdrops = {
     neon: { none: null, night: '#081131', day: '#ff8a5b', voting: '#3a0a2e' },
     classic: { none: null, night: '#060a1c', day: '#3d2a22', voting: '#1d0a14' },
+    sunset: { none: null, night: '#0b1238', day: '#ffd2a8', voting: '#f7d4dc' },
   };
   const roles = ['civilian', 'mafia', 'don', 'sheriff', 'doctor', 'maniac', 'lover'];
   const saved = [root.dataset.theme, root.dataset.phase];
   const lines = [];
 
-  for (const theme of ['classic', 'neon']) {
+  for (const theme of ['classic', 'neon', 'sunset']) {
     for (const phase of ['none', 'night', 'day', 'voting']) {
       root.dataset.theme = theme;
       root.dataset.phase = phase;
@@ -94,7 +95,10 @@
       const insetTok = tok('--surface-inset');
       for (const r of roles) {
         const rv = tok(`--role-${r}`);
-        add(`badge-${r}`, over(resolve(`color-mix(in srgb, ${rv} 55%, white)`), card), over(resolve(`color-mix(in srgb, ${rv} 18%, ${insetTok})`), card), 4.5);
+        const lightBadge = theme === 'sunset' && phase !== 'night';
+        const badgeFg = lightBadge ? `color-mix(in srgb, ${rv} 72%, #000000)` : `color-mix(in srgb, ${rv} 55%, white)`;
+        const badgeBg = lightBadge ? `color-mix(in srgb, ${rv} 14%, #ffffff)` : `color-mix(in srgb, ${rv} 18%, ${insetTok})`;
+        add(`badge-${r}`, over(resolve(badgeFg), card), over(resolve(badgeBg), card), 4.5);
         add(`selected-chip-${r}`, onCard('--text'), over(resolve(`color-mix(in srgb, ${rv} 32%, ${insetTok})`), card), 4.5);
         add(`dot-${r}`, over(resolve(rv), card), card, 3);
       }

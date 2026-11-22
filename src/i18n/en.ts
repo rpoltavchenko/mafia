@@ -4,6 +4,7 @@ export const en = {
   'app.reset': 'Reset',
 
   'theme.neon': 'Neon theme',
+  'theme.sunset': 'Sunset theme',
   'theme.classic': 'Classic theme',
   'curtain.night': 'Night {round}',
   'curtain.nightSub': 'The city falls asleep',
