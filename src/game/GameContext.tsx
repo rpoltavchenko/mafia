@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useReducer,
 import { historyReducer, initialHistory } from './history';
 import { initialState, type Action } from './reducer';
 import { loadGame, loadUndo, saveGame, saveUndo } from './storage';
-import type { GameState, RoleDef } from './types';
+import type { GameState, Phase, RoleDef } from './types';
 
 interface GameCtx {
   state: GameState;
@@ -10,6 +10,8 @@ interface GameCtx {
   roleById: Map<string, RoleDef>;
   /** The action the Undo button would take back, or null if there is nothing to undo */
   lastAction: Action | null;
+  /** The phase the game goes back to on undo */
+  undoPhase: Phase | null;
   undo: () => void;
   /** True right after an undo */
   restored: boolean;
@@ -32,10 +34,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const dispatch = dispatchHistory as Dispatch<Action>;
   const undo = useCallback(() => dispatchHistory({ type: 'UNDO' }), []);
   const lastAction = past.length ? past[past.length - 1].action : null;
+  const undoPhase = past.length ? past[past.length - 1].state.phase : null;
   const roleById = useMemo(() => new Map(state.roles.map((r) => [r.id, r])), [state.roles]);
   const value = useMemo(
-    () => ({ state, dispatch, roleById, lastAction, undo, restored }),
-    [state, dispatch, roleById, lastAction, undo, restored],
+    () => ({ state, dispatch, roleById, lastAction, undoPhase, undo, restored }),
+    [state, dispatch, roleById, lastAction, undoPhase, undo, restored],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

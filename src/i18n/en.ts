@@ -166,6 +166,7 @@ export const en = {
   'undo.ELIMINATE_ALL_TIED': 'elimination of everyone tied',
   'undo.NO_ELIMINATION': 'nobody voted out',
   'undo.FINISH_VOTING': 'end of voting',
+  'undo.END_DAY': 'end of the day',
   'undo.KILL_PLAYER': 'removal of {name}',
   'undo.REVIVE_PLAYER': 'revival of {name}',
   'undo.FOUL': 'foul for {name}',

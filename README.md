@@ -15,7 +15,14 @@ Open http://localhost:5173. The dev server also listens on your local network, s
 npm test        # game logic tests
 npm run lint    # ESLint (fails on warnings)
 npm run build   # production build in dist/
+npm run test:e2e  # browser checks with Playwright (first time: npx playwright install chromium)
+npm run audit     # just the contrast and text-overflow checks
 ```
+
+`npm run test:e2e` builds the app and checks, in headless Chrome:
+- colour contrast in every theme × phase, and that no text overflows or scrolls sideways (the same `scripts/` checks you can paste into the browser console);
+- a short game from setup to Night 1, including Undo;
+- screenshots of the main screens in every theme on a phone and a desktop. After a deliberate visual change, update them with `npx playwright test e2e/screens.spec.ts --update-snapshots` and look at the new images before committing. Baselines are per OS (the file names end in `-darwin`).
 
 ## How a game goes
 

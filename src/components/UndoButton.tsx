@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useGame } from '../game/GameContext';
 import { playerText } from '../game/players';
 import type { Action } from '../game/reducer';
-import type { Player } from '../game/types';
+import type { Phase, Player } from '../game/types';
 import { useI18n } from '../i18n/I18nContext';
 
 /** Who an action is about, for actions that name a player in the Undo label. */
@@ -18,10 +18,12 @@ function subject(action: Action): string | null {
   }
 }
 
-function describe(action: Action, players: Player[], tk: (key: string, params?: Record<string, string>) => string): string {
+function describe(action: Action, from: Phase | null, players: Player[], tk: (key: string, params?: Record<string, string>) => string): string {
+  // Day 0 has no voting: it goes straight to Night 1
+  const key = action.type === 'FINISH_VOTING' && from === 'day' ? 'undo.END_DAY' : `undo.${action.type}`;
   const id = subject(action);
-  const what = tk(`undo.${action.type}`, id ? { name: playerText(players, id) } : undefined);
-  return what === `undo.${action.type}` ? tk('undo.other') : what;
+  const what = tk(key, id ? { name: playerText(players, id) } : undefined);
+  return what === key ? tk('undo.other') : what;
 }
 
 /**
@@ -29,9 +31,9 @@ function describe(action: Action, players: Player[], tk: (key: string, params?: 
  * `small` is the game-header size (icon only on phones); otherwise a regular button.
  */
 export default function UndoButton({ small = false }: { small?: boolean }) {
-  const { state, lastAction, undo } = useGame();
+  const { state, lastAction, undoPhase, undo } = useGame();
   const { t, tk } = useI18n();
-  const label = lastAction ? t('game.undoWhat', { what: describe(lastAction, state.players, tk) }) : t('game.undoNone');
+  const label = lastAction ? t('game.undoWhat', { what: describe(lastAction, undoPhase, state.players, tk) }) : t('game.undoNone');
 
   const undoRef = useRef<(() => void) | null>(null);
   undoRef.current = lastAction ? undo : null;

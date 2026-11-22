@@ -18,11 +18,17 @@ npm run build                       # tsc -b && vite build → dist/ (this is al
 
 ```bash
 npm run lint                        # ESLint 9 flat config (eslint.config.js), --max-warnings 0
+npm run test:e2e                    # Playwright (e2e/): builds, serves on :4173, runs everything (~3 min)
+npm run audit                       # only e2e/audit.spec.ts (contrast + overflow)
+npx playwright test e2e/game.spec.ts           # smoke test of a game, with undo
+npx playwright test e2e/screens.spec.ts --update-snapshots   # after an intended visual change
 ```
+
+Playwright notes: `e2e/audit.spec.ts` runs the `scripts/` files unchanged (`check-contrast.js` is evaluated for its returned lines; `ui-audit.js` is added as a script tag). `e2e/screens.spec.ts` builds its states with `window.__auditScenarios` from `ui-audit.js`, seeds `Math.random` (the host line is random and changes the layout), and makes sticky bars static via `e2e/screenshot.css`. Screenshot baselines are darwin-specific.
 
 `.claude/launch.json` defines the `mafia` preview config (`npm run dev`, port 5173).
 
-Two browser-console scripts in `scripts/` (paste into DevTools with the dev server running; they are not Node scripts):
+Two browser-console scripts in `scripts/` (paste into DevTools with the dev server running, or run them through `npm run audit`; they are not Node scripts):
 - `check-contrast.js` — WCAG AA check across every theme × phase. Run after any colour change.
 - `ui-audit.js` — loads a worst-case game (20 players, long Latin/Cyrillic names, etc.) in hidden frames and reports text overflow / horizontal scroll, e.g. `await __auditRun({ sizes: [[1280, 800], [390, 844]], langs: ['en', 'uk'], themes: ['neon'] })`. Restores the real saved game afterwards.
 

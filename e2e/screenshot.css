@@ -1,0 +1,7 @@
+/* Applied only while taking full-page screenshots: sticky bars would land at a
+   different place depending on how the page is stitched together. */
+.topbar,
+.footer-bar,
+.game-side {
+  position: static !important;
+}

@@ -168,6 +168,7 @@ export const uk: Dict = {
   'undo.ELIMINATE_ALL_TIED': 'виведення всіх у нічиїй',
   'undo.NO_ELIMINATION': 'ніхто не вибуває',
   'undo.FINISH_VOTING': 'кінець голосування',
+  'undo.END_DAY': 'кінець дня',
   'undo.KILL_PLAYER': 'виведення {name}',
   'undo.REVIVE_PLAYER': 'повернення {name}',
   'undo.FOUL': 'фол для {name}',

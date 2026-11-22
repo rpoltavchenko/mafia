@@ -14,27 +14,11 @@
  * is not reported. Every scenario has an undo step, so Undo buttons show. Your saved
  * game, undo steps, language and theme are restored afterwards.
  */
-window.__auditRun = async function (opts) {
-  const KEY = 'mafia-game-v1';
-  const UNDO_KEY = 'mafia-undo-v1';
-  const BACKUP = 'mafia-audit-backup';
-  // If a previous run was interrupted (e.g. the page reloaded), put the real game back first
-  const pending = sessionStorage.getItem(BACKUP);
-  if (pending) {
-    const b = JSON.parse(pending);
-    b.game ? localStorage.setItem(KEY, b.game) : localStorage.removeItem(KEY);
-    b.lang ? localStorage.setItem('mafia-lang', b.lang) : localStorage.removeItem('mafia-lang');
-    b.theme ? localStorage.setItem('mafia-theme', b.theme) : localStorage.removeItem('mafia-theme');
-    b.undo ? localStorage.setItem(UNDO_KEY, b.undo) : localStorage.removeItem(UNDO_KEY);
-  }
-  const saved = { game: localStorage.getItem(KEY), lang: localStorage.getItem('mafia-lang'), theme: localStorage.getItem('mafia-theme'), undo: localStorage.getItem(UNDO_KEY) };
-  sessionStorage.setItem(BACKUP, JSON.stringify(saved));
-  const base = JSON.parse(saved.game || 'null');
-  if (!base) {
-    sessionStorage.removeItem(BACKUP);
-    throw new Error('Open the app once so there is a saved game to build on.');
-  }
-
+/**
+ * Worst-case game states, one per screen: { name: [state, hash?] }. Built on a saved game
+ * (`base`). Also used by the Playwright screenshot tests (e2e/screens.spec.ts).
+ */
+window.__auditScenarios = function (base) {
   const names = ['Kateryna Shevchenko-Zakharchenko', 'Олександр Іваненко', 'Bo', '', 'Maximilian von Richthofen', 'Софія', 'Ivan', 'Anna-Maria', '', 'Yurii', 'Dmytro Kovalenko', 'Олена', 'Max', '', 'Taras Shevchenko', 'Ira', 'Bohdan Khmelnytskyi', 'Oksana', '', 'Pavlo'];
   const roleIds = ['mafia', 'mafia', 'mafia', 'don', 'sheriff', 'doctor', 'maniac', 'r_custom', ...Array(12).fill('civilian')];
   const players = names.map((n, i) => ({ id: 'q' + i, name: n || `#${i + 1}`, roleId: roleIds[i], alive: ![2, 9, 14].includes(i), fouls: [0, 1, 3, 4][i % 4], seen: i % 2 === 0, locked: false }));
@@ -68,6 +52,31 @@ window.__auditRun = async function (opts) {
     rules: [{ ...big, phase: 'setup' }, 'rules'],
     host: [{ ...big, phase: 'setup' }, 'host'],
   };
+  return scenarios;
+};
+
+window.__auditRun = async function (opts) {
+  const KEY = 'mafia-game-v1';
+  const UNDO_KEY = 'mafia-undo-v1';
+  const BACKUP = 'mafia-audit-backup';
+  // If a previous run was interrupted (e.g. the page reloaded), put the real game back first
+  const pending = sessionStorage.getItem(BACKUP);
+  if (pending) {
+    const b = JSON.parse(pending);
+    b.game ? localStorage.setItem(KEY, b.game) : localStorage.removeItem(KEY);
+    b.lang ? localStorage.setItem('mafia-lang', b.lang) : localStorage.removeItem('mafia-lang');
+    b.theme ? localStorage.setItem('mafia-theme', b.theme) : localStorage.removeItem('mafia-theme');
+    b.undo ? localStorage.setItem(UNDO_KEY, b.undo) : localStorage.removeItem(UNDO_KEY);
+  }
+  const saved = { game: localStorage.getItem(KEY), lang: localStorage.getItem('mafia-lang'), theme: localStorage.getItem('mafia-theme'), undo: localStorage.getItem(UNDO_KEY) };
+  sessionStorage.setItem(BACKUP, JSON.stringify(saved));
+  const base = JSON.parse(saved.game || 'null');
+  if (!base) {
+    sessionStorage.removeItem(BACKUP);
+    throw new Error('Open the app once so there is a saved game to build on.');
+  }
+
+  const scenarios = window.__auditScenarios(base);
 
   const combos = [];
   for (const [w, h] of opts.sizes) for (const lang of opts.langs) for (const theme of opts.themes) for (const name of opts.only || Object.keys(scenarios)) combos.push({ w, h, lang, theme, name });
