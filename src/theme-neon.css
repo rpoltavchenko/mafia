@@ -55,14 +55,11 @@
   letter-spacing: 0.04em;
 }
 [data-theme='neon'] h2 {
-  font-size: var(--fs-xl);
   color: var(--text-heading);
   text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 [data-theme='neon'] h3 {
-  font-size: var(--fs-lg);
   color: var(--text-subheading);
-  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 
 /* ---------- header ---------- */
@@ -112,7 +109,6 @@
   backdrop-filter: blur(6px);
 }
 [data-theme='neon'] .btn {
-  border-radius: 10px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 800;
@@ -166,7 +162,6 @@
 
 [data-theme='neon'] .timer-panel {
   background: var(--surface-inset);
-  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
 }
 [data-theme='neon'] .timer-panel:not(.is-warn):not(.is-danger):not(.is-over) .ring-fg-grad {
   display: inline;

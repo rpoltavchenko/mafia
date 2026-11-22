@@ -31,20 +31,10 @@ select {
 h2,
 h3 {
   margin: 0 0 0.6rem;
-  line-height: 1.2;
-}
-h2 {
-  font-size: var(--fs-xl);
-}
-h3 {
-  font-size: var(--fs-lg);
 }
 
 .muted {
   color: var(--text-muted);
-}
-.small {
-  font-size: var(--fs-sm);
 }
 .warn {
   color: var(--warning);
@@ -57,11 +47,7 @@ h3 {
 }
 
 .topbar {
-  position: sticky;
   top: 0;
-  z-index: 10;
-  align-items: center;
-  gap: 1rem;
   padding: 0.6rem 1rem;
   background: var(--surface-header);
   backdrop-filter: blur(10px);
@@ -69,7 +55,6 @@ h3 {
 }
 
 .brand {
-  align-items: center;
   gap: 0.5rem;
   font-weight: 700;
   white-space: nowrap;
@@ -105,7 +90,6 @@ h3 {
 
 .topbar-actions {
   gap: 0.5rem;
-  align-items: center;
   margin-left: auto;
 }
 
@@ -113,39 +97,22 @@ h3 {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem;
-}
-
-.screen {
-  gap: 1rem;
-  padding-bottom: 5rem;
 }
 
 .card {
   background: var(--surface-1);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.1rem;
 }
 
 .row {
-  align-items: center;
   gap: 0.5rem;
-}
-.row.between {
-  justify-content: space-between;
-}
-.row.end {
-  justify-content: end;
 }
 
 .footer-bar {
   position: sticky;
   bottom: 0;
   justify-content: space-between;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.8rem 0;
   background: linear-gradient(to top, var(--surface-page) 70%, transparent);
 }
 .footer-bar > :only-child {
@@ -155,15 +122,9 @@ h3 {
 /* ---------- controls ---------- */
 
 .btn {
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  padding: 0.55rem 1rem;
-  border-radius: var(--radius-sm);
   border: 1px solid var(--border);
   background: var(--surface-2);
   cursor: pointer;
-  font-weight: 600;
   transition: background 0.15s, transform 0.05s, border-color 0.15s;
   touch-action: manipulation;
 }
@@ -209,22 +170,11 @@ h3 {
 .btn-ghost {
   background: transparent;
 }
-.btn-sm {
-  padding: 0.35rem 0.7rem;
-  font-size: var(--fs-sm);
-}
-.btn-lg {
-  padding: 0.75rem 1.4rem;
-  font-size: var(--fs-md);
-}
 
 .icon-btn {
-  width: 2rem;
-  height: 2rem;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border);
-  border-radius: 8px;
   background: transparent;
   cursor: pointer;
 }
@@ -243,7 +193,6 @@ select {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   padding: 0.5rem 0.7rem;
-  min-width: 0;
 }
 input:focus-visible,
 select:focus-visible,
@@ -273,7 +222,6 @@ button:focus-visible {
 }
 
 .stepper {
-  align-items: center;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
@@ -308,7 +256,6 @@ button:focus-visible {
 }
 
 .check {
-  align-items: center;
   gap: 0.5rem;
   margin-top: 0.6rem;
   cursor: pointer;
@@ -332,19 +279,12 @@ button:focus-visible {
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
-
-.chips {
-  gap: 0.4rem;
-}
 .chip {
-  align-items: center;
   gap: 0.35rem;
   border: 1px solid var(--border);
   background: var(--surface-inset);
   border-radius: 999px;
-  padding: 0.3rem 0.75rem 0.3rem 0.35rem;
   cursor: pointer;
-  font-size: var(--fs-sm);
   touch-action: manipulation;
 }
 .chip .seat {
@@ -388,7 +328,6 @@ button:focus-visible {
   background: color-mix(in srgb, var(--role) 18%, var(--surface-inset));
   color: color-mix(in srgb, var(--role) 55%, var(--c-white));
   border: 1px solid color-mix(in srgb, var(--role) 55%, transparent);
-  white-space: nowrap;
 }
 .role-badge.is-hidden,
 .role-badge.is-empty {
@@ -433,7 +372,6 @@ button:focus-visible {
 
 .setup {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   align-items: start;
 }
 .setup .footer-bar {
@@ -444,14 +382,6 @@ button:focus-visible {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0.4rem;
-}
-.name-list li {
-  align-items: center;
-  gap: 0.5rem;
-}
-.move {
-  gap: 0.2rem;
 }
 .move .icon-btn {
   width: 1.8rem;
@@ -463,12 +393,8 @@ button:focus-visible {
   list-style: none;
   margin: 0 0 0.6rem;
   padding: 0;
-  gap: 0.35rem;
 }
 .role-list li {
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0.55rem;
   border-radius: var(--radius-sm);
   background: var(--surface-inset);
   border-left: 3px solid var(--role);
@@ -504,7 +430,6 @@ button:focus-visible {
   color: var(--text-muted);
 }
 .timer-settings input {
-  width: 100%;
   color: var(--text);
 }
 
@@ -518,7 +443,6 @@ button:focus-visible {
 }
 .assign-list li {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(110px, 160px) auto; /* player | role | picker | lock */
   align-items: center;
   gap: 0.6rem;
   padding: 0.45rem 0.6rem;
@@ -528,9 +452,7 @@ button:focus-visible {
 }
 .assign-name {
   font-weight: 600;
-  overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* ---------- reveal ---------- */
@@ -547,8 +469,6 @@ button:focus-visible {
   transition: width 0.3s;
 }
 .reveal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 0.6rem;
 }
 .reveal-btn {
@@ -619,23 +539,13 @@ button:focus-visible {
 
 .game-header {
   justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
-}
-.game-title {
-  align-items: center;
-  gap: 0.7rem;
 }
 .game-title h2 {
   margin: 0;
 }
-.phase-icon {
-  font-size: var(--fs-2xl);
-}
 
 .banner {
   justify-content: space-between;
-  align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1rem;
   border-radius: var(--radius);
@@ -647,11 +557,9 @@ button:focus-visible {
 .game-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 1rem;
   align-items: start;
 }
 .game-side {
-  gap: 1rem;
   position: sticky;
   top: 4.2rem;
 }
@@ -661,15 +569,8 @@ button:focus-visible {
   border-color: var(--phase-border);
 }
 
-.panel-footer {
-  justify-content: end;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
 .tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 0.5rem;
 }
 .tile {
@@ -681,7 +582,6 @@ button:focus-visible {
 }
 .tile-main {
   width: 100%;
-  align-items: stretch;
   padding: 0;
   border: 0;
   background: transparent;
@@ -703,7 +603,6 @@ button:focus-visible {
 }
 .tile-body {
   min-width: 0;
-  gap: 0.25rem;
   padding: 0.45rem 0.55rem;
 }
 .tile-name {
@@ -714,15 +613,9 @@ button:focus-visible {
   white-space: nowrap;
 }
 .tile-meta {
-  align-items: center;
-  gap: 0.3rem;
   min-height: 1.3rem;
 }
 .tile-status {
-  font-size: var(--fs-xs);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--text-muted);
 }
 
@@ -773,10 +666,6 @@ button:focus-visible {
 .fouls.is-warn {
   color: var(--danger);
 }
-.tile-actions {
-  gap: 0.3rem;
-  padding: 0 0.5rem 0.5rem;
-}
 
 .log-card summary {
   cursor: pointer;
@@ -791,10 +680,6 @@ button:focus-visible {
   overflow-y: auto;
   font-size: var(--fs-sm);
 }
-.log li {
-  gap: 0.45rem;
-  align-items: baseline;
-}
 .log-round {
   color: var(--text-muted);
   font-size: var(--fs-xs);
@@ -805,20 +690,12 @@ button:focus-visible {
 /* night */
 .night-steps {
   list-style: none;
-  margin: 0.8rem 0 0;
   padding: 0;
-  gap: 0.7rem;
 }
 .night-step {
-  padding: 0.7rem;
   border-radius: var(--radius-sm);
   background: var(--surface-well);
   border-left: 3px solid var(--role, var(--border));
-}
-.night-step-head {
-  align-items: center;
-  gap: 0.6rem;
-  margin-bottom: 0.55rem;
 }
 .step-num {
   width: 1.6rem;
@@ -860,7 +737,6 @@ button:focus-visible {
 /* day */
 .news {
   list-style: none;
-  padding: 0.6rem 0.8rem;
   margin: 0 0 0.6rem;
   border-radius: var(--radius-sm);
   background: var(--surface-well);
@@ -881,8 +757,6 @@ button:focus-visible {
   gap: 0.45rem;
 }
 .vote-list li {
-  align-items: center;
-  gap: 0.6rem;
   padding: 0.5rem 0.6rem;
   background: var(--surface-well);
   border-radius: var(--radius-sm);
@@ -895,8 +769,6 @@ button:focus-visible {
 
 .timer-panel {
   --ring: var(--timer-ring);
-  margin-top: 0.6rem;
-  padding: 1rem;
   border-radius: var(--radius);
   background: var(--surface-well);
   border: 1px solid var(--border);
@@ -907,15 +779,12 @@ button:focus-visible {
 }
 .timer-panel.is-warn {
   --ring: var(--warning);
-  border-color: var(--warning);
 }
 .timer-panel.is-danger {
   --ring: var(--danger);
-  border-color: var(--danger);
 }
 .timer-panel.is-over {
   --ring: var(--danger);
-  border-color: var(--danger);
   animation: flash 0.8s ease-in-out infinite;
 }
 @keyframes flash {
@@ -926,9 +795,7 @@ button:focus-visible {
 
 .timer-ring-wrap {
   position: relative;
-  width: min(280px, 72vw);
   aspect-ratio: 1;
-  margin: 0.6rem auto;
 }
 .timer-ring {
   width: 100%;
@@ -947,8 +814,6 @@ button:focus-visible {
   transition: stroke-dashoffset 0.2s linear, stroke 0.3s;
 }
 .timer-center {
-  position: absolute;
-  inset: 0;
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
@@ -983,28 +848,23 @@ button:focus-visible {
 
 .timer-controls {
   justify-content: center;
-  gap: 0.45rem;
 }
 .timer-main {
   min-width: 9rem;
 }
 
 .queue {
-  align-items: center;
-  gap: 0.35rem;
   margin-top: 0.9rem;
   font-size: var(--fs-sm);
 }
 .keys-hint {
   text-align: center;
-  margin: 0.7rem 0 0;
 }
 
 /* ---------- end ---------- */
 
 .end-hero {
   text-align: center;
-  padding: 2rem 1rem;
 }
 .end-hero p {
   margin: 0 0 0.4rem;
@@ -1039,10 +899,6 @@ button:focus-visible {
   padding: 0;
   gap: 0.35rem;
 }
-.end-roles li {
-  align-items: center;
-  gap: 0.55rem;
-}
 .end-roles li.is-dead .end-name {
   text-decoration: line-through;
   color: var(--text-muted);
@@ -1057,26 +913,13 @@ button:focus-visible {
   .game-side {
     position: static;
   }
-  .steps {
-    display: none;
-  }
 }
 
 @media (max-width: 479px) {
-  .main {
-    padding: 0.75rem 1rem;
-  }
   .topbar {
     padding: 0.5rem 1rem;
   }
-  .card {
-    padding: 0.9rem;
-  }
-  .setup {
-    grid-template-columns: 1fr;
-  }
   .assign-list li {
-    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas: 'name lock' 'badge select';
   }
   .assign-list li > .assign-name {
@@ -1092,9 +935,6 @@ button:focus-visible {
   .assign-list li > .lock {
     grid-area: lock;
   }
-  .tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .timer-main {
     order: -1;
   }
@@ -1106,24 +946,13 @@ button:focus-visible {
 /* ---------- day nominations & auto votes ---------- */
 
 .nominate-box {
-  margin-top: 0.9rem;
-  padding: 0.7rem;
   border-radius: var(--radius-sm);
   background: var(--surface-well);
   border: 1px dashed var(--border);
 }
-.nominate-title {
-  margin: 0 0 0.5rem;
-  font-weight: 600;
-}
 .chip:disabled {
   opacity: 0.35;
   cursor: not-allowed;
-}
-.nominee-summary {
-  margin-top: 0.9rem;
-  align-items: center;
-  gap: 0.4rem;
 }
 .nominee-pill {
   padding: 0.2rem 0.6rem;
@@ -1137,8 +966,6 @@ button:focus-visible {
   border: 1px dashed var(--border);
 }
 .vote-auto {
-  align-items: center;
-  gap: 0.6rem;
   padding-right: 0.4rem;
 }
 .vote-auto strong {
@@ -1151,7 +978,6 @@ button:focus-visible {
 /* ---------- section tabs ---------- */
 
 .views button {
-  align-items: center;
   gap: 0.3rem;
   white-space: nowrap;
   padding: 0.3rem 0.75rem;
@@ -1172,8 +998,6 @@ button:focus-visible {
 }
 .rules-actions {
   justify-content: space-between;
-  align-items: center;
-  gap: 0.8rem;
 }
 .rules-actions p {
   margin: 0;
@@ -1192,7 +1016,6 @@ button:focus-visible {
 .rules-title {
   margin: 0 0 0.3rem;
   font-size: clamp(1.6rem, 6vw, 2.3rem);
-  line-height: 1.15;
 }
 .rules-subtitle {
   margin: 0;
@@ -1213,11 +1036,7 @@ button:focus-visible {
   border: 1px solid var(--border);
 }
 .rules-glance dt {
-  font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
   color: var(--text-muted);
-  line-height: 1.2;
 }
 .rules-glance dd {
   margin: 0.15rem 0 0;
@@ -1234,7 +1053,6 @@ button:focus-visible {
   break-inside: avoid;
 }
 .rules-h {
-  align-items: center;
   gap: 0.5rem;
   margin: 0 0 0.6rem;
   padding-bottom: 0.45rem;
@@ -1273,7 +1091,6 @@ button:focus-visible {
   gap: 0.7rem;
 }
 .rules-roles li {
-  gap: 0.7rem;
   align-items: start;
 }
 .rules-role-dot {
@@ -1284,7 +1101,6 @@ button:focus-visible {
   background: var(--role);
 }
 .rules-role-head {
-  align-items: baseline;
   gap: 0.45rem;
 }
 .rules-role-count {
@@ -1329,14 +1145,9 @@ button:focus-visible {
   text-align: center;
   align-items: center;
   gap: 0.8rem;
-  padding: 2rem 1.2rem;
   background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 22%, var(--surface-1)), var(--surface-1) 70%);
 }
 .featured-cat {
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--highlight);
 }
 .line {
@@ -1366,10 +1177,7 @@ button:focus-visible {
   gap: 0.5rem;
 }
 .line-list li {
-  padding: 0.6rem 0.8rem;
   border-radius: var(--radius-sm);
-  background: var(--surface-inset);
-  border-left: 3px solid var(--accent);
 }
 .host-card {
   gap: 0.6rem;
@@ -1568,12 +1376,6 @@ button:focus-visible {
 }
 
 @media (max-width: 479px) {
-  .topbar {
-    gap: 0.5rem;
-  }
-  .brand {
-    display: none; /* the Game tab already shows the hat */
-  }
   .topbar-actions {
     gap: 0.35rem;
   }
@@ -1583,14 +1385,10 @@ button:focus-visible {
 
 .intro-steps {
   list-style: none;
-  margin: 0.8rem 0;
   padding: 0;
-  gap: 0.35rem;
 }
 .intro-step-btn {
   width: 100%;
-  align-items: center;
-  gap: 0.6rem;
   padding: 0.5rem 0.65rem;
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
