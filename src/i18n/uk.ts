@@ -182,6 +182,8 @@ export const uk: Dict = {
   'day.pendingSpeeches': 'Ще не виступили: {n}.',
   'day.confirmVoting': 'Так, до голосування',
   'day.confirmNight1': 'Так, до першої ночі',
+  'day.skipToVoting': 'Перейти до голосування…',
+  'day.skipToNight1': 'Перейти до першої ночі…',
   'day.discussion': 'Вільне обговорення',
   'day.discussionHint': 'День починається з вільного обговорення: говорити може кожен.',
   'day.everyone': 'Усі',
@@ -215,6 +217,9 @@ export const uk: Dict = {
   'vote.toNight': 'До ночі →',
 
   'timer.finish': 'Готово ✓',
+  'timer.nextSpeaker': 'Наступний промовець ▶',
+  'timer.finishSpeeches': 'Усі виступили ✓',
+  'timer.prevSpeaker': 'Попередній промовець',
   'timer.start': 'Старт',
   'timer.pause': 'Пауза',
   'timer.resume': 'Далі',

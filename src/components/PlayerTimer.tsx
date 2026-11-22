@@ -19,9 +19,14 @@ interface Props {
   onActiveChange?: (id: string | null) => void;
   /** Extra controls under the timer for the current speaker (e.g. nominations) */
   renderSpeakerExtras?: (speaker: Player) => ReactNode;
+  /**
+   * What the big button does after the last speaker (e.g. "Go to voting →").
+   * It takes the same place as "Next speaker", so there is only ever one forward button.
+   */
+  finish?: { label: string; onClick: () => void };
 }
 
-export default function PlayerTimer({ title, queue, index, onIndexChange, seconds, done, onActiveChange, renderSpeakerExtras }: Props) {
+export default function PlayerTimer({ title, queue, index, onIndexChange, seconds, done, onActiveChange, renderSpeakerExtras, finish }: Props) {
   const { t } = useI18n();
   const { state } = useGame();
   const beep = useBeep(state.settings.sound, state.settings.vibrate);
@@ -29,7 +34,7 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
   const current = queue[index];
   const autoStart = useRef(false);
 
-  // New speaker → fresh timer; auto-start when the host pressed "Next"
+  // New speaker → fresh timer; auto-start when the host pressed "Next" while a timer was running/over
   useEffect(() => {
     if (autoStart.current && current) timer.restart();
     else timer.reset();
@@ -43,27 +48,41 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
   useEffect(() => () => onActiveChange?.(null), [onActiveChange]);
 
   const next = () => {
+    if (!current) return; // keyboard "N" never moves past the speakers into the next phase
     autoStart.current = timer.status === 'running' || timer.status === 'expired';
     onIndexChange(index + 1);
   };
   const prev = () => onIndexChange(Math.max(0, index - 1));
   const toggle = () => {
+    if (!current) return;
     beep.unlock();
     timer.toggle();
   };
 
   useTimerKeys({ toggle, next, prev });
 
+  const isLast = index === queue.length - 1;
+
   if (!current) {
     return (
       <div className="timer-panel is-done">
-        <h3>{title}</h3>
-        {index > 0 && (
-          <button className="btn btn-ghost btn-sm" onClick={prev}>
+        <div className="timer-head">
+          <h3>{title}</h3>
+          <span className="muted">
+            {queue.length} / {queue.length}
+          </span>
+        </div>
+        {done}
+        <div className="timer-forward">
+          <button className="btn" onClick={prev} disabled={index === 0} aria-label={t('timer.prevSpeaker')} title={t('timer.prevSpeaker')}>
             {t('timer.prev')}
           </button>
-        )}
-        {done}
+          {finish && (
+            <button className="btn btn-lg btn-phase" onClick={finish.onClick}>
+              {finish.label}
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -81,50 +100,48 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
       </div>
 
       <div className="timer-body">
-      <TimerRing
-        remainingMs={timer.remainingMs}
-        totalMs={timer.totalMs}
-        label={
-          <>
-            <PlayerLabel id={current.id} size="lg" />
-          </>
-        }
-        footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
-      />
+        <TimerRing
+          remainingMs={timer.remainingMs}
+          totalMs={timer.totalMs}
+          label={<PlayerLabel id={current.id} size="lg" />}
+          footer={timer.status === 'expired' && <span className="timer-up">{t('timer.timeUp')}</span>}
+        />
 
-      <div className="timer-side">
-      <div className="timer-controls">
-        <button className="btn btn-primary btn-lg timer-main" onClick={toggle}>
-          {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
-        </button>
-        <div className="timer-secondary">
-        <button className="btn" onClick={prev} disabled={index === 0} aria-label="previous">
-          {t('timer.prev')}
-        </button>
-        <button className="btn" onClick={() => timer.addTime(10)}>
-          {t('timer.add')}
-        </button>
-        <button className="btn" onClick={timer.reset}>
-          ↺ {t('timer.reset')}
-        </button>
-        <button className="btn btn-accent" onClick={next}>
-          {index === queue.length - 1 ? t('timer.finish') : t('timer.next')}
-        </button>
+        <div className="timer-side">
+          <div className="timer-controls">
+            <div className="timer-clock">
+              <button className="btn timer-toggle" onClick={toggle}>
+                {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
+              </button>
+              <button className="btn" onClick={() => timer.addTime(10)}>
+                {t('timer.add')}
+              </button>
+              <button className="btn" onClick={timer.reset} aria-label={t('timer.reset')} title={t('timer.reset')}>
+                ↺
+              </button>
+            </div>
+            <div className="timer-forward">
+              <button className="btn" onClick={prev} disabled={index === 0} aria-label={t('timer.prevSpeaker')} title={t('timer.prevSpeaker')}>
+                {t('timer.prev')}
+              </button>
+              <button className="btn btn-primary btn-lg timer-next" onClick={next}>
+                {isLast ? t('timer.finishSpeeches') : t('timer.nextSpeaker')}
+              </button>
+            </div>
+          </div>
+          {upNext.length > 0 && (
+            <div className="queue">
+              <span className="muted">{t('timer.upNext')}:</span>
+              {upNext.slice(0, 3).map((p) => (
+                <button key={p.id} className="chip chip-player" onClick={() => onIndexChange(queue.indexOf(p))}>
+                  <PlayerLabel id={p.id} />
+                </button>
+              ))}
+              {upNext.length > 3 && <span className="queue-more muted">+{upNext.length - 3}</span>}
+            </div>
+          )}
+          <p className="muted small keys-hint">{t('timer.keys')}</p>
         </div>
-      </div>
-      {upNext.length > 0 && (
-        <div className="queue">
-          <span className="muted">{t('timer.upNext')}:</span>
-          {upNext.slice(0, 3).map((p) => (
-            <button key={p.id} className="chip chip-player" onClick={() => onIndexChange(queue.indexOf(p))}>
-              <PlayerLabel id={p.id} />
-            </button>
-          ))}
-          {upNext.length > 3 && <span className="queue-more muted">+{upNext.length - 3}</span>}
-        </div>
-      )}
-      <p className="muted small keys-hint">{t('timer.keys')}</p>
-      </div>
       </div>
 
       {renderSpeakerExtras?.(current)}

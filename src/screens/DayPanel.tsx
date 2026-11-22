@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import PhaseSteps from '../components/PhaseSteps';
-import PhaseNav from '../components/PhaseNav';
 import { playerText, seatOf } from '../game/players';
 import PlayerLabel from '../components/PlayerLabel';
 import DiscussionTimer from '../components/DiscussionTimer';
@@ -24,6 +24,9 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
     : spoken < queue.length
       ? t('day.pendingSpeeches', { n: queue.length - spoken })
       : null;
+  const [confirmSkip, setConfirmSkip] = useState(false);
+  useEffect(() => setConfirmSkip(false), [pending]);
+  const goNext = () => dispatch(dayZero ? { type: 'FINISH_VOTING' } : { type: 'GO_VOTING' });
   const nightNews = state.log.filter((l) => l.round === state.round && l.phase === 'night' && (l.key === 'log.killed' || l.key === 'log.quietNight'));
 
   const nominationsFor = (speaker: Player) => {
@@ -58,6 +61,7 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
 
   return (
     <div className="card day-panel">
+      <div className="phase-head">
       <PhaseSteps
         current={stepIndex}
         steps={[
@@ -66,6 +70,25 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
           { label: dayZero ? t('day.night1') : t('vote.title') },
         ]}
       />
+        {pending && !confirmSkip && (
+          <button className="link-btn" onClick={() => setConfirmSkip(true)}>
+            {dayZero ? t('day.skipToNight1') : t('day.skipToVoting')}
+          </button>
+        )}
+      </div>
+      {pending && confirmSkip && (
+        <div className="skip-confirm" role="alert">
+          <p>⚠️ {pending}</p>
+          <div className="phase-nav-actions">
+            <button className="btn" onClick={() => setConfirmSkip(false)} autoFocus>
+              {t('phaseNav.stay')}
+            </button>
+            <button className="btn btn-danger" onClick={goNext}>
+              {dayZero ? t('day.confirmNight1') : t('day.confirmVoting')}
+            </button>
+          </div>
+        </div>
+      )}
       {nightNews.length > 0 && (
         <ul className="news">
           {nightNews.map((l, i) => (
@@ -95,6 +118,7 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
             seconds={state.settings.speechSeconds}
             onActiveChange={onActiveChange}
             renderSpeakerExtras={dayZero ? undefined : nominationsFor}
+            finish={{ label: dayZero ? `🌙 ${t('day.toNight1')}` : `🗳️ ${t('day.toVoting')}`, onClick: goNext }}
             done={<p className="done-msg">✅ {t('day.allSpoke')}</p>}
           />
         </>
@@ -121,21 +145,7 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
       </div>
       )}
 
-      {dayZero ? (
-        <PhaseNav
-          label={`🌙 ${t('day.toNight1')}`}
-          pending={pending}
-          confirmLabel={t('day.confirmNight1')}
-          onGo={() => dispatch({ type: 'FINISH_VOTING' })}
-        />
-      ) : (
-        <PhaseNav
-          label={`🗳️ ${t('day.toVoting')}`}
-          pending={pending}
-          confirmLabel={t('day.confirmVoting')}
-          onGo={() => dispatch({ type: 'GO_VOTING' })}
-        />
-      )}
+
     </div>
   );
 }

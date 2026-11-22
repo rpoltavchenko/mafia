@@ -180,6 +180,8 @@ export const en = {
   'day.pendingSpeeches': '{n} players haven’t spoken yet.',
   'day.confirmVoting': 'Yes, go to voting',
   'day.confirmNight1': 'Yes, go to Night 1',
+  'day.skipToVoting': 'Skip to voting…',
+  'day.skipToNight1': 'Skip to Night 1…',
   'day.discussion': 'Open discussion',
   'day.discussionHint': 'The day starts with a free discussion: anyone can talk.',
   'day.everyone': 'Everyone',
@@ -213,6 +215,9 @@ export const en = {
   'vote.toNight': 'Go to night →',
 
   'timer.finish': 'Done ✓',
+  'timer.nextSpeaker': 'Next speaker ▶',
+  'timer.finishSpeeches': 'All spoken ✓',
+  'timer.prevSpeaker': 'Previous speaker',
   'timer.start': 'Start',
   'timer.pause': 'Pause',
   'timer.resume': 'Resume',

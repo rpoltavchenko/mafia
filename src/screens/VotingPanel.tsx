@@ -114,12 +114,8 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
             onIndexChange={setTimerIndex}
             seconds={state.settings.defenseSeconds}
             onActiveChange={onActiveChange}
+            finish={{ label: `🗳️ ${t('vote.revote')} →`, onClick: () => dispatch({ type: 'START_REVOTE' }) }}
           />
-          <div className="panel-footer">
-            <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'START_REVOTE' })}>
-              {t('vote.revote')} →
-            </button>
-          </div>
         </>
       )}
 
@@ -152,9 +148,10 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
               onIndexChange={setTimerIndex}
               seconds={state.settings.lastWordSeconds}
               onActiveChange={onActiveChange}
+              finish={{ label: `🌙 ${t('vote.toNight')}`, onClick: () => dispatch({ type: 'FINISH_VOTING' }) }}
             />
           )}
-          {toNight(null)}
+          {vote.eliminated.length === 0 && toNight(null)}
         </>
       )}
     </div>

@@ -41,19 +41,21 @@ export default function DiscussionTimer({ title, seconds, onDone, doneLabel, lab
       />
       <div className="timer-side">
       <div className="timer-controls">
-        <button className="btn btn-primary btn-lg timer-main" onClick={toggle}>
-          {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
-        </button>
-        <div className="timer-secondary">
-        <button className="btn" onClick={() => timer.addTime(10)}>
-          {t('timer.add')}
-        </button>
-        <button className="btn" onClick={timer.reset}>
-          ↺ {t('timer.reset')}
-        </button>
-        <button className="btn btn-accent" onClick={onDone}>
-          {doneLabel}
-        </button>
+        <div className="timer-clock">
+          <button className="btn timer-toggle" onClick={toggle}>
+            {timer.status === 'running' ? `⏸ ${t('timer.pause')}` : timer.status === 'paused' ? `▶ ${t('timer.resume')}` : `▶ ${t('timer.start')}`}
+          </button>
+          <button className="btn" onClick={() => timer.addTime(10)}>
+            {t('timer.add')}
+          </button>
+          <button className="btn" onClick={timer.reset} aria-label={t('timer.reset')} title={t('timer.reset')}>
+            ↺
+          </button>
+        </div>
+        <div className="timer-forward is-single">
+          <button className="btn btn-primary btn-lg timer-next" onClick={onDone}>
+            {doneLabel}
+          </button>
         </div>
       </div>
       <p className="muted small keys-hint">{t('timer.keys')}</p>

@@ -1578,3 +1578,99 @@ h3 {
   font-size: var(--fs-xs);
   line-height: 1.4;
 }
+
+/* =========================================================
+   Timer controls: clock row + one forward button
+   ========================================================= */
+
+.timer-controls {
+  display: grid;
+  gap: var(--space-2);
+}
+/* start/pause · +10s · reset */
+.timer-clock {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto;
+  gap: var(--space-2);
+}
+.timer-clock .btn:last-child {
+  min-width: 2.5rem;
+  padding-inline: var(--space-2);
+}
+/* ◀ previous · the single forward button (next speaker → then the next phase) */
+.timer-forward {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-2);
+}
+.timer-forward.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+.timer-forward > .btn:first-child:not(:only-child) {
+  min-width: 2.75rem;
+  padding-inline: var(--space-2);
+}
+.timer-panel.is-done {
+  display: grid;
+  gap: var(--space-3);
+}
+.timer-panel.is-done .done-msg {
+  padding: var(--space-2) 0;
+  margin: 0;
+}
+/* the next-phase action looks different from "Next speaker": outlined, highlight colour, own icon */
+.btn-phase {
+  background: color-mix(in srgb, var(--highlight) 12%, var(--surface-inset));
+  border: 2px solid var(--highlight);
+  color: var(--text);
+}
+.btn-phase:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--highlight) 22%, var(--surface-inset));
+  border-color: var(--highlight);
+}
+
+/* day: progress steps with the quiet skip link beside them */
+.phase-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+}
+.link-btn {
+  border: 0;
+  background: none;
+  padding: 0.25rem 0;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.link-btn:hover {
+  color: var(--text);
+}
+.skip-confirm {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, var(--surface-inset));
+}
+.skip-confirm p {
+  margin: 0;
+  font-weight: 600;
+}
+@media (max-width: 767px) {
+  .phase-head,
+  .skip-confirm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .phase-head .link-btn {
+    justify-self: end;
+  }
+}
