@@ -253,3 +253,67 @@ describe('player labels in the log', () => {
     expect(s.log.find((l) => l.key === 'log.votedOut')?.params?.name).toBe('#4');
   });
 });
+
+describe('night target rules', () => {
+  const players = [p('m1', 'mafia'), p('don', 'don'), p('sh', 'sheriff'), p('doc', 'doctor'), p('man', 'maniac'), p('c1', 'civilian'), p('c2', 'civilian'), p('c3', 'civilian')];
+  const target = (s: GameState, stepId: string, id: string) => reducer(s, { type: 'NIGHT_TARGET', stepId, targetId: id }).night.targets[stepId] ?? null;
+
+  it('the Mafia cannot target their own team', () => {
+    const s = gameWith(players);
+    expect(target(s, 'mafia', 'm1')).toBeNull();
+    expect(target(s, 'mafia', 'don')).toBeNull();
+    expect(target(s, 'mafia', 'c1')).toBe('c1');
+  });
+
+  it('the Sheriff cannot check himself (nor the Don, nor the Maniac pick themselves)', () => {
+    const s = gameWith(players);
+    expect(target(s, 'sheriff', 'sh')).toBeNull();
+    expect(target(s, 'sheriff', 'm1')).toBe('m1');
+    expect(target(s, 'don', 'don')).toBeNull();
+    expect(target(s, 'maniac', 'man')).toBeNull();
+  });
+
+  it('dead players cannot be chosen', () => {
+    const s = gameWith(players.map((x) => (x.id === 'c1' ? { ...x, alive: false } : x)));
+    expect(target(s, 'mafia', 'c1')).toBeNull();
+  });
+
+  it('the Doctor can heal himself, but not the same player two nights in a row', () => {
+    let s = gameWith(players);
+    expect(target(s, 'doctor', 'doc')).toBe('doc');
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'doctor', targetId: 'doc' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    expect(s.lastHeals).toEqual({ doctor: 'doc' });
+
+    // next night: himself is blocked, others are fine
+    s = reducer({ ...s, phase: 'day' }, { type: 'FINISH_VOTING' });
+    expect(s.phase).toBe('night');
+    expect(target(s, 'doctor', 'doc')).toBeNull();
+    expect(target(s, 'doctor', 'c2')).toBe('c2');
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'doctor', targetId: 'c2' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+
+    // the night after: himself is allowed again, c2 is blocked
+    s = reducer({ ...s, phase: 'day' }, { type: 'FINISH_VOTING' });
+    expect(target(s, 'doctor', 'doc')).toBe('doc');
+    expect(target(s, 'doctor', 'c2')).toBeNull();
+  });
+
+  it('a night with no heal clears the restriction', () => {
+    let s = gameWith(players);
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'doctor', targetId: 'c1' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    s = reducer({ ...s, phase: 'day' }, { type: 'FINISH_VOTING' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' }); // Doctor skips this night
+    s = reducer({ ...s, phase: 'day' }, { type: 'FINISH_VOTING' });
+    expect(target(s, 'doctor', 'c1')).toBe('c1');
+  });
+
+  it('a new game forgets last heals', () => {
+    let s = gameWith(players);
+    s = reducer(s, { type: 'NIGHT_TARGET', stepId: 'doctor', targetId: 'doc' });
+    s = reducer(s, { type: 'RESOLVE_NIGHT' });
+    s = reducer(s, { type: 'START_GAME' });
+    expect(s.lastHeals).toEqual({});
+  });
+});

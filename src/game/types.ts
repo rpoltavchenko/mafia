@@ -87,6 +87,8 @@ export interface GameState {
   roleCounts: Record<string, number>;
   settings: Settings;
   night: NightState;
+  /** Last night's heal target per heal step (e.g. the Doctor), to stop healing the same player twice in a row */
+  lastHeals: Record<string, string | null>;
   speech: SpeechState;
   vote: VoteState;
   log: LogEntry[];

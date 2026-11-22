@@ -155,6 +155,10 @@ export const uk: Dict = {
   'night.result.no': 'НІ',
   'night.isMafia': 'Мафія?',
   'night.isSheriff': 'Шериф?',
+  'night.blockOwnTeam': 'Мафія не може обрати свого',
+  'night.blockSelf': 'Не можна обрати себе',
+  'night.blockHealedLastNight': 'Лікований минулої ночі — двічі поспіль не можна',
+  'night.healNote': '{name} лікували минулої ночі — сьогодні лікувати знову не можна.',
   'night.resolve': 'Ранок →',
   'night.mafiaActors': 'Команда мафії',
 

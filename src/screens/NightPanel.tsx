@@ -1,7 +1,7 @@
 import { playerText } from '../game/players';
 import PlayerLabel from '../components/PlayerLabel';
 import { useGame } from '../game/GameContext';
-import { checkResult, nightSteps } from '../game/night';
+import { checkResult, nightSteps, targetBlock } from '../game/night';
 import { useI18n } from '../i18n/I18nContext';
 
 export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
@@ -44,17 +44,27 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
                 )}
               </div>
               <div className="player-grid">
-                {alive.map((p) => (
-                  <button
-                    key={p.id}
-                    className={`chip chip-player ${target === p.id ? 'is-selected' : ''}`}
-                    onClick={() => dispatch({ type: 'NIGHT_TARGET', stepId: step.id, targetId: target === p.id ? null : p.id })}
-                    aria-pressed={target === p.id}
-                  >
-                    <PlayerLabel id={p.id} />
-                  </button>
-                ))}
+                {alive.map((p) => {
+                  const block = targetBlock(step, p.id, state.lastHeals);
+                  return (
+                    <button
+                      key={p.id}
+                      className={`chip chip-player ${target === p.id ? 'is-selected' : ''} ${block ? 'is-blocked' : ''}`}
+                      onClick={() => dispatch({ type: 'NIGHT_TARGET', stepId: step.id, targetId: target === p.id ? null : p.id })}
+                      aria-pressed={target === p.id}
+                      disabled={!!block}
+                      title={block ? t(block) : undefined}
+                    >
+                      <PlayerLabel id={p.id} />
+                    </button>
+                  );
+                })}
               </div>
+              {step.action === 'heal' && state.lastHeals[step.id] && alive.some((p) => p.id === state.lastHeals[step.id]) && (
+                <p className="step-note">
+                  🚫 {t('night.healNote', { name: playerText(state.players, state.lastHeals[step.id]!) })}
+                </p>
+              )}
             </li>
           );
         })}

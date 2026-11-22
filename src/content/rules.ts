@@ -58,6 +58,9 @@ const TEXT = {
     night3: 'Open your eyes **only when your role is called**, and act silently with gestures.',
     night4: 'In the morning the host announces who was killed.',
     nightDoctor: 'A player **saved by the Doctor** survives the night.',
+    ruleMafia: 'The Mafia **can’t target their own team**.',
+    ruleSheriff: 'The Sheriff **can’t check himself**.',
+    ruleDoctor: 'The Doctor **may heal himself**, but **never the same player two nights in a row**.',
     day: 'Day',
     dayZero: '**Day 0** is for getting to know each other: discussion and speeches, but **no voting**. Night 1 follows.',
     day1: 'The day starts with an **open discussion ({sec} s)** — anyone can talk.',
@@ -98,6 +101,9 @@ const TEXT = {
     night3: 'Розплющуйте очі **лише тоді, коли назвали вашу роль**, і дійте мовчки, жестами.',
     night4: 'Вранці ведучий оголошує, кого вбили.',
     nightDoctor: 'Гравець, якого **врятував лікар**, переживає ніч.',
+    ruleMafia: 'Мафія **не може обрати свого**.',
+    ruleSheriff: 'Шериф **не може перевірити себе**.',
+    ruleDoctor: 'Лікар **може лікувати себе**, але **не одного й того самого гравця дві ночі поспіль**.',
     day: 'День',
     dayZero: '**День 0** — для знайомства: обговорення та промови, але **без голосування**. Далі — перша ніч.',
     day1: 'День починається з **вільного обговорення ({sec} с)** — говорити може кожен.',
@@ -199,6 +205,9 @@ export function buildRules(
   const intro = state.settings.introRound;
   const night = [...(intro ? [T.nightZero] : []), T.night1, fill(T.night2, { order: order.join(' → ') }), T.night3, T.night4];
   if (inPlay.some((r) => r.nightAction === 'heal')) night.push(T.nightDoctor);
+  if (inPlay.some((r) => r.team === 'mafia')) night.push(T.ruleMafia);
+  if (inPlay.some((r) => r.id === 'sheriff')) night.push(T.ruleSheriff);
+  if (inPlay.some((r) => r.nightAction === 'heal')) night.push(T.ruleDoctor);
 
   return {
     title: T.title,

@@ -1196,3 +1196,18 @@ select {
     justify-self: stretch;
   }
 }
+
+/* night: players a role isn't allowed to choose */
+.chip.is-blocked {
+  opacity: 0.32;
+  border-style: dashed;
+  cursor: not-allowed;
+}
+.chip.is-blocked .pl-num {
+  text-decoration: line-through;
+}
+.step-note {
+  margin: var(--space-2) 0 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}

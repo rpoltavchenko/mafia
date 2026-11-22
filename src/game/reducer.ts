@@ -1,6 +1,6 @@
 import { assignRoles } from './assign';
 import { playerText } from './players';
-import { resolveNight } from './night';
+import { nightSteps, resolveNight, targetBlock } from './night';
 import { BUILTIN_ROLES, CUSTOM_COLORS, suggestRoleCounts } from './roles';
 import type { GameState, LogEntry, NightAction, Player, Settings, Team, VoteState } from './types';
 import { checkWinner } from './winCheck';
@@ -40,6 +40,7 @@ export function initialState(playerCount = 10): GameState {
     roleCounts: suggestRoleCounts(playerCount),
     settings: { ...DEFAULT_SETTINGS },
     night: { targets: {} },
+    lastHeals: {},
     speech: emptySpeech(),
     vote: emptyVote(),
     log: [],
@@ -256,6 +257,7 @@ export function reducer(state: GameState, action: Action): GameState {
         players: state.players.map((p) => ({ ...p, alive: true, fouls: 0 })),
         log: [],
         winner: null,
+        lastHeals: {},
       };
       const firstRound = state.settings.introRound ? 0 : 1;
       return goNight({ ...fresh, round: firstRound }, firstRound);
@@ -272,8 +274,14 @@ export function reducer(state: GameState, action: Action): GameState {
       };
     }
 
-    case 'NIGHT_TARGET':
+    case 'NIGHT_TARGET': {
+      if (action.targetId) {
+        const step = nightSteps(state.players, state.roles).find((s) => s.id === action.stepId);
+        const target = state.players.find((p) => p.id === action.targetId);
+        if (!step || !target?.alive || targetBlock(step, action.targetId, state.lastHeals)) return state; // not allowed
+      }
       return { ...state, night: { targets: { ...state.night.targets, [action.stepId]: action.targetId } } };
+    }
     case 'RESOLVE_NIGHT': {
       if (isIntroRound(state)) return reducer(state, { type: 'END_INTRO_NIGHT' }); // Night 0: nobody acts
       const outcome = resolveNight(state.players, state.roles, state.night.targets);
@@ -288,10 +296,16 @@ export function reducer(state: GameState, action: Action): GameState {
       }
       if (outcome.deaths.length === 0) push('log.quietNight');
       for (const id of outcome.deaths) push('log.killed', { name: nameOf(state, id) });
+      // remember tonight's heals: the same player can't be healed again tomorrow night
+      const lastHeals: Record<string, string | null> = {};
+      for (const step of nightSteps(state.players, state.roles)) {
+        if (step.action === 'heal') lastHeals[step.id] = state.night.targets[step.id] ?? null;
+      }
       const next: GameState = {
         ...state,
         players,
         log,
+        lastHeals,
         phase: 'day',
         speech: { queue: speakingOrder(players, dayIndex(state)), index: 0, discussionDone: false },
         vote: emptyVote(),
@@ -400,6 +414,7 @@ export function reducer(state: GameState, action: Action): GameState {
         log: [],
         winner: null,
         night: { targets: {} },
+        lastHeals: {},
         speech: emptySpeech(),
         vote: emptyVote(),
       };

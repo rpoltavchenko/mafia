@@ -153,6 +153,10 @@ export const en = {
   'night.result.no': 'NO',
   'night.isMafia': 'Is Mafia?',
   'night.isSheriff': 'Is Sheriff?',
+  'night.blockOwnTeam': 'The Mafia can’t target their own team',
+  'night.blockSelf': 'Can’t choose themselves',
+  'night.blockHealedLastNight': 'Healed last night — can’t be healed twice in a row',
+  'night.healNote': '{name} was healed last night and can’t be healed again tonight.',
   'night.resolve': 'Morning →',
   'night.mafiaActors': 'Mafia team',
 

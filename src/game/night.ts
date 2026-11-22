@@ -42,6 +42,21 @@ export function nightSteps(players: Player[], roles: RoleDef[]): NightStep[] {
   return steps;
 }
 
+/** Why a player can't be chosen in a night step (an i18n key), or null if allowed. */
+export type TargetBlock = 'night.blockOwnTeam' | 'night.blockSelf' | 'night.blockHealedLastNight';
+
+/**
+ * Night target rules:
+ * - the Mafia team can't target its own members (themselves or the Don)
+ * - checkers (Sheriff, Don) and other killers (Maniac) can't choose themselves
+ * - healers (Doctor) may heal themselves, but not the same player two nights in a row
+ */
+export function targetBlock(step: NightStep, targetId: string, lastHeals: Record<string, string | null> = {}): TargetBlock | null {
+  if (step.action === 'heal') return lastHeals[step.id] === targetId ? 'night.blockHealedLastNight' : null;
+  if (step.actors.includes(targetId)) return step.id === 'mafia' ? 'night.blockOwnTeam' : 'night.blockSelf';
+  return null;
+}
+
 export interface NightOutcome {
   deaths: string[];
   saved: string[];
