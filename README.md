@@ -13,6 +13,7 @@ Open http://localhost:5173. The dev server also listens on your local network, s
 
 ```bash
 npm test        # game logic tests
+npm run lint    # ESLint (fails on warnings)
 npm run build   # production build in dist/
 ```
 
@@ -40,7 +41,9 @@ All colours live in [`src/tokens.css`](src/tokens.css), in three layers:
 
 1. **Primitives** (`--c-pink-500`, `--c-navy-900`, …): the raw palette. Components never use these directly.
 2. **Semantic tokens**: what components use. `--surface-page/1/2/3/inset/well`, `--border`, `--text`, `--text-muted`, `--accent`, `--accent-fill`, `--on-accent`, `--highlight`, `--success/--warning/--danger`, `--team-*`, `--role-*`.
-3. **Themes and phases**: `html[data-theme="neon"]` and `html[data-phase="night|day|voting"]` override semantic tokens only.
+3. **Themes and phases**: `html[data-theme="neon|sunset|classic"]` and `html[data-phase="night|day|voting"]` override semantic tokens only.
+
+There are three themes, cycled by the theme button in the top bar: 🌴 **Neon** (the default), 🌅 **Sunset** (pastel and flat) and 🌙 **Classic**. The choice is remembered in the browser.
 
 Rules:
 - No hex/rgb colours in component CSS or TSX. Use a semantic token, or `color-mix()` from one for tints.

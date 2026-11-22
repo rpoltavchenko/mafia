@@ -16,7 +16,11 @@ npx vitest run -t "doctor"          # tests matching a name
 npm run build                       # tsc -b && vite build → dist/ (this is also the type check)
 ```
 
-`.claude/launch.json` defines the `mafia` preview config (`npm run dev`, port 5173). There is no linter configured.
+```bash
+npm run lint                        # ESLint 9 flat config (eslint.config.js), --max-warnings 0
+```
+
+`.claude/launch.json` defines the `mafia` preview config (`npm run dev`, port 5173).
 
 Two browser-console scripts in `scripts/` (paste into DevTools with the dev server running; they are not Node scripts):
 - `check-contrast.js` — WCAG AA check across every theme × phase. Run after any colour change.
