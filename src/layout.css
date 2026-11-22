@@ -1719,3 +1719,104 @@ h3 {
 :root[data-theme='sunset'] .sky-night {
   filter: saturate(0.8) hue-rotate(18deg);
 }
+
+/* =========================================================
+   Assign roles: summary + seat cards (same language as game tiles)
+   ========================================================= */
+
+.role-summary {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+  gap: var(--space-2);
+}
+.role-summary li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+}
+.role-summary-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.role-summary b {
+  font-variant-numeric: tabular-nums;
+}
+.role-summary li.is-off {
+  border-color: var(--warning);
+  background: color-mix(in srgb, var(--warning) 14%, var(--surface-inset));
+}
+.role-summary li.is-off b {
+  color: var(--warning);
+}
+
+.assign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--space-2);
+}
+.assign-card {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  align-items: stretch;
+  min-height: 3.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.assign-card.is-locked {
+  border-color: color-mix(in srgb, var(--role, var(--accent)) 55%, var(--border));
+}
+.assign-card.is-empty .tile-seat {
+  color: var(--warning);
+}
+.assign-card-body {
+  display: grid;
+  align-content: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.55rem;
+  min-width: 0;
+}
+/* the role pill is the picker: a native select sits invisibly on top of it */
+.role-picker {
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  gap: 0.3rem;
+  min-width: 0;
+  max-width: 100%;
+  cursor: pointer;
+}
+.role-picker select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.role-picker:focus-within .role-badge {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+.role-picker-caret {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+.assign-lock {
+  align-self: center;
+  margin-right: 0.4rem;
+  border: 0;
+}
