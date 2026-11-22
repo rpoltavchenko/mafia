@@ -40,7 +40,15 @@ Tap any player tile to add/remove fouls or remove/revive a player. "Hide roles" 
 
 **Timer keys**: Space = start/pause, N or → = next speaker, ← = previous. The timer turns orange at 10 s, red at 5 s, and beeps/vibrates at 0.
 
-The game is saved in the browser, so refreshing the page doesn't lose it.
+The game is saved in the browser, so refreshing the page doesn't lose it. While a timer runs, the screen stays on (where the browser allows it).
+
+## Install on a phone
+
+The production build (`npm run build`, served over HTTPS or from localhost) is an installable app that works offline:
+- **Android / Chrome**: menu → *Install app* (or *Add to Home screen*).
+- **iPhone / Safari**: Share → *Add to Home Screen*.
+
+After the first visit everything is cached, including the fonts, so the game runs with no Wi‑Fi. A new version is downloaded in the background and used the next time the app is opened, never in the middle of a game. The icons in `public/` are rendered from `public/icon.svg` and `public/icon-maskable.svg` by `node scripts/make-icons.mjs`.
 
 ## Colours
 

@@ -1,6 +1,7 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "mafia", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 5173 }
+    { "name": "mafia", "runtimeExecutable": "npm", "runtimeArgs": ["run", "dev"], "port": 5173 },
+    { "name": "mafia-preview", "runtimeExecutable": "sh", "runtimeArgs": ["-c", "npm run build && npx vite preview --port 4180 --strictPort"], "port": 4180 }
   ]
 }

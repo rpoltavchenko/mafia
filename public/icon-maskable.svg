@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff3d9a"/>
+      <stop offset="1" stop-color="#f0a020"/>
+    </linearGradient>
+  </defs>
+  <!-- full-bleed background; the hat stays inside the central safe zone -->
+  <rect width="512" height="512" fill="#140a26"/>
+  <g transform="translate(256 256) scale(0.72) translate(-256 -246)">
+    <path d="M168 140 Q168 120 188 120 H324 Q344 120 344 140 L355 326 H157 Z" fill="url(#g)"/>
+    <path d="M159 278 H353 L355 318 H157 Z" fill="#3a1240"/>
+    <ellipse cx="256" cy="352" rx="168" ry="34" fill="url(#g)"/>
+  </g>
+</svg>

@@ -26,7 +26,7 @@ npx playwright test e2e/screens.spec.ts --update-snapshots   # after an intended
 
 Playwright notes: `e2e/audit.spec.ts` runs the `scripts/` files unchanged (`check-contrast.js` is evaluated for its returned lines; `ui-audit.js` is added as a script tag). `e2e/screens.spec.ts` builds its states with `window.__auditScenarios` from `ui-audit.js`, seeds `Math.random` (the host line is random and changes the layout), and makes sticky bars static via `e2e/screenshot.css`. Screenshot baselines are darwin-specific.
 
-`.claude/launch.json` defines the `mafia` preview config (`npm run dev`, port 5173).
+`.claude/launch.json` defines `mafia` (`npm run dev`, port 5173) and `mafia-preview` (production build + `vite preview` on port 4180, with the service worker).
 
 Two browser-console scripts in `scripts/` (paste into DevTools with the dev server running, or run them through `npm run audit`; they are not Node scripts):
 - `check-contrast.js` — WCAG AA check across every theme × phase. Run after any colour change.
@@ -45,6 +45,8 @@ Two browser-console scripts in `scripts/` (paste into DevTools with the dev serv
 **UI** (`src/App.tsx`, `src/screens/`, `src/components/`): `App` switches screens on `state.phase`, plus top-level tabs Game / Rules / Host lines (`#rules`, `#host` hash URLs). The game view stays mounted (hidden) while other tabs are open so running timers survive. `GameScreen` hosts `NightPanel` / `IntroNightPanel` / `DayPanel` / `VotingPanel`. Timers live in `src/hooks/useTimer.ts` (with `useBeep`, `useSpaceToggle` for keyboard control).
 
 **i18n** (`src/i18n/`): `en.ts` is the typed source dictionary (`DictKey`); `uk.ts` is typed as `Dict`, so every key must exist in both. Use `t(key)` for static keys, `tk(key)` for runtime-built keys (e.g. log entries store an i18n `key` + `params`, not text). Long-form content (`src/content/rules.ts`, `hostLines.ts`) holds `en`/`uk` side by side instead of using the dictionaries.
+
+**PWA** (`vite.config.ts`, `vite-plugin-pwa`): the production build precaches everything (JS, CSS, HTML, icons, the self-hosted `woff2` fonts) and works offline. `registerType: 'prompt'` with no prompt UI means a new service worker waits until every tab or the installed app is closed, so a running game is never swapped out mid-session. The dev server has no service worker. Icons in `public/` are rendered from the two SVGs there by `node scripts/make-icons.mjs` (Playwright). Playwright blocks service workers for every spec except `e2e/pwa.spec.ts`. `src/hooks/useWakeLock.ts` keeps the screen on while a `useTimer` countdown runs.
 
 ## Styling and colour rules
 

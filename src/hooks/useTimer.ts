@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useWakeLock } from './useWakeLock';
 
 export type TimerStatus = 'idle' | 'running' | 'paused' | 'expired';
 
@@ -21,6 +22,8 @@ export function useTimer(durationSec: number, { onExpire, onWarn, warnAtSec = 10
   const warned = useRef(false);
   const cbs = useRef({ onExpire, onWarn });
   cbs.current = { onExpire, onWarn };
+  // the phone shouldn't dim or lock in the middle of a speech
+  useWakeLock(status === 'running');
 
   useEffect(() => {
     if (status !== 'running') return;

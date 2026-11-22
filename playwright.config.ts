@@ -9,6 +9,8 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173',
     locale: 'en-US',
+    // The PWA service worker would cache the app between tests; only e2e/pwa.spec.ts allows it
+    serviceWorkers: 'block',
     ...devices['Desktop Chrome'],
   },
   projects: [{ name: 'chromium' }],
