@@ -1,3 +1,4 @@
+import PhaseNav from '../components/PhaseNav';
 import CheckMarks from '../components/CheckMarks';
 import { playerText } from '../game/players';
 import PlayerLabel from '../components/PlayerLabel';
@@ -9,12 +10,15 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
   const { state, dispatch, roleById } = useGame();
   const { t, tk, roleName } = useI18n();
   const steps = nightSteps(state.players, state.roles);
+  // roles that haven't chosen a target yet
+  const waiting = steps
+    .filter((s) => !state.night.targets[s.id])
+    .map((s) => (s.id === 'mafia' ? tk('role.mafia') : roleName(roleById.get(s.roleId))));
   const alive = state.players.filter((p) => p.alive);
   const nameOf = (id: string) => playerText(state.players, id);
 
   return (
     <div className="card night-panel">
-      <h3>{t('night.title', { round: state.round })}</h3>
       <p className="muted">{t('night.hint')}</p>
 
       <ol className="night-steps">
@@ -72,11 +76,12 @@ export default function NightPanel({ hideRoles }: { hideRoles: boolean }) {
         })}
       </ol>
 
-      <div className="panel-footer">
-        <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'RESOLVE_NIGHT' })}>
-          ☀️ {t('night.resolve')}
-        </button>
-      </div>
+      <PhaseNav
+        label={`☀️ ${t('night.resolve')}`}
+        pending={waiting.length ? t('night.pendingRoles', { roles: waiting.join(', ') }) : null}
+        confirmLabel={t('night.confirmMorning')}
+        onGo={() => dispatch({ type: 'RESOLVE_NIGHT' })}
+      />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import PhaseNav from '../components/PhaseNav';
 import { playerText } from '../game/players';
 import { useMemo, useState } from 'react';
 import DiscussionTimer from '../components/DiscussionTimer';
@@ -65,11 +66,12 @@ export default function IntroNightPanel({ hideRoles }: { hideRoles: boolean }) {
         <p className="done-msg">✅ {t('intro.allDone')}</p>
       )}
 
-      <div className="panel-footer">
-        <button className={`btn btn-lg ${step ? '' : 'btn-primary'}`} onClick={() => dispatch({ type: 'END_INTRO_NIGHT' })}>
-          ☀️ {t('night.resolve')}
-        </button>
-      </div>
+      <PhaseNav
+        label={`☀️ ${t('night.resolve')}`}
+        pending={step ? t('intro.pending', { n: steps.length - current }) : null}
+        confirmLabel={t('night.confirmMorning')}
+        onGo={() => dispatch({ type: 'END_INTRO_NIGHT' })}
+      />
     </div>
   );
 }

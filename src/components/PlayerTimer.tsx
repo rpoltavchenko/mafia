@@ -108,7 +108,7 @@ export default function PlayerTimer({ title, queue, index, onIndexChange, second
           ↺ {t('timer.reset')}
         </button>
         <button className="btn btn-accent" onClick={next}>
-          {t('timer.next')}
+          {index === queue.length - 1 ? t('timer.finish') : t('timer.next')}
         </button>
         </div>
       </div>

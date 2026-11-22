@@ -34,17 +34,17 @@ h3 {
   line-height: 1.2;
 }
 h2 {
-  font-size: 1.35rem;
+  font-size: var(--fs-xl);
 }
 h3 {
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
 }
 
 .muted {
   color: var(--text-muted);
 }
 .small {
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
 }
 .warn {
   color: var(--warning);
@@ -75,7 +75,7 @@ h3 {
   white-space: nowrap;
 }
 .brand-icon {
-  font-size: 1.3rem;
+  font-size: var(--fs-lg);
 }
 
 .steps {
@@ -88,7 +88,7 @@ h3 {
 .steps li {
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -211,11 +211,11 @@ h3 {
 }
 .btn-sm {
   padding: 0.35rem 0.7rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 .btn-lg {
   padding: 0.75rem 1.4rem;
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
 }
 
 .icon-btn {
@@ -263,7 +263,7 @@ button:focus-visible {
   padding: 0.2rem 0.65rem;
   border-radius: 999px;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   color: var(--text-muted);
 }
@@ -284,7 +284,7 @@ button:focus-visible {
   width: 2rem;
   height: 2rem;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   touch-action: manipulation;
 }
 .stepper button:disabled {
@@ -300,11 +300,11 @@ button:focus-visible {
 .stepper-lg button {
   width: 2.6rem;
   height: 2.6rem;
-  font-size: 1.3rem;
+  font-size: var(--fs-lg);
 }
 .stepper-lg .stepper-value {
   min-width: 3rem;
-  font-size: 1.2rem;
+  font-size: var(--fs-lg);
 }
 
 .check {
@@ -328,7 +328,7 @@ button:focus-visible {
   border-radius: 6px;
   background: var(--surface-inset);
   color: var(--text-muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -344,7 +344,7 @@ button:focus-visible {
   border-radius: 999px;
   padding: 0.3rem 0.75rem 0.3rem 0.35rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   touch-action: manipulation;
 }
 .chip .seat {
@@ -383,7 +383,7 @@ button:focus-visible {
   display: inline-block;
   padding: 0.12rem 0.55rem;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   font-weight: 700;
   background: color-mix(in srgb, var(--role) 18%, var(--surface-inset));
   color: color-mix(in srgb, var(--role) 55%, var(--c-white));
@@ -425,7 +425,7 @@ button:focus-visible {
   gap: 0.3rem;
 }
 .form label > span {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
 }
 
@@ -456,7 +456,7 @@ button:focus-visible {
 .move .icon-btn {
   width: 1.8rem;
   height: 1.8rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 
 .role-list {
@@ -500,7 +500,7 @@ button:focus-visible {
 }
 .timer-settings label {
   gap: 0.25rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
 }
 .timer-settings input {
@@ -589,7 +589,7 @@ button:focus-visible {
   cursor: pointer;
 }
 .reveal-name {
-  font-size: 2.2rem;
+  font-size: var(--fs-2xl);
 }
 .reveal-tap {
   margin-top: 1.5rem;
@@ -600,7 +600,7 @@ button:focus-visible {
   background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--role) 45%, var(--surface-1)), var(--surface-1) 70%);
 }
 .reveal-role-name {
-  font-size: 2.6rem;
+  font-size: var(--fs-2xl);
   color: color-mix(in srgb, var(--role) 60%, var(--c-white));
 }
 .mates {
@@ -630,7 +630,7 @@ button:focus-visible {
   margin: 0;
 }
 .phase-icon {
-  font-size: 2rem;
+  font-size: var(--fs-2xl);
 }
 
 .banner {
@@ -696,7 +696,7 @@ button:focus-visible {
   background: var(--surface-inset);
   border-right: 3px solid var(--role, var(--border));
   color: var(--text);
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   transition: background 0.2s, color 0.2s;
@@ -719,7 +719,7 @@ button:focus-visible {
   min-height: 1.3rem;
 }
 .tile-status {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -767,7 +767,7 @@ button:focus-visible {
 }
 .fouls {
   color: var(--text-muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
   letter-spacing: 1px;
 }
 .fouls.is-warn {
@@ -789,7 +789,7 @@ button:focus-visible {
   gap: 0.3rem;
   max-height: 320px;
   overflow-y: auto;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
 }
 .log li {
   gap: 0.45rem;
@@ -797,7 +797,7 @@ button:focus-visible {
 }
 .log-round {
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   min-width: 1.2rem;
   font-variant-numeric: tabular-nums;
 }
@@ -830,7 +830,7 @@ button:focus-visible {
   border: 1.5px solid var(--role, var(--accent));
   color: var(--text);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 .night-step.is-done .step-num::after {
   content: '✓';
@@ -839,14 +839,14 @@ button:focus-visible {
   font-size: 0;
 }
 .night-step.is-done .step-num::after {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 .check-result {
   margin-left: auto;
   padding: 0.2rem 0.6rem;
   border-radius: 999px;
   font-weight: 800;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 .check-result.is-yes {
   background: color-mix(in srgb, var(--danger) 25%, transparent);
@@ -867,7 +867,7 @@ button:focus-visible {
   font-weight: 600;
 }
 .done-msg {
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   font-weight: 600;
   text-align: center;
   padding: 1.5rem 0;
@@ -957,7 +957,7 @@ button:focus-visible {
 }
 .timer-speaker {
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: var(--fs-lg);
   align-items: center;
   gap: 0.35rem;
   max-width: 100%;
@@ -993,7 +993,7 @@ button:focus-visible {
   align-items: center;
   gap: 0.35rem;
   margin-top: 0.9rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 .keys-hint {
   text-align: center;
@@ -1095,9 +1095,6 @@ button:focus-visible {
   .tiles {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .timer-controls .btn {
-    padding: 0.5rem 0.75rem;
-  }
   .timer-main {
     order: -1;
   }
@@ -1134,7 +1131,7 @@ button:focus-visible {
   background: color-mix(in srgb, var(--accent) 20%, transparent);
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
 }
 .vote-list li.is-last {
   border: 1px dashed var(--border);
@@ -1147,7 +1144,7 @@ button:focus-visible {
 .vote-auto strong {
   min-width: 3rem;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: var(--fs-xl);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1158,7 +1155,7 @@ button:focus-visible {
   gap: 0.3rem;
   white-space: nowrap;
   padding: 0.3rem 0.75rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
 }
 @media (min-width: 768px) {
   /* keep the header layout stable when the steps are hidden on other tabs */
@@ -1186,7 +1183,7 @@ button:focus-visible {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: clamp(1.1rem, 4vw, 2.2rem);
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
   line-height: 1.6;
 }
 .rules-header {
@@ -1200,7 +1197,7 @@ button:focus-visible {
 .rules-subtitle {
   margin: 0;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
 }
 .rules-glance {
   display: grid;
@@ -1216,7 +1213,7 @@ button:focus-visible {
   border: 1px solid var(--border);
 }
 .rules-glance dt {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
@@ -1224,7 +1221,7 @@ button:focus-visible {
 }
 .rules-glance dd {
   margin: 0.15rem 0 0;
-  font-size: 1.35rem;
+  font-size: var(--fs-xl);
   font-weight: 800;
   font-variant-numeric: tabular-nums;
   line-height: 1.2;
@@ -1242,7 +1239,7 @@ button:focus-visible {
   margin: 0 0 0.6rem;
   padding-bottom: 0.45rem;
   border-bottom: 2px solid var(--border);
-  font-size: 1.2rem;
+  font-size: var(--fs-lg);
 }
 .rules-num {
   align-items: center;
@@ -1252,7 +1249,7 @@ button:focus-visible {
   border-radius: 50%;
   background: var(--accent-fill);
   color: var(--on-accent);
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   font-weight: 800;
   font-family: var(--font);
   text-shadow: none;
@@ -1295,7 +1292,7 @@ button:focus-visible {
   color: var(--text-muted);
 }
 .rules-team {
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -1322,7 +1319,7 @@ button:focus-visible {
     grid-template-columns: repeat(3, 1fr);
   }
   .rules-doc {
-    font-size: 1rem;
+    font-size: var(--fs-md);
   }
 }
 
@@ -1336,7 +1333,7 @@ button:focus-visible {
   background: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 22%, var(--surface-1)), var(--surface-1) 70%);
 }
 .featured-cat {
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -1351,7 +1348,7 @@ button:focus-visible {
 .line cite {
   display: block;
   margin-top: 0.3rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   color: var(--text-muted);
   font-style: normal;
 }
@@ -1380,7 +1377,7 @@ button:focus-visible {
 }
 .host-card .line p {
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.05rem;
+  font-size: var(--fs-md);
   font-style: italic;
 }
 
@@ -1390,7 +1387,7 @@ button:focus-visible {
   }
   .views button {
     padding: 0.3rem 0.6rem;
-    font-size: 1rem;
+    font-size: var(--fs-md);
   }
   .brand > span:last-child {
     display: none;

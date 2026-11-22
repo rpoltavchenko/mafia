@@ -55,12 +55,12 @@
   letter-spacing: 0.04em;
 }
 [data-theme='neon'] h2 {
-  font-size: 1.6rem;
+  font-size: var(--fs-xl);
   color: var(--text-heading);
   text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 [data-theme='neon'] h3 {
-  font-size: 1.2rem;
+  font-size: var(--fs-lg);
   color: var(--text-subheading);
   text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 30%, transparent);
 }
@@ -83,7 +83,7 @@
 [data-theme='neon'] .brand-text {
   font-family: var(--display);
   font-weight: 400;
-  font-size: 1.35rem;
+  font-size: var(--fs-xl);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-style: italic;
@@ -115,14 +115,10 @@
   border-radius: 10px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.85rem;
   font-weight: 800;
 }
 [data-theme='neon'] .btn:hover:not(:disabled) {
   border-color: var(--accent);
-}
-[data-theme='neon'] .btn-lg {
-  font-size: 1rem;
 }
 [data-theme='neon'] .btn-accent {
   border-width: 1.5px;
@@ -139,7 +135,7 @@
 [data-theme='neon'] .role-badge {
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: 0.7rem;
+  font-size: var(--fs-xs);
 }
 
 /* ---------- game ---------- */
@@ -163,7 +159,7 @@
 [data-theme='neon'] .tile-seat {
   font-family: var(--display);
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: var(--fs-lg);
 }
 
 /* ---------- timer ---------- */
@@ -274,7 +270,7 @@
   text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 50%, transparent);
 }
 [data-theme='neon'] .rules-h {
-  font-size: 1.3rem;
+  font-size: var(--fs-lg);
   color: var(--text);
   text-shadow: none;
 }

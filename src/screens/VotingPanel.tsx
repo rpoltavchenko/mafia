@@ -1,3 +1,5 @@
+import PhaseSteps from '../components/PhaseSteps';
+import PhaseNav from '../components/PhaseNav';
 import PlayerLabel from '../components/PlayerLabel';
 import { playerText } from '../game/players';
 import { useState } from 'react';
@@ -22,15 +24,16 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
   const given = vote.nominees.reduce((sum, id) => (id === lastId ? sum : sum + (counted[id] ?? 0)), 0);
   const tooMany = given > alive.length;
 
-  const toNight = (
-    <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'FINISH_VOTING' })}>
-      🌙 {t('vote.toNight')}
-    </button>
+  const toNight = (pending: string | null) => (
+    <PhaseNav label={`🌙 ${t('vote.toNight')}`} pending={pending} confirmLabel={t('vote.confirmNight')} onGo={() => dispatch({ type: 'FINISH_VOTING' })} />
   );
 
   return (
     <div className="card voting-panel">
-      <h3>{t('vote.title')}</h3>
+      <PhaseSteps
+        current={vote.stage === 'nominate' ? 0 : vote.stage === 'lastWord' ? 2 : 1}
+        steps={[{ label: t('vote.nominees') }, { label: t('vote.stepVote') }, { label: t('vote.stepResult') }]}
+      />
 
       {vote.stage === 'nominate' && (
         <>
@@ -51,13 +54,11 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
             </p>
           )}
           <div className="panel-footer">
-            <button className="btn btn-ghost" onClick={() => dispatch({ type: 'FINISH_VOTING' })}>
-              {t('vote.skip')}
-            </button>
             <button className="btn btn-primary btn-lg" disabled={nominees.length === 0} onClick={() => dispatch({ type: 'START_VOTE' })}>
               {t('vote.start')}
             </button>
           </div>
+          {toNight(nominees.length > 0 ? t('vote.pendingVote', { n: nominees.length }) : null)}
         </>
       )}
 
@@ -153,7 +154,7 @@ export default function VotingPanel({ onActiveChange }: { onActiveChange: (id: s
               onActiveChange={onActiveChange}
             />
           )}
-          <div className="panel-footer">{toNight}</div>
+          {toNight(null)}
         </>
       )}
     </div>

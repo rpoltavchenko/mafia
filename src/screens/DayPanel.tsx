@@ -1,3 +1,5 @@
+import PhaseSteps from '../components/PhaseSteps';
+import PhaseNav from '../components/PhaseNav';
 import { playerText, seatOf } from '../game/players';
 import PlayerLabel from '../components/PlayerLabel';
 import DiscussionTimer from '../components/DiscussionTimer';
@@ -14,6 +16,14 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
   const alive = state.players.filter((p) => p.alive);
   const queue = state.speech.queue.map(byId).filter((p): p is Player => !!p && p.alive);
   const dayZero = state.round === 0; // introduction day: speeches only, no voting
+  // Day progress: discussion → speeches → voting (or Night 1 after Day 0)
+  const spoken = Math.min(state.speech.index, queue.length);
+  const stepIndex = !state.speech.discussionDone ? 0 : spoken < queue.length ? 1 : 2;
+  const pending = !state.speech.discussionDone
+    ? t('day.pendingAll', { n: queue.length })
+    : spoken < queue.length
+      ? t('day.pendingSpeeches', { n: queue.length - spoken })
+      : null;
   const nightNews = state.log.filter((l) => l.round === state.round && l.phase === 'night' && (l.key === 'log.killed' || l.key === 'log.quietNight'));
 
   const nominationsFor = (speaker: Player) => {
@@ -48,7 +58,14 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
 
   return (
     <div className="card day-panel">
-      <h3>{t('day.title', { round: state.round })}</h3>
+      <PhaseSteps
+        current={stepIndex}
+        steps={[
+          { label: t('day.discussion') },
+          { label: t('day.speeches'), detail: state.speech.discussionDone ? `${spoken}/${queue.length}` : undefined },
+          { label: dayZero ? t('day.night1') : t('vote.title') },
+        ]}
+      />
       {nightNews.length > 0 && (
         <ul className="news">
           {nightNews.map((l, i) => (
@@ -104,17 +121,21 @@ export default function DayPanel({ onActiveChange }: { onActiveChange: (id: stri
       </div>
       )}
 
-      <div className="panel-footer">
-        {dayZero ? (
-          <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'FINISH_VOTING' })}>
-            🌙 {t('day.toNight1')}
-          </button>
-        ) : (
-          <button className="btn btn-primary btn-lg" onClick={() => dispatch({ type: 'GO_VOTING' })}>
-            🗳️ {t('day.toVoting')}
-          </button>
-        )}
-      </div>
+      {dayZero ? (
+        <PhaseNav
+          label={`🌙 ${t('day.toNight1')}`}
+          pending={pending}
+          confirmLabel={t('day.confirmNight1')}
+          onGo={() => dispatch({ type: 'FINISH_VOTING' })}
+        />
+      ) : (
+        <PhaseNav
+          label={`🗳️ ${t('day.toVoting')}`}
+          pending={pending}
+          confirmLabel={t('day.confirmVoting')}
+          onGo={() => dispatch({ type: 'GO_VOTING' })}
+        />
+      )}
     </div>
   );
 }
