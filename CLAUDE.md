@@ -48,7 +48,13 @@ Two browser-console scripts in `scripts/` (paste into DevTools with the dev serv
 
 ## Styling and colour rules
 
-CSS is plain global stylesheets imported in `main.tsx` (`tokens.css`, `styles.css`, `theme-neon.css`, `daynight.css`, `layout.css`). Themes (`neon`, `sunset`, `classic`) are set via `html[data-theme]` (an inline script in `index.html` applies the saved theme before render; `ThemeToggle` cycles them), and the in-game phase via `html[data-phase="night|day|voting|none"]` set by `App`.
+CSS is plain global stylesheets imported in `main.tsx`, in this cascade order:
+- `tokens.css`: colour tokens only.
+- `styles.css`: each component's base rule.
+- `theme-neon.css`, `daynight.css`: theme and day/night decoration.
+- `layout.css`: loaded last. It holds the spacing and type-scale tokens, grid layouts, the three button sizes, and every responsive rule (only its documented breakpoints).
+
+Some selectors still have rules in both `styles.css` and `layout.css`. Where both apply in the same media context, they set different properties, so there is no "which value wins" between them. Moving the rest into one place would change the cascade, so check `npm run test:e2e` screenshots before merging any. Themes (`neon`, `sunset`, `classic`) are set via `html[data-theme]` (an inline script in `index.html` applies the saved theme before render; `ThemeToggle` cycles them), and the in-game phase via `html[data-phase="night|day|voting|none"]` set by `App`.
 
 `src/tokens.css` has three layers: primitives (`--c-*`, never used by components) → semantic tokens (`--surface-*`, `--text*`, `--accent*`, `--on-accent`, `--team-*`, `--role-*`, …) → theme/phase overrides that only redefine semantic tokens. Rules:
 - No hex/rgb in component CSS or TSX — use a semantic token, or `color-mix()` from one for tints.

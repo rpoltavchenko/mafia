@@ -44,6 +44,7 @@ h3 {
 
 .app {
   min-height: 100vh;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .topbar {
@@ -58,6 +59,9 @@ h3 {
   gap: 0.5rem;
   font-weight: 700;
   white-space: nowrap;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
 }
 .brand-icon {
   font-size: var(--fs-lg);
@@ -69,6 +73,9 @@ h3 {
   margin: 0 auto;
   padding: 0;
   overflow-x: auto;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
 }
 .steps li {
   padding: 0.25rem 0.7rem;
@@ -91,18 +98,25 @@ h3 {
 .topbar-actions {
   gap: 0.5rem;
   margin-left: auto;
+  justify-self: end;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
 }
 
 .main {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  align-content: start;
 }
 
 .card {
   background: var(--surface-1);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  min-width: 0;
 }
 
 .row {
@@ -205,6 +219,8 @@ button:focus-visible {
   border: 1px solid var(--border);
   border-radius: 999px;
   padding: 2px;
+  grid-auto-flow: column;
+  align-items: center;
 }
 .segmented button {
   border: 0;
@@ -225,6 +241,9 @@ button:focus-visible {
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
 }
 .stepper button {
   border: 0;
@@ -259,6 +278,9 @@ button:focus-visible {
   gap: 0.5rem;
   margin-top: 0.6rem;
   cursor: pointer;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
 }
 .check input {
   width: 1.1rem;
@@ -328,6 +350,11 @@ button:focus-visible {
   background: color-mix(in srgb, var(--role) 18%, var(--surface-inset));
   color: color-mix(in srgb, var(--role) 55%, var(--c-white));
   border: 1px solid color-mix(in srgb, var(--role) 55%, transparent);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 .role-badge.is-hidden,
 .role-badge.is-empty {
@@ -347,6 +374,8 @@ button:focus-visible {
   padding: 1rem;
   background: var(--surface-overlay);
   backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
 }
 .modal {
   width: 100%;
@@ -359,9 +388,12 @@ button:focus-visible {
 }
 .form {
   gap: 0.8rem;
+  display: grid;
+  align-content: start;
 }
 .form label {
   gap: 0.3rem;
+  min-width: 0;
 }
 .form label > span {
   font-size: var(--fs-sm);
@@ -382,6 +414,8 @@ button:focus-visible {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  align-content: start;
 }
 .move .icon-btn {
   width: 1.8rem;
@@ -393,6 +427,9 @@ button:focus-visible {
   list-style: none;
   margin: 0 0 0.6rem;
   padding: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
 }
 .role-list li {
   border-radius: var(--radius-sm);
@@ -407,6 +444,8 @@ button:focus-visible {
 }
 .role-info {
   min-width: 0;
+  display: grid;
+  align-content: start;
 }
 .total {
   margin: 0.8rem 0 0;
@@ -423,14 +462,18 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.6rem;
+  align-items: end;
 }
 .timer-settings label {
   gap: 0.25rem;
   font-size: var(--fs-sm);
   color: var(--text-muted);
+  display: grid;
+  align-content: start;
 }
 .timer-settings input {
   color: var(--text);
+  width: 100%;
 }
 
 /* ---------- assign ---------- */
@@ -440,6 +483,8 @@ button:focus-visible {
   margin: 0;
   padding: 0;
   gap: 0.4rem;
+  display: grid;
+  align-content: start;
 }
 .assign-list li {
   display: grid;
@@ -453,6 +498,10 @@ button:focus-visible {
 .assign-name {
   font-weight: 600;
   text-overflow: ellipsis;
+  display: grid;
+  min-width: 0;
+  overflow: visible;
+  white-space: normal;
 }
 
 /* ---------- reveal ---------- */
@@ -470,6 +519,8 @@ button:focus-visible {
 }
 .reveal-grid {
   gap: 0.6rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
 }
 .reveal-btn {
   align-items: center;
@@ -518,6 +569,9 @@ button:focus-visible {
 }
 .reveal-role {
   background: radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--role) 45%, var(--surface-1)), var(--surface-1) 70%);
+  display: grid;
+  justify-items: center;
+  align-content: center;
 }
 .reveal-role-name {
   font-size: var(--fs-2xl);
@@ -539,6 +593,10 @@ button:focus-visible {
 
 .game-header {
   justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
 }
 .game-title h2 {
   margin: 0;
@@ -552,16 +610,24 @@ button:focus-visible {
   background: color-mix(in srgb, var(--highlight) 15%, var(--surface-1));
   border: 1px solid color-mix(in srgb, var(--highlight) 50%, transparent);
   font-weight: 600;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
 }
 
 .game-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   align-items: start;
+  gap: var(--gap);
 }
 .game-side {
   position: sticky;
   top: 4.2rem;
+  gap: var(--gap);
+  display: grid;
+  align-content: start;
+  min-width: 0;
 }
 
 .game-panel > .card {
@@ -572,6 +638,8 @@ button:focus-visible {
 .tiles {
   display: grid;
   gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  align-items: start;
 }
 .tile {
   border-radius: var(--radius-sm);
@@ -579,6 +647,7 @@ button:focus-visible {
   border: 1px solid var(--border);
   overflow: hidden;
   transition: opacity 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  container-type: inline-size;
 }
 .tile-main {
   width: 100%;
@@ -604,6 +673,7 @@ button:focus-visible {
 .tile-body {
   min-width: 0;
   padding: 0.45rem 0.55rem;
+  gap: 0.2rem;
 }
 .tile-name {
   font-weight: 700;
@@ -614,9 +684,15 @@ button:focus-visible {
 }
 .tile-meta {
   min-height: 1.3rem;
+  grid-auto-columns: minmax(0, max-content);
 }
 .tile-status {
   color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: var(--lh-tight);
 }
 
 /* Speaking: the one tile that stands out */
@@ -679,6 +755,8 @@ button:focus-visible {
   max-height: 320px;
   overflow-y: auto;
   font-size: var(--fs-sm);
+  display: grid;
+  align-content: start;
 }
 .log-round {
   color: var(--text-muted);
@@ -691,6 +769,10 @@ button:focus-visible {
 .night-steps {
   list-style: none;
   padding: 0;
+  margin: var(--space-2) 0;
+  gap: var(--space-2);
+  display: grid;
+  align-content: start;
 }
 .night-step {
   border-radius: var(--radius-sm);
@@ -741,6 +823,8 @@ button:focus-visible {
   border-radius: var(--radius-sm);
   background: var(--surface-well);
   font-weight: 600;
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
 }
 .done-msg {
   font-size: var(--fs-lg);
@@ -755,6 +839,8 @@ button:focus-visible {
   margin: 0 0 0.6rem;
   padding: 0;
   gap: 0.45rem;
+  display: grid;
+  align-content: start;
 }
 .vote-list li {
   padding: 0.5rem 0.6rem;
@@ -779,13 +865,16 @@ button:focus-visible {
 }
 .timer-panel.is-warn {
   --ring: var(--warning);
+  border-color: var(--ring);
 }
 .timer-panel.is-danger {
   --ring: var(--danger);
+  border-color: var(--ring);
 }
 .timer-panel.is-over {
   --ring: var(--danger);
   animation: flash 0.8s ease-in-out infinite;
+  border-color: var(--ring);
 }
 @keyframes flash {
   50% {
@@ -796,6 +885,9 @@ button:focus-visible {
 .timer-ring-wrap {
   position: relative;
   aspect-ratio: 1;
+  container-type: inline-size;
+  width: clamp(140px, 26vh, 240px);
+  margin: 0 auto;
 }
 .timer-ring {
   width: 100%;
@@ -819,6 +911,11 @@ button:focus-visible {
   gap: 0.2rem;
   text-align: center;
   padding: 0 2.2rem;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  position: absolute;
+  inset: 0;
 }
 .timer-speaker {
   font-weight: 700;
@@ -848,6 +945,7 @@ button:focus-visible {
 
 .timer-controls {
   justify-content: center;
+  container-type: inline-size;
 }
 .timer-main {
   min-width: 9rem;
@@ -856,6 +954,11 @@ button:focus-visible {
 .queue {
   margin-top: 0.9rem;
   font-size: var(--fs-sm);
+  margin: 0;
+  display: grid;
+  align-items: center;
+  gap: 0.35rem;
+  grid-template-columns: auto repeat(3, minmax(2.9rem, 1fr)) auto;
 }
 .keys-hint {
   text-align: center;
@@ -872,6 +975,7 @@ button:focus-visible {
 .end-title {
   font-size: clamp(1.8rem, 6vw, 2.8rem);
   margin: 0;
+  line-height: 1.4;
 }
 .end-hero {
   --winner: var(--accent);
@@ -898,6 +1002,8 @@ button:focus-visible {
   margin: 0;
   padding: 0;
   gap: 0.35rem;
+  display: grid;
+  align-content: start;
 }
 .end-roles li.is-dead .end-name {
   text-decoration: line-through;
@@ -982,6 +1088,9 @@ button:focus-visible {
   white-space: nowrap;
   padding: 0.3rem 0.75rem;
   font-size: var(--fs-sm);
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: center;
 }
 @media (min-width: 768px) {
   /* keep the header layout stable when the steps are hidden on other tabs */
@@ -1058,6 +1167,10 @@ button:focus-visible {
   padding-bottom: 0.45rem;
   border-bottom: 2px solid var(--border);
   font-size: var(--fs-lg);
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
 }
 .rules-num {
   align-items: center;
@@ -1076,6 +1189,8 @@ button:focus-visible {
   margin: 0;
   padding-left: 1.3rem;
   gap: 0.55rem;
+  display: grid;
+  align-content: start;
 }
 .rules-list li::marker {
   color: var(--accent);
@@ -1089,6 +1204,8 @@ button:focus-visible {
   margin: 0;
   padding: 0;
   gap: 0.7rem;
+  display: grid;
+  align-content: start;
 }
 .rules-roles li {
   align-items: start;
@@ -1102,6 +1219,10 @@ button:focus-visible {
 }
 .rules-role-head {
   gap: 0.45rem;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
 }
 .rules-role-count {
   font-weight: 700;
@@ -1149,6 +1270,11 @@ button:focus-visible {
 }
 .featured-cat {
   color: var(--highlight);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: var(--lh-tight);
 }
 .line {
   margin: 0;
@@ -1175,6 +1301,8 @@ button:focus-visible {
   margin: 0;
   padding: 0;
   gap: 0.5rem;
+  display: grid;
+  align-content: start;
 }
 .line-list li {
   border-radius: var(--radius-sm);
@@ -1386,6 +1514,10 @@ button:focus-visible {
 .intro-steps {
   list-style: none;
   padding: 0;
+  margin: var(--space-2) 0;
+  gap: var(--space-2);
+  display: grid;
+  align-content: start;
 }
 .intro-step-btn {
   width: 100%;
@@ -1396,6 +1528,10 @@ button:focus-visible {
   background: var(--surface-well);
   text-align: left;
   cursor: pointer;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
 }
 .intro-step-name {
   font-weight: 700;

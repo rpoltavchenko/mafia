@@ -63,10 +63,6 @@
 .card {
   padding: var(--pad-card);
 }
-.game-layout,
-.game-side {
-  gap: var(--gap);
-}
 .panel-footer {
   margin-top: var(--space-3);
 }
@@ -87,10 +83,6 @@
 }
 
 /* ---------- game header ---------- */
-
-.game-header {
-  gap: var(--space-2) var(--space-3);
-}
 .game-title {
   gap: var(--space-2);
 }
@@ -105,11 +97,6 @@
   margin-top: var(--space-2);
   padding: var(--space-3) var(--space-4);
 }
-.timer-ring-wrap {
-  container-type: inline-size;
-  width: clamp(140px, 26vh, 240px);
-  margin: 0 auto;
-}
 /* text scales with the ring, whatever its size */
 .timer-ring-wrap .timer-time {
   font-size: 25cqi;
@@ -117,18 +104,11 @@
 .timer-ring-wrap .timer-speaker {
   font-size: max(0.85rem, 7cqi);
 }
-.queue,
 .keys-hint {
   margin: 0;
 }
 
 /* ---------- night steps & nominations: denser ---------- */
-
-.night-steps,
-.intro-steps {
-  margin: var(--space-2) 0;
-  gap: var(--space-2);
-}
 .night-step {
   padding: var(--space-2) var(--space-3);
 }
@@ -139,18 +119,8 @@
   margin-top: var(--space-3);
   padding: var(--space-2) var(--space-3);
 }
-.news {
-  padding: var(--space-2) var(--space-3);
-  margin-bottom: var(--space-2);
-}
 .nominee-summary {
   margin-top: var(--space-3);
-}
-
-/* ---------- player tiles ---------- */
-
-.tiles {
-  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
 }
 
 /* ---------- tablet & desktop: two-column game ---------- */
@@ -368,15 +338,7 @@
 .topbar .steps {
   justify-self: center;
 }
-.topbar-actions {
-  justify-self: end;
-}
-.brand,
-.topbar-actions,
-.steps,
-.segmented,
 .views {
-  display: grid;
   grid-auto-flow: column;
   align-items: center;
 }
@@ -384,12 +346,6 @@
 .views {
   display: inline-grid;
 }
-.views button {
-  display: inline-grid;
-  grid-auto-flow: column;
-  align-items: center;
-}
-.main,
 .view-game {
   display: grid;
   align-content: start;
@@ -458,16 +414,6 @@
 .tile-seat {
   display: grid;
 }
-.stepper {
-  display: inline-grid;
-  grid-template-columns: auto auto auto;
-  align-items: center;
-}
-.check {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: center;
-}
 
 /* ---------- player label: number first ---------- */
 
@@ -533,25 +479,10 @@
 
 /* ---------- lists ---------- */
 
-.night-steps,
-.intro-steps,
-.role-list,
-.name-list,
-.line-list,
-.rules-list,
-.rules-roles,
-.vote-list,
-.end-roles,
-.assign-list,
-.log,
-.form,
 .setup-stack,
 .host-head,
 .host-card,
-.game-side,
 .tile-body,
-.role-info,
-.timer-settings label,
 .form label {
   display: grid;
   align-content: start;
@@ -605,33 +536,15 @@
   align-items: center;
   gap: var(--space-2);
 }
-.intro-step-btn {
-  display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-2);
-}
 .intro-step-btn > small:not(.intro-step-time) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.rules-h,
-.rules-role-head {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: start;
-  align-items: center;
-}
 .rules-roles li {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: var(--space-2);
-}
-.banner {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
 }
 
 /* ---------- player tiles ---------- */
@@ -640,9 +553,6 @@
   display: grid;
   grid-template-columns: 2.4rem minmax(0, 1fr);
   align-items: stretch;
-}
-.tile-body {
-  gap: 0.2rem;
 }
 .tile-meta {
   display: grid;
@@ -656,12 +566,6 @@
 }
 
 /* ---------- game screen ---------- */
-
-.game-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-}
 .game-title {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -690,15 +594,10 @@
   gap: var(--space-3);
   width: 100%;
 }
-.timer-center,
 .timer-speaker {
   display: grid;
   justify-items: center;
   align-content: center;
-}
-.timer-center {
-  position: absolute;
-  inset: 0;
 }
 /* primary on its own row; secondary buttons share the next row equally */
 .timer-secondary {
@@ -709,11 +608,6 @@
 }
 .timer-secondary .btn {
   padding-inline: var(--space-2); /* buttons in equal grid cells: tighter sides */
-}
-.queue {
-  display: grid;
-  align-items: center;
-  gap: 0.35rem;
 }
 @container (min-width: 340px) {
   .timer-body {
@@ -783,21 +677,15 @@
 
 .featured-line,
 .reveal-btn,
-.reveal-role,
 .reveal-cover,
 .curtain-inner {
   display: grid;
   justify-items: center;
   align-content: center;
 }
-.modal-backdrop,
 .curtain {
   display: grid;
   place-items: center;
-}
-.reveal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
 }
 
 /* ---------- fit mode in grid terms ---------- */
@@ -885,22 +773,16 @@
 }
 
 /* grid items may shrink below their content's natural width */
-.card,
 .setup > *,
 .setup-stack > *,
 .game-panel,
-.game-side,
-.timer-settings > *,
-.form label {
+.timer-settings > * {
   min-width: 0;
 }
 input:not([type='checkbox']),
 select {
   min-width: 0;
   max-width: 100%;
-}
-.timer-settings input {
-  width: 100%;
 }
 
 /* short windows: drop the instruction line the host already knows (as on phones) */
@@ -922,14 +804,11 @@ select {
 }
 @media (max-width: 479px) {
   .brand {
-    display: none;
+    display: none; /* the Game tab already shows the hat */
   }
 }
 
 /* header: fixed columns, margins instead of column gaps so hidden parts leave no gap behind */
-.app {
-  grid-template-columns: minmax(0, 1fr);
-}
 .topbar {
   grid-template-columns: auto auto minmax(0, 1fr) auto;
   column-gap: 0;
@@ -974,15 +853,8 @@ select {
   }
 }
 /* timer inputs line up even when a label wraps */
-.timer-settings {
-  align-items: end;
-}
 
 /* ---------- tile menu: fits any tile width ---------- */
-
-.tile {
-  container-type: inline-size;
-}
 .tile-actions {
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2);
@@ -1022,9 +894,6 @@ select {
 }
 
 /* an open tile doesn't stretch the others in its row */
-.tiles {
-  align-items: start;
-}
 
 /* =========================================================
    Corner cases: long labels, narrow cells, other languages
@@ -1049,9 +918,6 @@ select {
 }
 
 /* timer buttons: 4 across when there is room, 2×2 when narrow */
-.timer-controls {
-  container-type: inline-size;
-}
 @container (max-width: 380px) {
   .timer-secondary {
     grid-auto-flow: row;
@@ -1064,9 +930,6 @@ select {
 }
 
 /* "Up next": cells never narrower than a number */
-.queue {
-  grid-template-columns: auto repeat(3, minmax(2.9rem, 1fr)) auto;
-}
 @media (max-width: 479px) {
   .queue .pl-name {
     display: none;
@@ -1090,7 +953,6 @@ select {
   line-height: 1.4;
 }
 /* assign / end rows: the player cell is a grid cell holding the label */
-.assign-name,
 .end-name,
 .vote-name {
   display: grid;
@@ -1105,16 +967,6 @@ select {
 }
 
 /* long role names (custom roles) are cut with "…" instead of pushing players out */
-.role-badge {
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-.tile-meta {
-  grid-auto-columns: minmax(0, max-content);
-}
 /* assign rows: player cell always keeps room for its number */
 .assign-list li {
   grid-template-columns: minmax(2.6rem, 1fr) minmax(0, 9rem) minmax(7rem, 10rem) auto; /* player | role | picker | lock */
@@ -1130,7 +982,6 @@ select {
     justify-self: end;
   }
 }
-.end-title,
 [data-theme='neon'] .end-title {
   line-height: 1.4;
 }
@@ -1422,8 +1273,6 @@ h3 {
 .timer-head h3,
 .phase-nav-label,
 .tile-fouls-label,
-.tile-status,
-.featured-cat,
 .rules-glance dt,
 .nominate-title {
   font-size: var(--fs-xs);
@@ -1489,11 +1338,6 @@ h3 {
 [data-theme='neon'] .timer-panel {
   border-color: transparent;
 }
-.timer-panel.is-warn,
-.timer-panel.is-danger,
-.timer-panel.is-over {
-  border-color: var(--ring);
-}
 .nominate-box {
   border-style: solid;
 }
@@ -1511,7 +1355,6 @@ h3 {
 .role-list li {
   padding: 0.25rem 0.5rem;
 }
-.role-list,
 .name-list {
   gap: 0.25rem;
 }
