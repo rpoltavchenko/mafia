@@ -518,7 +518,7 @@ button:focus-visible {
 }
 .assign-list li {
   display: grid;
-  grid-template-columns: auto 1fr auto minmax(110px, 160px) auto;
+  grid-template-columns: minmax(0, 1fr) auto minmax(110px, 160px) auto; /* player | role | picker | lock */
   align-items: center;
   gap: 0.6rem;
   padding: 0.45rem 0.6rem;
@@ -1076,11 +1076,8 @@ button:focus-visible {
     grid-template-columns: 1fr;
   }
   .assign-list li {
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: 'seat name lock' 'badge select select';
-  }
-  .assign-list li > .seat {
-    grid-area: seat;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'name lock' 'badge select';
   }
   .assign-list li > .assign-name {
     grid-area: name;

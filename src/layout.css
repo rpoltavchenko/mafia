@@ -737,7 +737,7 @@
 .queue > .muted:first-child {
   grid-column: 1 / -1;
 }
-@container (min-width: 300px) {
+@container (min-width: 400px) {
   .timer-body {
     grid-template-columns: auto minmax(0, 1fr);
     justify-items: stretch;
@@ -1005,4 +1005,194 @@ select {
 /* timer inputs line up even when a label wraps */
 .timer-settings {
   align-items: end;
+}
+
+/* ---------- tile menu: fits any tile width ---------- */
+
+.tile {
+  container-type: inline-size;
+}
+.tile-actions {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2);
+  padding: 0 var(--space-2) var(--space-2);
+}
+.tile-fouls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+.tile-fouls-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.tile-fouls .stepper button {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.tile-fouls .stepper-value {
+  min-width: 1.6rem;
+}
+.tile-action-main {
+  width: 100%;
+}
+@container (max-width: 150px) {
+  .tile-fouls {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+  }
+  .tile-fouls-label {
+    display: none;
+  }
+}
+
+/* an open tile doesn't stretch the others in its row */
+.tiles {
+  align-items: start;
+}
+
+/* =========================================================
+   Corner cases: long labels, narrow cells, other languages
+   ========================================================= */
+
+/* Buttons never let text spill out: long labels wrap inside the button */
+.btn,
+.chip {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: center;
+  line-height: 1.15;
+}
+.chip-player {
+  overflow: hidden;
+}
+/* a seat number never shrinks or wraps */
+.pl-num {
+  white-space: nowrap;
+}
+
+/* timer buttons: 4 across when there is room, 2×2 when narrow */
+.timer-controls {
+  container-type: inline-size;
+}
+@container (max-width: 380px) {
+  .timer-secondary {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  /* an odd last button (e.g. "Next role") takes the whole row */
+  .timer-secondary > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* "Up next": cells never narrower than a number */
+.queue {
+  grid-template-columns: auto repeat(3, minmax(2.9rem, 1fr)) auto;
+}
+@media (max-width: 479px) {
+  .queue .pl-name {
+    display: none;
+  }
+  .queue .chip-player {
+    justify-content: center;
+  }
+}
+
+/* display headings: line box tall enough for the glyphs */
+[data-theme='neon'] h2,
+[data-theme='neon'] h3,
+[data-theme='neon'] .rules-title {
+  line-height: 1.3;
+}
+.rules-title {
+  line-height: 1.3;
+}
+.end-title,
+[data-theme='neon'] .end-title {
+  line-height: 1.25;
+  padding-block: 0.05em;
+}
+.end-title,
+[data-theme='neon'] .end-title {
+  padding-inline: 0.3em;
+}
+.rules-title,
+[data-theme='neon'] .rules-title {
+  line-height: 1.4;
+}
+/* assign / end rows: the player cell is a grid cell holding the label */
+.assign-name,
+.end-name,
+.vote-name {
+  display: grid;
+  min-width: 0;
+  overflow: visible;
+  white-space: normal;
+}
+.assign-name .pl,
+.end-name .pl,
+.vote-name .pl {
+  width: 100%;
+}
+
+/* long role names (custom roles) are cut with "…" instead of pushing players out */
+.role-badge {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.tile-meta {
+  grid-auto-columns: minmax(0, max-content);
+}
+/* assign rows: player cell always keeps room for its number */
+.assign-list li {
+  grid-template-columns: minmax(2.6rem, 1fr) minmax(0, 9rem) minmax(7rem, 10rem) auto;
+}
+.assign-list select {
+  width: 100%;
+}
+@media (max-width: 479px) {
+  .assign-list li {
+    grid-template-columns: minmax(2.6rem, 1fr) minmax(0, 10rem);
+  }
+  .assign-list li > .lock {
+    justify-self: end;
+  }
+}
+.end-title,
+[data-theme='neon'] .end-title {
+  line-height: 1.4;
+}
+[data-theme='neon'] h2 {
+  line-height: 1.35;
+}
+/* end screen rows: the player keeps room for its number, a long role name shrinks */
+.end-roles li {
+  grid-template-columns: minmax(2.6rem, 1fr) minmax(0, max-content);
+}
+/* room for descenders (e.g. Cyrillic Д) when a display heading wraps */
+[data-theme='neon'] h2 {
+  padding-bottom: 0.12em;
+}
+/* narrow phones: a title + action row stacks instead of squeezing the title */
+@media (max-width: 479px) {
+  .row.between.wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .row.between.wrap > :last-child {
+    justify-self: stretch;
+  }
 }

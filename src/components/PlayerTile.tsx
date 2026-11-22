@@ -1,3 +1,4 @@
+import Stepper from './Stepper';
 import { displayName } from '../game/players';
 import { useState } from 'react';
 import type { Player, RoleDef } from '../game/types';
@@ -58,18 +59,21 @@ export default function PlayerTile({ player, seat, role, hideRoles, status = nul
       </button>
       {open && (
         <div className="tile-actions">
-          <button className="btn btn-sm" onClick={() => onFoul(1)}>
-            +{t('game.foul')}
-          </button>
-          <button className="btn btn-sm" onClick={() => onFoul(-1)} disabled={player.fouls === 0}>
-            −{t('game.foul')}
-          </button>
+          <div className="tile-fouls">
+            <span className="tile-fouls-label">{t('game.foulsShort')}</span>
+            <Stepper
+              value={player.fouls}
+              max={9}
+              onChange={(v) => v !== player.fouls && onFoul(v > player.fouls ? 1 : -1)}
+              label={`${t('game.foulsShort')} — #${seat}`}
+            />
+          </div>
           {player.alive ? (
-            <button className="btn btn-sm btn-danger" onClick={() => { onKill(); setOpen(false); }}>
+            <button className="btn btn-sm btn-danger tile-action-main" onClick={() => { onKill(); setOpen(false); }}>
               {t('game.kill')}
             </button>
           ) : (
-            <button className="btn btn-sm" onClick={() => { onRevive(); setOpen(false); }}>
+            <button className="btn btn-sm tile-action-main" onClick={() => { onRevive(); setOpen(false); }}>
               {t('game.revive')}
             </button>
           )}

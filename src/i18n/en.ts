@@ -134,6 +134,7 @@ export const en = {
   'game.kill': 'Remove',
   'game.revive': 'Revive',
   'game.foul': 'Foul',
+  'game.foulsShort': 'Fouls',
   'game.fouls': 'Fouls: {n}',
   'game.log': 'Game log',
   'game.noLog': 'Nothing happened yet.',

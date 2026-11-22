@@ -6,7 +6,7 @@ export default function RoleBadge({ role, hidden = false }: { role: RoleDef | un
   if (hidden) return <span className="role-badge is-hidden">•••</span>;
   if (!role) return <span className="role-badge is-empty">—</span>;
   return (
-    <span className="role-badge" style={{ '--role': role.color } as React.CSSProperties}>
+    <span className="role-badge" title={roleName(role)} style={{ '--role': role.color } as React.CSSProperties}>
       {roleName(role)}
     </span>
   );
